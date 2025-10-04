@@ -57,5 +57,9 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
+    // splash screen
     implementation(libs.androidx.core.splashscreen)
+
+    // image
+    implementation(libs.coil.kt)
 }

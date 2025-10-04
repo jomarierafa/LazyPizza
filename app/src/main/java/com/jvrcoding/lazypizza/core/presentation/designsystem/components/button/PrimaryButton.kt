@@ -17,8 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,10 +35,6 @@ fun PrimaryButton(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
-
-    val pressedGradient = Brush.linearGradient(
-        listOf(Color(0xFFE57A56), Color(0xFFD14E34))
-    )
 
     Box(
         modifier = modifier
@@ -62,16 +56,12 @@ fun PrimaryButton(
                 brush = if (!enabled) {
                     SolidColor(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.08f))
                 } else {
-                    if (isPressed)
-                        pressedGradient
-                    else
-                        MaterialTheme.colorScheme.primaryGradient
+                    MaterialTheme.colorScheme.primaryGradient
                 },
                 shape = CircleShape
             )
             .clickable(
                 interactionSource = interactionSource,
-                indication = null,
                 enabled = enabled,
                 onClick = onClick
             )
