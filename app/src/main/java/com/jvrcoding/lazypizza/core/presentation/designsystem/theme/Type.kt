@@ -20,6 +20,10 @@ val INSTRUMENT_SANS = FontFamily(
     Font(
         resId = R.font.instrument_sans_semibold,
         weight = FontWeight.SemiBold
+    ),
+    Font(
+        resId = R.font.instrument_sans_bold,
+        weight = FontWeight.Bold
     )
 )
 
@@ -79,6 +83,13 @@ val Body3Medium =  TextStyle(
     lineHeight = 18.sp
 )
 
+val Body3Bold =  TextStyle(
+    fontFamily = INSTRUMENT_SANS,
+    fontWeight = FontWeight.Bold,
+    fontSize = 14.sp,
+    lineHeight = 18.sp
+)
+
 val Body4Regular =  TextStyle(
     fontFamily = INSTRUMENT_SANS,
     fontWeight = FontWeight.Normal,
@@ -109,6 +120,9 @@ val Typography.body3Regular: TextStyle
 
 val Typography.body3Medium: TextStyle
     get() = Body3Medium
+
+val Typography.body3Bold: TextStyle
+    get() = Body3Bold
 
 val Typography.body4Regular: TextStyle
     get() = Body4Regular

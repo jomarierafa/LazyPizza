@@ -1,5 +1,6 @@
 package com.jvrcoding.lazypizza.product.presentation.product_list.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,7 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.jvrcoding.lazypizza.R
+import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.BackGround
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.body1Medium
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.body3Regular
@@ -42,8 +44,11 @@ fun PizzaCard(
 
     Card(
         shape = RoundedCornerShape(12.dp),
-        modifier = modifier
-            .height(IntrinsicSize.Max)
+        border = BorderStroke(
+            width = 1.dp,
+            color = MaterialTheme.colorScheme.surfaceContainerHigh
+        ),
+        modifier = modifier.height(IntrinsicSize.Max)
     ) {
         Row(
             modifier = Modifier
@@ -98,7 +103,8 @@ private fun ProductCardPreview() {
             imageUrl = "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416011/spinach_hsus2b.png",
             productName = "Margherita",
             productDescription = "Tomato sauce, mozzarella, fresh basil, olive oil",
-            productPrice = "$10.50"
+            productPrice = "$10.50",
+            modifier = Modifier.background(BackGround).padding(16.dp)
         )
     }
 }

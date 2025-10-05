@@ -16,9 +16,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.primaryGradient
@@ -42,11 +44,14 @@ fun PrimaryButton(
             .padding(bottom = 6.dp)
             .then(
                 if (!isPressed && enabled) {
-                    Modifier.shadow(
-                        elevation = 6.dp,
+                    Modifier .dropShadow(
                         shape = CircleShape,
-                        ambientColor = MaterialTheme.colorScheme.primary,
-                        spotColor = MaterialTheme.colorScheme.primary
+                        shadow = Shadow(
+                            radius = 6.dp,
+                            spread = 0.dp,
+                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.25f),
+                            offset = DpOffset(x = 0.dp, 4.dp)
+                        )
                     )
                 } else {
                     Modifier

@@ -1,5 +1,6 @@
 package com.jvrcoding.lazypizza.product.presentation.product_list.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import coil3.request.crossfade
 import com.jvrcoding.lazypizza.R
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.button.PrimaryIconButton
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.button.SecondaryButton
+import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.BackGround
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.TrashIcon
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.body1Medium
@@ -55,13 +57,18 @@ fun OtherProductCard(
 
     Card(
         shape = RoundedCornerShape(12.dp),
-        modifier = modifier
-            .height(IntrinsicSize.Max)
+        border = BorderStroke(
+            width = 1.dp,
+            color = MaterialTheme.colorScheme.surfaceContainerHigh
+        ),
+        modifier = modifier.height(IntrinsicSize.Max)
+
     ) {
         Row(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -94,7 +101,7 @@ fun OtherProductCard(
                             icon = TrashIcon,
                             iconTint = MaterialTheme.colorScheme.primary,
                             onClick = onRemoveClick,
-                            modifier = modifier.size(22.dp)
+                            modifier = Modifier.size(22.dp)
                         )
                     }
                 }
@@ -148,7 +155,7 @@ fun OtherProductCard(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun OtherProductCardPreview() {
     LazyPizzaTheme {
@@ -161,7 +168,8 @@ private fun OtherProductCardPreview() {
             onAddToCardClick = {},
             onMinusClick = {},
             onAddClick = {},
-            onRemoveClick = {}
+            onRemoveClick = {},
+            modifier = Modifier.background(BackGround).padding(16.dp)
         )
     }
 }

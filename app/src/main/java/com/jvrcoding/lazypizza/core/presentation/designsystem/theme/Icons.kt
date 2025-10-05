@@ -16,3 +16,15 @@ val MinusIcon: ImageVector
 val TrashIcon: ImageVector
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.ic_trash)
+
+val PhoneIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.ic_phone)
+
+val PizzaIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.ic_pizza)
+
+val SearchIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.ic_search)
