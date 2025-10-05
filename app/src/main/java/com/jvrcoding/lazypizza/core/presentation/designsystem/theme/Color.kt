@@ -8,7 +8,7 @@ val TextPrimary = Color(0xFF03131F)
 val TextSecondary = Color(0xFF627686)
 val TextOnPrimary = Color(0xFFFFFFFF)
 
-val BackGround = Color(0xFFE6E7ED)
+val BackGround = Color(0xFFFAFBFC)
 val SurfaceHigher = Color(0xFFFFFFFF)
 val SurfaceHighest = Color(0xFFF0F3F6)
 val Outline = Color(0xFFE6E7ED)

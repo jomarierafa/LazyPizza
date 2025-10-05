@@ -69,7 +69,7 @@ fun SearchTextField(
                 MaterialTheme.colorScheme.surfaceContainerHigh,
                 shape = CircleShape
             )
-            .padding(vertical = 12.dp, horizontal = 16.dp)
+            .padding(vertical = 10.dp, horizontal = 16.dp)
             .onFocusChanged {
                 isFocused = it.isFocused
             },
