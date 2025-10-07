@@ -7,10 +7,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,6 +26,7 @@ import com.jvrcoding.lazypizza.R
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.textfield.SearchTextField
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.toolbar.LazyPizzaToolbar
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
+import com.jvrcoding.lazypizza.product.presentation.product_list.components.PizzaCard
 import com.jvrcoding.lazypizza.product.presentation.product_list.components.ProductCategoryRow
 
 @Composable
@@ -62,11 +66,44 @@ fun ProductsScreen() {
             ProductCategoryRow(
                 categoryList = listOf("Pizza", "Drinks", "Sauces", "Ice Cream")
             )
+
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(400.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                stickyHeader {
+                    Text("Pizza")
+                }
+                items(10) {
+                    PizzaCard(
+                        imageUrl = "",
+                        productName = "Four Cheese",
+                        productPrice = "$10.0",
+                        productDescription = "Mozzarella, gorgonzola, parmesan, ricotta"
+                    )
+                }
+
+                stickyHeader {
+                    Text("Drinks")
+                }
+
+                items(10) {
+                    PizzaCard(
+                        imageUrl = "",
+                        productName = "sample",
+                        productPrice = "10.0",
+                        productDescription = "sample"
+                    )
+                }
+
+            }
         }
     }
 }
 
-@Preview()
+@Preview
+//@PreviewScreenSizes
 @Composable
 private fun ProductsScreenPreview() {
     LazyPizzaTheme {

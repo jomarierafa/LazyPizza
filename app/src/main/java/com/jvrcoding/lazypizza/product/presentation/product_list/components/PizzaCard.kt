@@ -16,9 +16,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.dropShadow
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
@@ -48,7 +52,17 @@ fun PizzaCard(
             width = 1.dp,
             color = MaterialTheme.colorScheme.surfaceContainerHigh
         ),
-        modifier = modifier.height(IntrinsicSize.Max)
+        modifier = modifier
+            .height(IntrinsicSize.Max)
+            .dropShadow(
+                shape = RectangleShape,
+                shadow = Shadow(
+                    radius = 16.dp,
+                    spread = 0.dp,
+                    color = MaterialTheme.colorScheme.textPrimary.copy(alpha = 0.06f),
+                    offset = DpOffset(x = 0.dp, 4.dp)
+                )
+            )
     ) {
         Row(
             modifier = Modifier
