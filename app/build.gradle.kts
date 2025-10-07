@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 android {
@@ -57,9 +58,17 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-    // splash screen
+    // Splashscreen
     implementation(libs.androidx.core.splashscreen)
 
-    // image
-    implementation(libs.coil.kt)
+    // Image - Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
+    // DI - Koin
+    implementation(libs.bundles.koin)
+
+    // Navigation
+    implementation(libs.androidx.compose.navigation)
+    implementation(libs.kotlinx.serialization.json)
 }

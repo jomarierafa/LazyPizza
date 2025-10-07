@@ -1,0 +1,119 @@
+package com.jvrcoding.lazypizza.product.data
+
+import com.jvrcoding.lazypizza.product.domain.Product
+import com.jvrcoding.lazypizza.product.domain.ProductDataSource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import java.math.BigDecimal
+
+class FireStoreProductDataSource: ProductDataSource {
+    override fun getProducts(): Flow<List<Product>> = flow {
+        val productList = listOf(
+            // Pizzas
+            Product(
+                id = "pizza_1",
+                name = "Margherita",
+                price = BigDecimal("8.99"),
+                description = "Ingredients: Tomato sauce, mozzarella, fresh basil, olive oil",
+                imageUrl = "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415998/Margherita_rwxxli.png",
+                type = "Pizza"
+            ),
+            Product(
+                id = "pizza_2",
+                name = "Pepperoni",
+                price = BigDecimal("9.99"),
+                description = "Ingredients: Tomato sauce, mozzarella, pepperoni",
+                imageUrl = "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416000/Pepperoni_izlaf4.png",
+                type = "Pizza"
+            ),
+            Product(
+                id = "pizza_3",
+                name = "Hawaiian",
+                price = BigDecimal("10.49"),
+                description = "Ingredients: Tomato sauce, mozzarella, ham, pineapple",
+                imageUrl = "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415998/Hawaiian_av87lh.png",
+                type = "Pizza"
+            ),
+            Product(
+                id = "pizza_4",
+                name = "BBQ Chicken",
+                price = BigDecimal("11.49"),
+                description = "Ingredients: BBQ sauce, mozzarella, grilled chicken, onion, corn",
+                imageUrl = "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415997/BBQ_Chicken_k6rgvh.png",
+                type = "Pizza"
+            ),
+            Product(
+                id = "pizza_5",
+                name = "Four Cheese",
+                price = BigDecimal("11.99"),
+                description = "Ingredients: Mozzarella, gorgonzola, parmesan, ricotta",
+                imageUrl = "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415998/Four_Cheese_v8h6bf.png",
+                type = "Pizza"
+            ),
+            Product(
+                id = "pizza_6",
+                name = "Veggie Delight",
+                price = BigDecimal("9.79"),
+                description = "Ingredients: Tomato sauce, mozzarella, mushrooms, olives, bell pepper, onion, corn",
+                imageUrl = "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416000/Veggie_Delight_lf00yw.png",
+                type = "Pizza"
+            ),
+            Product(
+                id = "pizza_7",
+                name = "Meat Lovers",
+                price = BigDecimal("12.49"),
+                description = "Ingredients: Tomato sauce, mozzarella, pepperoni, ham, bacon, sausage",
+                imageUrl = "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415998/Meat_Lovers_d6q1dm.png",
+                type = "Pizza"
+            ),
+            Product(
+                id = "pizza_8",
+                name = "Spicy Inferno",
+                price = BigDecimal("11.29"),
+                description = "Ingredients: Tomato sauce, mozzarella, spicy salami, jalapeños, red chili pepper, garlic",
+                imageUrl = "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416001/Spicy_Inferno_kzajja.png",
+                type = "Pizza"
+            ),
+            Product(
+                id = "pizza_9",
+                name = "Seafood Special",
+                price = BigDecimal("13.99"),
+                description = "Ingredients: Tomato sauce, mozzarella, shrimp, mussels, squid, parsley",
+                imageUrl = "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416000/Seafood_Special_x87f32.png",
+                type = "Pizza"
+            ),
+            Product(
+                id = "pizza_10",
+                name = "Truffle Mushroom",
+                price = BigDecimal("12.99"),
+                description = "Ingredients: Cream sauce, mozzarella, mushrooms, truffle oil, parmesan",
+                imageUrl = "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416001/Truffle_Mushroom_wes2el.png",
+                type = "Pizza"
+            ),
+
+            // Drinks
+            Product("drink_1", "Mineral Water", BigDecimal("1.49"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415984/mineral_water_b6xr9s.png", "Drink"),
+            Product("drink_2", "7-Up", BigDecimal("1.89"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415983/7-up_idlbyz.png", "Drink"),
+            Product("drink_3", "Pepsi", BigDecimal("1.99"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415983/pepsi_rzxmag.png", "Drink"),
+            Product("drink_4", "Orange Juice", BigDecimal("2.49"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415983/orange_juice_bigvfe.png", "Drink"),
+            Product("drink_5", "Apple Juice", BigDecimal("2.29"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415983/apple_juice_hvzwjp.png", "Drink"),
+            Product("drink_6", "Iced Tea (Lemon)", BigDecimal("2.19"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415983/iced_tea_gj8z5m.png", "Drink"),
+
+            // Sauces
+            Product("sauce_1", "Garlic Sauce", BigDecimal("0.59"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416003/Garlic_Sauce_orqjom.png", "Sauce"),
+            Product("sauce_2", "BBQ Sauce", BigDecimal("0.59"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416003/BBQ_Sauce_ntbtsy.png", "Sauce"),
+            Product("sauce_3", "Cheese Sauce", BigDecimal("0.89"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416003/Cheese_Sauce_z1ckqu.png", "Sauce"),
+            Product("sauce_4", "Spicy Chili Sauce", BigDecimal("0.59"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416005/Spicy_Chili_Sauce_nnf8zo.png", "Sauce"),
+
+            // Ice Cream
+            Product("icecream_1", "Vanilla Ice Cream", BigDecimal("2.49"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415990/vanilla_hfovwr.png", "Ice Cream"),
+            Product("icecream_2", "Chocolate Ice Cream", BigDecimal("2.49"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415990/chocolate_j65o9e.png", "Ice Cream"),
+            Product("icecream_3", "Strawberry Ice Cream", BigDecimal("2.49"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415991/strawberry_c9bjdc.png", "Ice Cream"),
+            Product("icecream_4", "Cookies Ice Cream", BigDecimal("2.79"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415990/cookies_wrrtcj.png", "Ice Cream"),
+            Product("icecream_5", "Pistachio Ice Cream", BigDecimal("2.99"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415990/pistachio_btm6fa.png", "Ice Cream"),
+            Product("icecream_6", "Mango Sorbet", BigDecimal("2.69"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415990/mango_sorbet_ym5t6u.png", "Ice Cream")
+        )
+
+        emit(productList)
+    }
+}
