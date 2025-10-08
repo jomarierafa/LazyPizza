@@ -18,7 +18,8 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textPrimary
 @Composable
 fun ProductCategoryRow(
     categoryList: List<String>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCategoryClick: (String) -> Unit,
 ) {
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -27,7 +28,7 @@ fun ProductCategoryRow(
         categoryList.forEach { category ->
             SuggestionChip(
                 modifier = Modifier.height(32.dp),
-                onClick = {  },
+                onClick = { onCategoryClick(category) },
                 label = {
                     Text(
                         text = category,
@@ -50,6 +51,7 @@ private fun ProductCategoryRowPreview() {
     LazyPizzaTheme {
         ProductCategoryRow(
             categoryList = listOf("Pizza", "Drinks", "Sauces", "Ice Cream"),
+            onCategoryClick = {},
         )
     }
 }

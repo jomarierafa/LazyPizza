@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.MaterialTheme
@@ -17,9 +18,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,9 +33,12 @@ import com.jvrcoding.lazypizza.R
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.textfield.SearchTextField
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.toolbar.LazyPizzaToolbar
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
+import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.label2SemiBold
+import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondary
 import com.jvrcoding.lazypizza.product.presentation.product_list.components.OtherProductCard
 import com.jvrcoding.lazypizza.product.presentation.product_list.components.PizzaCard
 import com.jvrcoding.lazypizza.product.presentation.product_list.components.ProductCategoryRow
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -56,6 +63,23 @@ fun ProductScreen(
             )
         }
     ) { innerPadding ->
+
+        val context = LocalContext.current
+        val gridState = rememberLazyGridState()
+        val coroutineScope = rememberCoroutineScope()
+
+
+        val categoryIndexMap = remember(state.productSections) {
+            buildMap {
+                var currentIndex = 0
+                state.productSections.forEach { (category, products) ->
+                    put(category.asString(context), currentIndex)
+                    // +1 for stickyHeader
+                    currentIndex += 1 + products.size
+                }
+            }
+        }
+
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -77,17 +101,33 @@ fun ProductScreen(
                 hint = stringResource(R.string.search_for_delicious_food)
             )
             ProductCategoryRow(
-                categoryList = listOf("Pizza", "Drinks", "Sauces", "Ice Cream")
+                categoryList = listOf("Pizza", "Drinks", "Sauces", "Ice Cream"),
+                onCategoryClick = { category ->
+                    categoryIndexMap[category]?.let { index ->
+                        coroutineScope.launch {
+                            gridState.animateScrollToItem(index)
+                        }
+                    }
+                }
             )
 
             LazyVerticalGrid(
+                state = gridState,
                 columns = GridCells.Adaptive(400.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 state.productSections.forEachIndexed { sectionIndex, (category, products) ->
                     stickyHeader {
-                        Text(category.asString())
+                        Text(
+                            text = category.asString().uppercase(),
+                            style = MaterialTheme.typography.label2SemiBold,
+                            color = MaterialTheme.colorScheme.textSecondary,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(color = MaterialTheme.colorScheme.background)
+                                .padding(top = 8.dp, bottom = 4.dp)
+                        )
                     }
                     itemsIndexed(
                         products,

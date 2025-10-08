@@ -92,18 +92,18 @@ class FireStoreProductDataSource: ProductDataSource {
             ),
 
             // Drinks
-            Product("drink_1", "Mineral Water", BigDecimal("1.49"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415984/mineral_water_b6xr9s.png", "Drink"),
-            Product("drink_2", "7-Up", BigDecimal("1.89"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415983/7-up_idlbyz.png", "Drink"),
-            Product("drink_3", "Pepsi", BigDecimal("1.99"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415983/pepsi_rzxmag.png", "Drink"),
-            Product("drink_4", "Orange Juice", BigDecimal("2.49"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415983/orange_juice_bigvfe.png", "Drink"),
-            Product("drink_5", "Apple Juice", BigDecimal("2.29"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415983/apple_juice_hvzwjp.png", "Drink"),
-            Product("drink_6", "Iced Tea (Lemon)", BigDecimal("2.19"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415983/iced_tea_gj8z5m.png", "Drink"),
+            Product("drink_1", "Mineral Water", BigDecimal("1.49"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415984/mineral_water_b6xr9s.png", "Drinks"),
+            Product("drink_2", "7-Up", BigDecimal("1.89"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415983/7-up_idlbyz.png", "Drinks"),
+            Product("drink_3", "Pepsi", BigDecimal("1.99"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415983/pepsi_rzxmag.png", "Drinks"),
+            Product("drink_4", "Orange Juice", BigDecimal("2.49"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415983/orange_juice_bigvfe.png", "Drinks"),
+            Product("drink_5", "Apple Juice", BigDecimal("2.29"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415983/apple_juice_hvzwjp.png", "Drinks"),
+            Product("drink_6", "Iced Tea (Lemon)", BigDecimal("2.19"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415983/iced_tea_gj8z5m.png", "Drinks"),
 
             // Sauces
-            Product("sauce_1", "Garlic Sauce", BigDecimal("0.59"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416003/Garlic_Sauce_orqjom.png", "Sauce"),
-            Product("sauce_2", "BBQ Sauce", BigDecimal("0.59"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416003/BBQ_Sauce_ntbtsy.png", "Sauce"),
-            Product("sauce_3", "Cheese Sauce", BigDecimal("0.89"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416003/Cheese_Sauce_z1ckqu.png", "Sauce"),
-            Product("sauce_4", "Spicy Chili Sauce", BigDecimal("0.59"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416005/Spicy_Chili_Sauce_nnf8zo.png", "Sauce"),
+            Product("sauce_1", "Garlic Sauce", BigDecimal("0.59"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416003/Garlic_Sauce_orqjom.png", "Sauces"),
+            Product("sauce_2", "BBQ Sauce", BigDecimal("0.59"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416003/BBQ_Sauce_ntbtsy.png", "Sauces"),
+            Product("sauce_3", "Cheese Sauce", BigDecimal("0.89"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416003/Cheese_Sauce_z1ckqu.png", "Sauces"),
+            Product("sauce_4", "Spicy Chili Sauce", BigDecimal("0.59"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416005/Spicy_Chili_Sauce_nnf8zo.png", "Sauces"),
 
             // Ice Cream
             Product("icecream_1", "Vanilla Ice Cream", BigDecimal("2.49"), "", "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759415990/vanilla_hfovwr.png", "Ice Cream"),
