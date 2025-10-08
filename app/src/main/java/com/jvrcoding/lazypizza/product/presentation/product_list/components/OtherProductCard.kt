@@ -1,5 +1,6 @@
 package com.jvrcoding.lazypizza.product.presentation.product_list.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -54,7 +55,7 @@ fun OtherProductCard(
     onMinusClick: () -> Unit,
     onAddClick: () -> Unit,
     onRemoveClick: () -> Unit,
-    modifyProduct: Boolean,
+    selected: Boolean,
     modifier: Modifier = Modifier
 ) {
     val isInPreview = LocalInspectionMode.current
@@ -109,7 +110,7 @@ fun OtherProductCard(
                         color = MaterialTheme.colorScheme.textPrimary,
                         modifier = Modifier.weight(1f)
                     )
-                    if(modifyProduct) {
+                    if(selected) {
                         PrimaryIconButton(
                             icon = TrashIcon,
                             iconTint = MaterialTheme.colorScheme.primary,
@@ -118,7 +119,7 @@ fun OtherProductCard(
                         )
                     }
                 }
-                if(!modifyProduct) {
+                if(!selected) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
@@ -150,7 +151,7 @@ fun OtherProductCard(
                             horizontalAlignment = Alignment.End
                         ) {
                             Text(
-                                text = productPrice,
+                                text = totalPrice(quantity, productPrice),
                                 style = MaterialTheme.typography.title1SemiBold,
                                 color = MaterialTheme.colorScheme.textPrimary
                             )
@@ -168,6 +169,14 @@ fun OtherProductCard(
     }
 }
 
+@SuppressLint("DefaultLocale")
+fun totalPrice(quantity: String, price: String): String {
+    val quantityDouble = quantity.toDouble()
+    val priceDouble = price.replace("$", "").toDouble()
+    val totalPrice = quantityDouble * priceDouble
+    return "$${String.format("%.2f", totalPrice)}"
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun OtherProductCardPreview() {
@@ -176,7 +185,7 @@ private fun OtherProductCardPreview() {
             imageUrl = "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416011/spinach_hsus2b.png",
             productName = "Margherita",
             productPrice = "$10.50",
-            modifyProduct = true,
+            selected = true,
             quantity = "1",
             onAddToCardClick = {},
             onMinusClick = {},

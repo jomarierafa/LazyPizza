@@ -31,7 +31,7 @@ fun QuantitySelector(
         PrimaryIconButton(
             icon = MinusIcon,
             iconTint = MaterialTheme.colorScheme.textSecondary,
-            onClick = {},
+            onClick = onMinusClick,
             modifier = Modifier.size(22.dp)
         )
 
@@ -46,7 +46,7 @@ fun QuantitySelector(
         PrimaryIconButton(
             icon = PlusIcon,
             iconTint = MaterialTheme.colorScheme.textSecondary,
-            onClick = {},
+            onClick = onAddClick,
             modifier = Modifier.size(22.dp)
         )
     }
