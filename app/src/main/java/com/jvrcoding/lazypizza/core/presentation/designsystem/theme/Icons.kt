@@ -28,3 +28,7 @@ val PizzaIcon: ImageVector
 val SearchIcon: ImageVector
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.ic_search)
+
+val ArrowLeftIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.ic_arrow_left)
