@@ -2,6 +2,7 @@ package com.jvrcoding.lazypizza.product.presentation.product_list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,21 +35,28 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.components.toolbar
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.label2SemiBold
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondary
+import com.jvrcoding.lazypizza.product.domain.Product
 import com.jvrcoding.lazypizza.product.presentation.product_list.components.OtherProductCard
 import com.jvrcoding.lazypizza.product.presentation.product_list.components.PizzaCard
 import com.jvrcoding.lazypizza.product.presentation.product_list.components.ProductCategoryRow
+import com.jvrcoding.lazypizza.product.presentation.product_list.util.toProduct
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ProductScreenRoot(
+    onNavigateToProductDetails: (Product) -> Unit,
     viewModel: ProductViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     ProductScreen(
         state = state,
-        onAction = {
-            viewModel.onAction(it)
+        onAction = { action ->
+            when(action) {
+                is ProductAction.OnProductClick -> onNavigateToProductDetails(action.product.toProduct())
+                else -> Unit
+            }
+            viewModel.onAction(action)
         }
     )
 }
@@ -144,7 +152,13 @@ fun ProductScreen(
                                 imageUrl = product.imageUrl,
                                 productName = product.name,
                                 productPrice = product.price,
-                                productDescription = product.description
+                                productDescription = product.description,
+                                modifier = Modifier
+                                    .clickable(
+                                        onClick = {
+                                            onAction(ProductAction.OnProductClick(product))
+                                        }
+                                    )
                             )
                         } else {
                             OtherProductCard(

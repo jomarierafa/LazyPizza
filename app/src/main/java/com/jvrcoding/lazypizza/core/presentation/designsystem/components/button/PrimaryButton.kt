@@ -44,7 +44,7 @@ fun PrimaryButton(
             .padding(bottom = 6.dp)
             .then(
                 if (!isPressed && enabled) {
-                    Modifier .dropShadow(
+                    Modifier.dropShadow(
                         shape = CircleShape,
                         shadow = Shadow(
                             radius = 6.dp,

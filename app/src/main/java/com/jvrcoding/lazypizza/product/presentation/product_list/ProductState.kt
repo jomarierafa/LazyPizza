@@ -15,5 +15,4 @@ data class ProductState(
         .map { (category, products) ->
             ProductSection(category, products)
         }
-    val wow = products.values.flatten()
 }

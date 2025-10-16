@@ -1,8 +1,7 @@
 package com.jvrcoding.lazypizza.product.presentation.product_details.models
 
-data class ToppingUi(
+data class SelectedTopping(
     val id: String,
-    val name: String,
-    val price: String,
-    val imageUrl: String
+    val quantity: Int,
+    val totalPrice: String,
 )

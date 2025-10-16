@@ -13,3 +13,14 @@ fun Product.toProductUi(): ProductUi {
         type = type
     )
 }
+
+fun ProductUi.toProduct(): Product {
+    return Product(
+        id = id,
+        name = name,
+        price = price.replace("$", "").toBigDecimal(),
+        description = description,
+        imageUrl = imageUrl,
+        type = type
+    )
+}

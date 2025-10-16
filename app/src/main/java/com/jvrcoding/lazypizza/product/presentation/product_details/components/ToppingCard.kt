@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -66,11 +67,12 @@ fun ToppingCard(
                 MaterialTheme.colorScheme.primary
             else
                 MaterialTheme.colorScheme.outline
-        )
+        ),
     ) {
         Column(
             modifier = Modifier
-                .width(124.dp)
+                .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                .fillMaxWidth()
                 .padding(12.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -126,6 +128,7 @@ private fun ToppingCardPreview() {
             selected = false,
             modifier = Modifier
                 .background(BackGround)
+                .width(150.dp)
                 .padding(16.dp)
         )
     }

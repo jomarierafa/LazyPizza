@@ -3,6 +3,7 @@ package com.jvrcoding.lazypizza.product.presentation.product_details.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -17,6 +18,7 @@ import com.jvrcoding.lazypizza.R
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.label2SemiBold
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondary
+import com.jvrcoding.lazypizza.core.presentation.util.fadingEdge
 import com.jvrcoding.lazypizza.product.presentation.product_details.models.ToppingUi
 
 @Composable
@@ -26,10 +28,11 @@ fun ToppingSection(
 ) {
     Column(
         modifier = modifier
-            .padding(horizontal = 16.dp),
+            .fadingEdge(500f),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
+            modifier = Modifier.padding(horizontal = 16.dp),
             text = stringResource(R.string.add_extra_toppings),
             style = MaterialTheme.typography.label2SemiBold,
             color = MaterialTheme.colorScheme.textSecondary
@@ -37,7 +40,8 @@ fun ToppingSection(
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp)
         ) {
             items(toppingList.size) { index ->
                 ToppingCard(
@@ -61,7 +65,6 @@ private fun ToppingScreenPreview() {
                 ToppingUi(
                     id = it.toString(),
                     name = "Topping $it",
-                    description = "Description $it",
                     price = "$ $it.50",
                     imageUrl = ""
                 )

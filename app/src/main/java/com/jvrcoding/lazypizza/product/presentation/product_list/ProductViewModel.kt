@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
 class ProductViewModel(
-    val productDataSource: ProductDataSource
+    private val productDataSource: ProductDataSource
 ): ViewModel() {
 
     private var hasLoadedInitialData = false
@@ -49,6 +49,7 @@ class ProductViewModel(
             is ProductAction.OnAddClick -> onAddClick(action.productId)
             is ProductAction.OnMinusClick -> onMinusClick(action.productId)
             is ProductAction.OnRemoveClick -> onRemoveClick(action.productId)
+            else -> Unit
         }
     }
 
