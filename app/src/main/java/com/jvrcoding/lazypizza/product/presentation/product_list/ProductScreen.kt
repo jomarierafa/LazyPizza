@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -43,18 +42,21 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ProductScreenRoot(
-    modifier: Modifier = Modifier,
     viewModel: ProductViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     ProductScreen(
         state = state,
+        onAction = {
+            viewModel.onAction(it)
+        }
     )
 }
 
 @Composable
 fun ProductScreen(
     state: ProductState,
+    onAction: (ProductAction) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -97,7 +99,10 @@ fun ProductScreen(
                     .height(150.dp)
             )
             SearchTextField(
-                state = TextFieldState(),
+                text = state.searchQuery,
+                onValueChange = {
+                    onAction(ProductAction.OnSearchQueryChange(it))
+                },
                 hint = stringResource(R.string.search_for_delicious_food)
             )
             ProductCategoryRow(
@@ -133,6 +138,7 @@ fun ProductScreen(
                         products,
                         key = { _, product -> product.id}
                     ) { index, product ->
+                        val selectedItem = state.selectedProducts.find { it.productId == product.id }
                         if(product.type == "Pizza") {
                             PizzaCard(
                                 imageUrl = product.imageUrl,
@@ -145,12 +151,20 @@ fun ProductScreen(
                                 imageUrl = product.imageUrl,
                                 productName = product.name,
                                 productPrice = product.price,
-                                quantity = "2",
-                                onAddToCardClick = {},
-                                onAddClick = {},
-                                onMinusClick = {},
-                                onRemoveClick = {},
-                                modifyProduct = false
+                                quantity = "${selectedItem?.quantity}",
+                                onAddToCardClick = {
+                                    onAction(ProductAction.OnAddToCardClick(product.id))
+                                },
+                                onAddClick = {
+                                    onAction(ProductAction.OnAddClick(product.id))
+                                },
+                                onMinusClick = {
+                                    onAction(ProductAction.OnMinusClick(product.id))
+                                },
+                                onRemoveClick = {
+                                    onAction(ProductAction.OnRemoveClick(product.id))
+                                },
+                                selected = selectedItem != null
                             )
                         }
                     }
@@ -167,7 +181,8 @@ fun ProductScreen(
 private fun ProductsScreenPreview() {
     LazyPizzaTheme {
         ProductScreen(
-            state = ProductState()
+            state = ProductState(),
+            onAction = {}
         )
     }
 }

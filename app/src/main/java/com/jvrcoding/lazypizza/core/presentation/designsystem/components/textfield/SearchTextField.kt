@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.input.TextFieldLineLimits
-import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -40,7 +38,8 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondar
 
 @Composable
 fun SearchTextField(
-    state: TextFieldState,
+    text: String,
+    onValueChange: (String) -> Unit,
     hint: String,
     modifier: Modifier = Modifier
 ) {
@@ -48,12 +47,13 @@ fun SearchTextField(
         mutableStateOf(false)
     }
     BasicTextField(
-        state = state,
+        value = text,
+        onValueChange = onValueChange,
         textStyle = MaterialTheme.typography.bodyLarge.copy(
             color = MaterialTheme.colorScheme.onSurface
         ),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-        lineLimits = TextFieldLineLimits.SingleLine,
+        maxLines = 1,
         cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
         modifier = modifier
             .dropShadow(
@@ -73,7 +73,7 @@ fun SearchTextField(
             .onFocusChanged {
                 isFocused = it.isFocused
             },
-        decorator = { innerBox ->
+        decorationBox = { innerBox ->
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -88,7 +88,7 @@ fun SearchTextField(
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(20.dp)
                     )
-                    if(state.text.isEmpty() && !isFocused) {
+                    if(text.isEmpty() && !isFocused) {
                         Text(
                             text = hint,
                             color = MaterialTheme.colorScheme.textSecondary,
@@ -108,7 +108,8 @@ fun SearchTextField(
 private fun SearchTextFieldPreview() {
     LazyPizzaTheme {
         SearchTextField(
-            state = TextFieldState(),
+            text = "",
+            onValueChange = {},
             hint = "Search for delicious food...",
             modifier = Modifier.background(MaterialTheme.colorScheme.background).padding(16.dp)
         )
