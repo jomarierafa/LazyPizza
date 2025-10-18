@@ -22,7 +22,8 @@ fun QuantitySelector(
     quantity: String,
     onMinusClick: () -> Unit,
     onAddClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    maxQuantity: Int = 1000
 ) {
 
     Row(
@@ -47,7 +48,8 @@ fun QuantitySelector(
             icon = PlusIcon,
             iconTint = MaterialTheme.colorScheme.textSecondary,
             onClick = onAddClick,
-            modifier = Modifier.size(22.dp)
+            modifier = Modifier.size(22.dp),
+            enabled = maxQuantity > quantity.toInt(),
         )
     }
 }

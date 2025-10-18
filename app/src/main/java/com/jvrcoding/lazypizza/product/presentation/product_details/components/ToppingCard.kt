@@ -44,6 +44,9 @@ fun ToppingCard(
     toppingName: String,
     toppingPrice: String,
     selected: Boolean,
+    quantity: Int,
+    onAddQuantity: () -> Unit,
+    onReduceQuantity: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val isInPreview = LocalInspectionMode.current
@@ -102,9 +105,10 @@ fun ToppingCard(
             )
             if(selected) {
                 QuantitySelector(
-                    quantity = "1",
-                    onAddClick = {},
-                    onMinusClick = {}
+                    quantity = "$quantity",
+                    onAddClick = onAddQuantity,
+                    onMinusClick = onReduceQuantity,
+                    maxQuantity = 3
                 )
             } else {
                 Text(
@@ -126,6 +130,9 @@ private fun ToppingCardPreview() {
             toppingName = "Bacon",
             toppingPrice = "$1",
             selected = false,
+            quantity = 1,
+            onAddQuantity = {},
+            onReduceQuantity = {},
             modifier = Modifier
                 .background(BackGround)
                 .width(150.dp)

@@ -1,12 +1,14 @@
 package com.jvrcoding.lazypizza.product.presentation.product_details.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,11 +21,15 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaThe
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.label2SemiBold
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondary
 import com.jvrcoding.lazypizza.core.presentation.util.fadingEdge
+import com.jvrcoding.lazypizza.product.presentation.product_details.ProductDetailsAction
+import com.jvrcoding.lazypizza.product.presentation.product_details.models.SelectedTopping
 import com.jvrcoding.lazypizza.product.presentation.product_details.models.ToppingUi
 
 @Composable
 fun ToppingSection(
     toppingList: List<ToppingUi>,
+    onAction: (ProductDetailsAction) -> Unit,
+    selectedTopping: List<SelectedTopping>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -41,14 +47,34 @@ fun ToppingSection(
             columns = GridCells.Fixed(3),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp)
+            contentPadding = PaddingValues(
+                start = 16.dp,
+                end = 16.dp,
+                bottom = 98.dp
+            )
         ) {
-            items(toppingList.size) { index ->
+            itemsIndexed(
+                items = toppingList,
+                key = { _, it -> it.id }
+            ) { _, topping ->
+                val selectedItem = selectedTopping.find { it.id == topping.id }
                 ToppingCard(
-                    imageUrl = toppingList[index].imageUrl,
-                    toppingName = toppingList[index].name,
-                    toppingPrice = toppingList[index].price,
-                    selected = false
+                    imageUrl = topping.imageUrl,
+                    toppingName = topping.name,
+                    toppingPrice = topping.price,
+                    selected = selectedItem != null,
+                    quantity = selectedItem?.quantity ?: 0,
+                    modifier = Modifier.clickable(
+                        onClick = {
+                            onAction(ProductDetailsAction.OnToppingSelect(topping.id))
+                        }
+                    ),
+                    onAddQuantity = {
+                        onAction(ProductDetailsAction.OnAddQuantity(topping.id))
+                    },
+                    onReduceQuantity = {
+                        onAction(ProductDetailsAction.OnReduceQuantity(topping.id))
+                    }
                 )
             }
         }
@@ -68,7 +94,9 @@ private fun ToppingScreenPreview() {
                     price = "$ $it.50",
                     imageUrl = ""
                 )
-            }
+            },
+            selectedTopping = listOf(),
+            onAction = {}
         )
     }
 }

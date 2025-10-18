@@ -6,4 +6,5 @@
     <string name="banner">banner</string>
     <string name="search_for_delicious_food">Search for delicious food…</string>
     <string name="add_extra_toppings">ADD EXTRA TOPPINGS</string>
+    <string name="add_to_cart_for">Add To Cart for $%1$s</string>
 </resources>

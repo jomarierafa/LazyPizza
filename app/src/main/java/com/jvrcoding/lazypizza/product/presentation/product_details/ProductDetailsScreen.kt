@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,10 +21,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.jvrcoding.lazypizza.R
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.button.PrimaryButton
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.toolbar.SecondaryToolbar
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
@@ -31,6 +34,7 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textPrimary
 import com.jvrcoding.lazypizza.core.presentation.util.DeviceConfiguration
 import com.jvrcoding.lazypizza.product.presentation.product_details.components.TopSection
 import com.jvrcoding.lazypizza.product.presentation.product_details.components.ToppingSection
+import com.jvrcoding.lazypizza.product.presentation.product_details.models.ToppingUi
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -87,12 +91,14 @@ fun ProductDetailsScreen(
                         ToppingSection(
                             modifier = Modifier
                                 .background(MaterialTheme.colorScheme.surfaceContainerHigh),
-                            toppingList = state.toppings
+                            toppingList = state.toppings,
+                            selectedTopping = state.selectedToppings,
+                            onAction = onAction
                         )
                     }
                     
                     PrimaryButton(
-                        text = "Add To Cart for $40.00",
+                        text = stringResource(R.string.add_to_cart_for, state.totalPrice),
                         enabled = true,
                         onClick = {},
                         modifier = Modifier
@@ -114,7 +120,7 @@ fun ProductDetailsScreen(
                         modifier = Modifier.weight(1f),
                         imageUrl = state.imageUrl,
                         productName = state.productName,
-                        description = state.description
+                        description = state.description,
                     )
                     Box(
                         modifier = Modifier
@@ -138,7 +144,10 @@ fun ProductDetailsScreen(
                             .weight(1f),
                     ) {
                         ToppingSection(
-                            toppingList = state.toppings
+                            toppingList = state.toppings,
+                            selectedTopping = state.selectedToppings,
+                            onAction = onAction,
+                            modifier = Modifier.fillMaxHeight()
                         )
                         PrimaryButton(
                             text = "Add To Cart for $40.00",
@@ -168,12 +177,21 @@ private fun ProductDetailScreenPreview() {
     }
 }
 
-@Preview(widthDp = 840, heightDp = 1000)
+@Preview(widthDp = 840, heightDp = 1600)
 @Composable
 private fun ProductDetailScreenWidthPreview() {
     LazyPizzaTheme {
         ProductDetailsScreen(
-            state = ProductDetailsState(),
+            state = ProductDetailsState(
+                toppings = (1..20).map {
+                    ToppingUi(
+                        id = it.toString(),
+                        name = "Topping $it",
+                        price = "$1.00",
+                        imageUrl = ""
+                    )
+                }
+            ),
             onAction = {}
         )
     }
