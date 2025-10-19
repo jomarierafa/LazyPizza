@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.ArrowLeftIcon
-import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondary
+import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondary8
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,7 +33,7 @@ fun SecondaryToolbar(
                 onClick = onBackClick,
                 shape = CircleShape,
                 colors = IconButtonDefaults.filledIconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.textSecondary.copy(alpha = 0.08f),
+                    containerColor = MaterialTheme.colorScheme.textSecondary8,
                 )
             ) {
                 Icon(

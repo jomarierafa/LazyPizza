@@ -51,7 +51,6 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material3.window.size.class1)
-    implementation(libs.androidx.compose.material3.adaptive)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -73,4 +72,9 @@ dependencies {
     // Navigation
     implementation(libs.androidx.compose.navigation)
     implementation(libs.kotlinx.serialization.json)
+
+    //adaptive layout
+    implementation(libs.bundles.adaptive)
+//    implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
+
 }

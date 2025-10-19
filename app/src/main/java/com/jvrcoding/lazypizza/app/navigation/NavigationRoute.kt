@@ -8,6 +8,9 @@ sealed interface NavigationRoute {
     data object Product
 
     @Serializable
+    data object Main
+
+    @Serializable
     data class ProductDetails(
         val productId: String,
         val productImage: String,

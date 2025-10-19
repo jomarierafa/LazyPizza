@@ -1,5 +1,7 @@
 package com.jvrcoding.lazypizza.product.presentation.product_details
 
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +15,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -56,7 +60,7 @@ fun ProductDetailsScreenRoot(
     )
 }
 
-@OptIn(ExperimentalMaterial3AdaptiveApi::class)
+@OptIn(ExperimentalMaterial3AdaptiveApi::class, ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun ProductDetailsScreen(
     state: ProductDetailsState,
@@ -71,7 +75,9 @@ fun ProductDetailsScreen(
             )
         }
     ) { innerPadding ->
-        val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+
+        val activity = LocalActivity.current as ComponentActivity
+        val windowSizeClass = calculateWindowSizeClass(activity = activity)
         val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
         when(deviceConfiguration) {
             DeviceConfiguration.MOBILE_PORTRAIT,

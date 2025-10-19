@@ -4,9 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.jvrcoding.lazypizza.main.presentation.MainScreenRoot
 import com.jvrcoding.lazypizza.product.presentation.product_details.ProductDetailsScreenRoot
-import com.jvrcoding.lazypizza.product.presentation.product_list.ProductScreenRoot
-import com.jvrcoding.lazypizza.product.presentation.util.toProductDetailsRoute
 
 @Composable
 fun NavigationRoot(
@@ -14,15 +13,20 @@ fun NavigationRoot(
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavigationRoute.Product
+        startDestination = NavigationRoute.Main
     ) {
-        composable<NavigationRoute.Product> {
-            ProductScreenRoot(
-                onNavigateToProductDetails = { product ->
-                    navController.navigate(product.toProductDetailsRoute())
-                }
-            )
+//        composable<NavigationRoute.Product> {
+//            ProductScreenRoot(
+//                onNavigateToProductDetails = { product ->
+//                    navController.navigate(product.toProductDetailsRoute())
+//                }
+//            )
+//        }
+
+        composable<NavigationRoute.Main> {
+            MainScreenRoot()
         }
+
         composable<NavigationRoute.ProductDetails> {
             ProductDetailsScreenRoot(
                 onBackClick = navController::navigateUp
