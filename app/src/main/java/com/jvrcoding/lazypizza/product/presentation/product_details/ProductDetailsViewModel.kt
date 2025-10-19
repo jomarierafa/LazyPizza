@@ -14,18 +14,20 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import java.math.BigDecimal
 
 class ProductDetailsViewModel(
     private val productDataSource: ProductDataSource,
-    private val saveStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
     private var hasLoadedInitialData = false
 
     private val _state = MutableStateFlow(ProductDetailsState(
-        imageUrl = saveStateHandle["productImage"] ?: "",
-        productName = saveStateHandle["productName"] ?: "",
-        description = saveStateHandle["productDescription"] ?: "",
+        imageUrl = savedStateHandle["productImage"] ?: "",
+        productName = savedStateHandle["productName"] ?: "",
+        description = savedStateHandle["productDescription"] ?: "",
+        basePrice = savedStateHandle.get<String>("productPrice")?.toBigDecimal() ?: BigDecimal.ZERO
     ))
     val state = _state
         .onStart {

@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,7 +33,8 @@ fun TopSection(
     imageUrl: String,
     productName: String,
     description: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    bottomColor: Color = Color.Transparent,
 ) {
     val isInPreview = LocalInspectionMode.current
     val context = LocalContext.current
@@ -42,7 +44,7 @@ fun TopSection(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                .background(bottomColor)
                 .clip(RoundedCornerShape(bottomEnd = 16.dp))
                 .background(MaterialTheme.colorScheme.background),
             contentAlignment = Alignment.Center
@@ -61,7 +63,7 @@ fun TopSection(
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.background)
                 .clip(RoundedCornerShape(topStart = 16.dp))
-                .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                .background(bottomColor)
                 .padding(16.dp)
         ) {
             Text(
@@ -88,7 +90,8 @@ private fun TopSectionPreview() {
         TopSection(
             imageUrl = "",
             productName = "Margharita",
-            description = "Tomato sauce, Mozzarella, Fresh basil, Olive oil"
+            description = "Tomato sauce, Mozzarella, Fresh basil, Olive oil",
+            bottomColor = MaterialTheme.colorScheme.surfaceContainerHigh
         )
     }
 }

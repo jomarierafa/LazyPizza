@@ -69,6 +69,7 @@ fun ProductScreen(
     Scaffold(
         topBar = {
             LazyPizzaToolbar(
+                modifier = Modifier.padding(horizontal = 8.dp),
                 title = stringResource(R.string.app_name),
             )
         }
@@ -92,7 +93,7 @@ fun ProductScreen(
 
         Column(
             modifier = Modifier
-                .padding(innerPadding)
+                .padding(top = innerPadding.calculateTopPadding())
                 .background(MaterialTheme.colorScheme.background)
                 .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -126,7 +127,7 @@ fun ProductScreen(
 
             LazyVerticalGrid(
                 state = gridState,
-                columns = GridCells.Adaptive(400.dp),
+                columns = GridCells.Adaptive(415.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {

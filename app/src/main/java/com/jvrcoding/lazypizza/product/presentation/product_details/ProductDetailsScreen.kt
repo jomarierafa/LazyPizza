@@ -86,7 +86,8 @@ fun ProductDetailsScreen(
                         TopSection(
                             imageUrl = state.imageUrl,
                             productName = state.productName,
-                            description = state.description
+                            description = state.description,
+                            bottomColor = MaterialTheme.colorScheme.surfaceContainerHigh
                         )
                         ToppingSection(
                             modifier = Modifier
@@ -150,7 +151,7 @@ fun ProductDetailsScreen(
                             modifier = Modifier.fillMaxHeight()
                         )
                         PrimaryButton(
-                            text = "Add To Cart for $40.00",
+                            text = stringResource(R.string.add_to_cart_for, state.totalPrice),
                             enabled = true,
                             onClick = {},
                             modifier = Modifier
@@ -171,7 +172,18 @@ fun ProductDetailsScreen(
 private fun ProductDetailScreenPreview() {
     LazyPizzaTheme {
         ProductDetailsScreen(
-            state = ProductDetailsState(),
+            state = ProductDetailsState(
+                productName = "Margherita",
+                description = "sample description",
+                toppings = (1..20).map {
+                    ToppingUi(
+                        id = it.toString(),
+                        name = "Topping $it",
+                        price = "$1.00",
+                        imageUrl = ""
+                    )
+                }
+            ),
             onAction = {}
         )
     }
@@ -183,6 +195,7 @@ private fun ProductDetailScreenWidthPreview() {
     LazyPizzaTheme {
         ProductDetailsScreen(
             state = ProductDetailsState(
+                productName = "Margharita",
                 toppings = (1..20).map {
                     ToppingUi(
                         id = it.toString(),

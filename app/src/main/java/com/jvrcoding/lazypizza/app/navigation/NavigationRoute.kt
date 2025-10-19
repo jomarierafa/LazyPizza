@@ -11,6 +11,7 @@ sealed interface NavigationRoute {
     data class ProductDetails(
         val productId: String,
         val productImage: String,
+        val productPrice: String,
         val productName: String,
         val productDescription: String,
     ) : NavigationRoute

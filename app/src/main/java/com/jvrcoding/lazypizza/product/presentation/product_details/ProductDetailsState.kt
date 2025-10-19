@@ -8,8 +8,9 @@ data class ProductDetailsState(
     val imageUrl: String = "",
     val productName: String = "",
     val description: String = "",
+    val basePrice: BigDecimal = BigDecimal.ZERO,
     val toppings:  List<ToppingUi> = emptyList(),
     val selectedToppings: List<SelectedTopping> = emptyList(),
 ) {
-    val totalPrice: BigDecimal = selectedToppings.sumOf { it.price * it.quantity.toBigDecimal()}
+    val totalPrice: BigDecimal = basePrice + selectedToppings.sumOf { it.price * it.quantity.toBigDecimal()}
 }
