@@ -1,4 +1,4 @@
-package com.jvrcoding.lazypizza.main.presentation.components
+package com.jvrcoding.lazypizza.product.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

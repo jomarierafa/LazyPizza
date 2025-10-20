@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.jvrcoding.lazypizza.main.presentation.MainScreenRoot
+import com.jvrcoding.lazypizza.product.presentation.MainScreenRoot
 import com.jvrcoding.lazypizza.product.presentation.product_details.ProductDetailsScreenRoot
 
 @Composable

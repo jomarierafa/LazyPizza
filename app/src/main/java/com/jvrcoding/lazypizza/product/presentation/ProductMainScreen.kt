@@ -1,4 +1,4 @@
-package com.jvrcoding.lazypizza.main.presentation
+package com.jvrcoding.lazypizza.product.presentation
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
@@ -18,10 +18,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.jvrcoding.lazypizza.core.presentation.util.DeviceConfiguration
-import com.jvrcoding.lazypizza.main.presentation.components.LPBottomNavBar
-import com.jvrcoding.lazypizza.main.presentation.components.LPNavigationRail
-import com.jvrcoding.lazypizza.main.presentation.navigation.MainNavigationRoute
-import com.jvrcoding.lazypizza.main.presentation.navigation.Tab
+import com.jvrcoding.lazypizza.product.presentation.components.LPBottomNavBar
+import com.jvrcoding.lazypizza.product.presentation.components.LPNavigationRail
+import com.jvrcoding.lazypizza.product.presentation.model.Tab
 import com.jvrcoding.lazypizza.product.presentation.product_list.ProductScreenRoot
 
 
@@ -53,19 +52,19 @@ fun MainScreenRoot() {
             ) { innerPadding ->
                 NavHost(
                     navController = mainNavController,
-                    startDestination = MainNavigationRoute.Menu,
+                    startDestination = ProductNavigationRoute.Menu,
                     modifier = Modifier.padding(innerPadding)
                 ) {
-                    composable<MainNavigationRoute.Menu> {
+                    composable<ProductNavigationRoute.Menu> {
                         ProductScreenRoot(
                             onNavigateToProductDetails = { product ->
 //                                navController.navigate(product.toProductDetailsRoute())
                             }
                         )
                     }
-                    composable<MainNavigationRoute.Cart> {
+                    composable<ProductNavigationRoute.Cart> {
                     }
-                    composable<MainNavigationRoute.History> {
+                    composable<ProductNavigationRoute.History> {
                     }
                 }
 

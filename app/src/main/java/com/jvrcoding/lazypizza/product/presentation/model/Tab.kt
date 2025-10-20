@@ -1,4 +1,4 @@
-package com.jvrcoding.lazypizza.main.presentation.navigation
+package com.jvrcoding.lazypizza.product.presentation.model
 
 import com.jvrcoding.lazypizza.R
 

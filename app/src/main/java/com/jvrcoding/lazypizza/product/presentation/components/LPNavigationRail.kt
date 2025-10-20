@@ -1,4 +1,4 @@
-package com.jvrcoding.lazypizza.main.presentation.components
+package com.jvrcoding.lazypizza.product.presentation.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
-import com.jvrcoding.lazypizza.main.presentation.navigation.Tab
+import com.jvrcoding.lazypizza.product.presentation.model.Tab
 
 @Composable
 fun LPNavigationRail(

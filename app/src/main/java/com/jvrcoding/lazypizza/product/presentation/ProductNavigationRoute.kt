@@ -1,8 +1,8 @@
-package com.jvrcoding.lazypizza.main.presentation.navigation
+package com.jvrcoding.lazypizza.product.presentation
 
 import kotlinx.serialization.Serializable
 
-sealed interface MainNavigationRoute {
+sealed interface ProductNavigationRoute {
     @Serializable
     data object Menu
     @Serializable

@@ -1,4 +1,4 @@
-package com.jvrcoding.lazypizza.main.presentation.components
+package com.jvrcoding.lazypizza.product.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textPrimary
-import com.jvrcoding.lazypizza.main.presentation.navigation.Tab
+import com.jvrcoding.lazypizza.product.presentation.model.Tab
 
 @Composable
 fun LPBottomNavBar(
