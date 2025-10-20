@@ -1,9 +1,10 @@
-package com.jvrcoding.lazypizza.product.presentation.product_list.components
+package com.jvrcoding.lazypizza.product.presentation.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -27,6 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -39,24 +41,26 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.BackGround
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.TrashIcon
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.body1Medium
+import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.body3Regular
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.body4Regular
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textPrimary
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondary
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.title1SemiBold
-import com.jvrcoding.lazypizza.product.presentation.components.QuantitySelector
 
 @Composable
-fun OtherProductCard(
+fun ProductCard(
     imageUrl: String,
     productName: String,
     productPrice: String,
     quantity: String,
-    onAddToCardClick: () -> Unit,
     onMinusClick: () -> Unit,
     onAddClick: () -> Unit,
     onRemoveClick: () -> Unit,
     selected: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    description: String? = null,
+    onAddToCardClick: () -> Unit = {},
+    imageSize: Dp = 120.dp,
 ) {
     val isInPreview = LocalInspectionMode.current
 
@@ -84,16 +88,21 @@ fun OtherProductCard(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(if(isInPreview) R.drawable.logo else imageUrl)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = productName,
+            Box(
                 modifier = Modifier
-                    .size(120.dp)
-                    .background(MaterialTheme.colorScheme.surfaceContainerHighest)
-            )
+                    .fillMaxHeight()
+                    .background(MaterialTheme.colorScheme.surfaceContainerHighest),
+                contentAlignment = Alignment.Center
+            ) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(if(isInPreview) R.drawable.logo else imageUrl)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = productName,
+                    modifier = Modifier.size(imageSize)
+                )
+            }
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
@@ -118,6 +127,14 @@ fun OtherProductCard(
                             modifier = Modifier.size(22.dp)
                         )
                     }
+                }
+                description?.let {
+                    Text(
+                        text = description,
+                        style = MaterialTheme.typography.body3Regular,
+                        color = MaterialTheme.colorScheme.textSecondary,
+                        modifier = Modifier.weight(1f)
+                    )
                 }
                 if(!selected) {
                     Row(
@@ -181,10 +198,12 @@ fun totalPrice(quantity: String, price: String): String {
 @Composable
 private fun OtherProductCardPreview() {
     LazyPizzaTheme {
-        OtherProductCard(
+        ProductCard(
             imageUrl = "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416011/spinach_hsus2b.png",
             productName = "Margherita",
             productPrice = "$10.50",
+            description = "1 x Extra Cheese\n" +
+                    "1 x Pepperoni\n wadawawdawd",
             selected = true,
             quantity = "1",
             onAddToCardClick = {},

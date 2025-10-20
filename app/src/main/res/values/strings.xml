@@ -7,4 +7,5 @@
     <string name="search_for_delicious_food">Search for delicious food…</string>
     <string name="add_extra_toppings">ADD EXTRA TOPPINGS</string>
     <string name="add_to_cart_for">Add To Cart for $%1$s</string>
+    <string name="recommended_to_add_to_your_order">RECOMMENDED TO ADD TO YOUR ORDER</string>
 </resources>

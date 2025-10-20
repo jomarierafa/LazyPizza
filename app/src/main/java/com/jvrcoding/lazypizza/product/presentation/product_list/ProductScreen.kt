@@ -36,7 +36,7 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaThe
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.label2SemiBold
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondary
 import com.jvrcoding.lazypizza.product.domain.Product
-import com.jvrcoding.lazypizza.product.presentation.product_list.components.OtherProductCard
+import com.jvrcoding.lazypizza.product.presentation.components.ProductCard
 import com.jvrcoding.lazypizza.product.presentation.product_list.components.PizzaCard
 import com.jvrcoding.lazypizza.product.presentation.product_list.components.ProductCategoryRow
 import com.jvrcoding.lazypizza.product.presentation.product_list.util.toProduct
@@ -162,7 +162,7 @@ fun ProductScreen(
                                     )
                             )
                         } else {
-                            OtherProductCard(
+                            ProductCard(
                                 imageUrl = product.imageUrl,
                                 productName = product.name,
                                 productPrice = product.price,
