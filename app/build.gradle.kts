@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -72,6 +73,10 @@ dependencies {
     // Navigation
     implementation(libs.androidx.compose.navigation)
     implementation(libs.kotlinx.serialization.json)
+
+    //room
+    implementation(libs.bundles.room)
+    ksp(libs.room.compiler)
 
     //adaptive layout
     implementation(libs.bundles.adaptive)

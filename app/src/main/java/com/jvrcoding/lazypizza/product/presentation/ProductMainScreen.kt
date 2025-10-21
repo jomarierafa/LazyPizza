@@ -23,9 +23,9 @@ import com.jvrcoding.lazypizza.product.domain.Product
 import com.jvrcoding.lazypizza.product.presentation.cart.CartScreenRoot
 import com.jvrcoding.lazypizza.product.presentation.components.LPBottomNavBar
 import com.jvrcoding.lazypizza.product.presentation.components.LPNavigationRail
-import com.jvrcoding.lazypizza.product.presentation.model.Tab
 import com.jvrcoding.lazypizza.product.presentation.menu.MenuScreenRoot
 import com.jvrcoding.lazypizza.product.presentation.navigation.ProductNavigationRoute
+import com.jvrcoding.lazypizza.product.presentation.order_history.OrderHistoryScreenRoot
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -112,6 +112,7 @@ fun ProductMainScreen(
                         CartScreenRoot()
                     }
                     composable<ProductNavigationRoute.History> {
+                        OrderHistoryScreenRoot()
                     }
                 }
 
@@ -124,8 +125,27 @@ fun ProductMainScreen(
                     onItemClick = { tab ->
                         onAction(ProductAction.OnBottomNavigationItemClick(tab))
                     },
-                    selectedTab = Tab.MENU
+                    selectedTab = state.selectedTab
                 )
+                NavHost(
+                    navController = navController,
+                    startDestination = ProductNavigationRoute.Menu,
+                ) {
+                    composable<ProductNavigationRoute.Menu> {
+                        MenuScreenRoot(
+                            onNavigateToProductDetails = { product ->
+                                onAction(ProductAction.OnProductClick(product))
+                            }
+                        )
+                    }
+                    composable<ProductNavigationRoute.Cart> {
+                        CartScreenRoot()
+                    }
+                    composable<ProductNavigationRoute.History> {
+                        OrderHistoryScreenRoot()
+                    }
+                }
+
             }
         }
     }

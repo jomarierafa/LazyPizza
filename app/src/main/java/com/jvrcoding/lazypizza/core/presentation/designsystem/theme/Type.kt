@@ -34,6 +34,14 @@ val Title1SemiBold =  TextStyle(
     lineHeight = 28.sp
 )
 
+val Title1Medium =  TextStyle(
+    fontFamily = INSTRUMENT_SANS,
+    fontWeight = FontWeight.Medium,
+    fontSize = 24.sp,
+    lineHeight = 28.sp
+)
+
+
 val Title2 =  TextStyle(
     fontFamily = INSTRUMENT_SANS,
     fontWeight = FontWeight.SemiBold,
@@ -106,6 +114,9 @@ val Body4Regular =  TextStyle(
 
 val Typography.title1SemiBold: TextStyle
     get() = Title1SemiBold
+
+val Typography.title1Medium: TextStyle
+    get() = Title1Medium
 
 val Typography.title2: TextStyle
     get() = Title2

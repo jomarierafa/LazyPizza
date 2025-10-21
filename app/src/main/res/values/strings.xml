@@ -8,4 +8,9 @@
     <string name="add_extra_toppings">ADD EXTRA TOPPINGS</string>
     <string name="add_to_cart_for">Add To Cart for $%1$s</string>
     <string name="recommended_to_add_to_your_order">RECOMMENDED TO ADD TO YOUR ORDER</string>
+    <string name="cart">Cart</string>
+    <string name="not_signed_in">Not Signed In</string>
+    <string name="please_sign_in_to_view_your_order_history">Please sign in to view your order history.</string>
+    <string name="sign_in">Sign In</string>
+    <string name="order_history">Order History</string>
 </resources>
