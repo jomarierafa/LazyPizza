@@ -1,4 +1,4 @@
-package com.jvrcoding.lazypizza.product.presentation.product_list.models
+package com.jvrcoding.lazypizza.product.presentation.menu.models
 
 data class ProductUi(
     val id: String,

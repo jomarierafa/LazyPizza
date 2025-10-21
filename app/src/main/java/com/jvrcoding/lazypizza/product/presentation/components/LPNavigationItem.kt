@@ -12,9 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -51,30 +49,29 @@ fun LPNavigationItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Box {
-            FilledIconButton(
-                modifier = Modifier.size(28.dp),
-                colors = IconButtonDefaults.iconButtonColors(
-                    containerColor =   if(selected) {
+        Box(
+            modifier = Modifier
+                .size(28.dp)
+                .background(
+                    shape = CircleShape,
+                    color = if(selected) {
                         MaterialTheme.colorScheme.primary8
                     } else {
                         Color.Transparent
-                    },
-                    contentColor = if(selected) {
-                        MaterialTheme.colorScheme.primary
-                    } else {
-                        MaterialTheme.colorScheme.secondary
                     }
                 ),
-                onClick = {}
-            ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(icon),
-                    contentDescription = label,
-                    modifier = Modifier.size(16.dp)
-                )
-            }
-
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = ImageVector.vectorResource(icon),
+                contentDescription = label,
+                modifier = Modifier.size(16.dp),
+                tint = if(selected) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.secondary
+                }
+            )
             if (badgeCount > 0) {
                 Text(
                     text = badgeCount.toString(),
@@ -106,7 +103,7 @@ fun LPNavigationItem(
 private fun LazyPizzaNavigationItemPreview() {
     LazyPizzaTheme {
         LPNavigationItem(
-            icon = R.drawable.ic_trash,
+            icon = R.drawable.ic_cart,
             label = "Menu",
             selected = true,
             onClick = {},

@@ -1,4 +1,4 @@
-package com.jvrcoding.lazypizza.product.presentation.product_list
+package com.jvrcoding.lazypizza.product.presentation.menu
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,23 +37,23 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.label2SemiBo
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondary
 import com.jvrcoding.lazypizza.product.domain.Product
 import com.jvrcoding.lazypizza.product.presentation.components.ProductCard
-import com.jvrcoding.lazypizza.product.presentation.product_list.components.PizzaCard
-import com.jvrcoding.lazypizza.product.presentation.product_list.components.ProductCategoryRow
-import com.jvrcoding.lazypizza.product.presentation.product_list.util.toProduct
+import com.jvrcoding.lazypizza.product.presentation.menu.components.PizzaCard
+import com.jvrcoding.lazypizza.product.presentation.menu.components.ProductCategoryRow
+import com.jvrcoding.lazypizza.product.presentation.menu.util.toProduct
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun ProductScreenRoot(
+fun MenuScreenRoot(
     onNavigateToProductDetails: (Product) -> Unit,
-    viewModel: ProductViewModel = koinViewModel()
+    viewModel: MenuViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    ProductScreen(
+    MenuScreen(
         state = state,
         onAction = { action ->
             when(action) {
-                is ProductAction.OnProductClick -> onNavigateToProductDetails(action.product.toProduct())
+                is MenuAction.OnMenuClick -> onNavigateToProductDetails(action.product.toProduct())
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -62,9 +62,9 @@ fun ProductScreenRoot(
 }
 
 @Composable
-fun ProductScreen(
-    state: ProductState,
-    onAction: (ProductAction) -> Unit,
+fun MenuScreen(
+    state: MenuState,
+    onAction: (MenuAction) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -110,7 +110,7 @@ fun ProductScreen(
             SearchTextField(
                 text = state.searchQuery,
                 onValueChange = {
-                    onAction(ProductAction.OnSearchQueryChange(it))
+                    onAction(MenuAction.OnSearchQueryChange(it))
                 },
                 hint = stringResource(R.string.search_for_delicious_food)
             )
@@ -157,7 +157,7 @@ fun ProductScreen(
                                 modifier = Modifier
                                     .clickable(
                                         onClick = {
-                                            onAction(ProductAction.OnProductClick(product))
+                                            onAction(MenuAction.OnMenuClick(product))
                                         }
                                     )
                             )
@@ -168,16 +168,16 @@ fun ProductScreen(
                                 productPrice = product.price,
                                 quantity = "${selectedItem?.quantity}",
                                 onAddToCardClick = {
-                                    onAction(ProductAction.OnAddToCardClick(product.id))
+                                    onAction(MenuAction.OnAddToCardClick(product.id))
                                 },
                                 onAddClick = {
-                                    onAction(ProductAction.OnAddClick(product.id))
+                                    onAction(MenuAction.OnAddClick(product.id))
                                 },
                                 onMinusClick = {
-                                    onAction(ProductAction.OnMinusClick(product.id))
+                                    onAction(MenuAction.OnMinusClick(product.id))
                                 },
                                 onRemoveClick = {
-                                    onAction(ProductAction.OnRemoveClick(product.id))
+                                    onAction(MenuAction.OnRemoveClick(product.id))
                                 },
                                 selected = selectedItem != null
                             )
@@ -193,10 +193,10 @@ fun ProductScreen(
 @Preview
 //@PreviewScreenSizes
 @Composable
-private fun ProductsScreenPreview() {
+private fun MenuScreenPreview() {
     LazyPizzaTheme {
-        ProductScreen(
-            state = ProductState(),
+        MenuScreen(
+            state = MenuState(),
             onAction = {}
         )
     }

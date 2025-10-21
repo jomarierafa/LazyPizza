@@ -70,7 +70,7 @@ private fun LPBottomNavBarPreview() {
         ) {
             LPBottomNavBar(
                 onItemClick = {},
-                selectedTab = Tab.Menu,
+                selectedTab = Tab.MENU,
                 modifier = Modifier.fillMaxWidth().align(alignment = Alignment.BottomCenter)
             )
         }

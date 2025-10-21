@@ -1,4 +1,4 @@
-package com.jvrcoding.lazypizza.product.presentation
+package com.jvrcoding.lazypizza.product.presentation.navigation
 
 import kotlinx.serialization.Serializable
 

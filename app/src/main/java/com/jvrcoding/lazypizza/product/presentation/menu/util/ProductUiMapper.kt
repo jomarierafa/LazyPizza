@@ -1,7 +1,7 @@
-package com.jvrcoding.lazypizza.product.presentation.product_list.util
+package com.jvrcoding.lazypizza.product.presentation.menu.util
 
 import com.jvrcoding.lazypizza.product.domain.Product
-import com.jvrcoding.lazypizza.product.presentation.product_list.models.ProductUi
+import com.jvrcoding.lazypizza.product.presentation.menu.models.ProductUi
 
 fun Product.toProductUi(): ProductUi {
     return ProductUi(

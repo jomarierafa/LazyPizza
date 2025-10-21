@@ -1,11 +1,11 @@
-package com.jvrcoding.lazypizza.product.presentation.product_list
+package com.jvrcoding.lazypizza.product.presentation.menu
 
 import com.jvrcoding.lazypizza.core.presentation.util.UiText
-import com.jvrcoding.lazypizza.product.presentation.product_list.models.ProductSection
-import com.jvrcoding.lazypizza.product.presentation.product_list.models.ProductUi
-import com.jvrcoding.lazypizza.product.presentation.product_list.models.SelectedProduct
+import com.jvrcoding.lazypizza.product.presentation.menu.models.ProductSection
+import com.jvrcoding.lazypizza.product.presentation.menu.models.ProductUi
+import com.jvrcoding.lazypizza.product.presentation.menu.models.SelectedProduct
 
-data class ProductState(
+data class MenuState(
     val searchQuery: String = "",
     val selectedProducts: List<SelectedProduct> = emptyList(),
     val products: Map<UiText, List<ProductUi>> = emptyMap(),

@@ -1,4 +1,4 @@
-package com.jvrcoding.lazypizza.product.presentation.product_list.components
+package com.jvrcoding.lazypizza.product.presentation.menu.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement

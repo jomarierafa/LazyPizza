@@ -1,12 +1,12 @@
-package com.jvrcoding.lazypizza.product.presentation.product_list
+package com.jvrcoding.lazypizza.product.presentation.menu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jvrcoding.lazypizza.core.presentation.util.UiText
 import com.jvrcoding.lazypizza.product.domain.ProductDataSource
-import com.jvrcoding.lazypizza.product.presentation.product_list.models.ProductUi
-import com.jvrcoding.lazypizza.product.presentation.product_list.models.SelectedProduct
-import com.jvrcoding.lazypizza.product.presentation.product_list.util.toProductUi
+import com.jvrcoding.lazypizza.product.presentation.menu.models.ProductUi
+import com.jvrcoding.lazypizza.product.presentation.menu.models.SelectedProduct
+import com.jvrcoding.lazypizza.product.presentation.menu.util.toProductUi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
-class ProductViewModel(
+class MenuViewModel(
     private val productDataSource: ProductDataSource
 ): ViewModel() {
 
@@ -28,7 +28,7 @@ class ProductViewModel(
 
     private val searchQuery = MutableStateFlow("")
 
-    private val _state = MutableStateFlow(ProductState())
+    private val _state = MutableStateFlow(MenuState())
     val state = _state
         .onStart {
             if (!hasLoadedInitialData) {
@@ -39,16 +39,16 @@ class ProductViewModel(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000L),
-            initialValue = ProductState()
+            initialValue = MenuState()
         )
 
-    fun onAction(action: ProductAction) {
+    fun onAction(action: MenuAction) {
         when(action) {
-            is ProductAction.OnSearchQueryChange -> onSearchQueryChange(action.query)
-            is ProductAction.OnAddToCardClick -> onAddToCardClick(action.productId)
-            is ProductAction.OnAddClick -> onAddClick(action.productId)
-            is ProductAction.OnMinusClick -> onMinusClick(action.productId)
-            is ProductAction.OnRemoveClick -> onRemoveClick(action.productId)
+            is MenuAction.OnSearchQueryChange -> onSearchQueryChange(action.query)
+            is MenuAction.OnAddToCardClick -> onAddToCardClick(action.productId)
+            is MenuAction.OnAddClick -> onAddClick(action.productId)
+            is MenuAction.OnMinusClick -> onMinusClick(action.productId)
+            is MenuAction.OnRemoveClick -> onRemoveClick(action.productId)
             else -> Unit
         }
     }

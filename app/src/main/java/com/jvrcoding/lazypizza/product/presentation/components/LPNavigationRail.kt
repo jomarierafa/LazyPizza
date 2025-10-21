@@ -52,7 +52,7 @@ private fun LPNavigationRailPreview() {
     LazyPizzaTheme {
         LPNavigationRail(
             onItemClick = {},
-            selectedTab = Tab.History
+            selectedTab = Tab.HISTORY
         )
     }
 }
