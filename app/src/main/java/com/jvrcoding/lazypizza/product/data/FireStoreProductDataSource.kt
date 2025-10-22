@@ -1,5 +1,7 @@
 package com.jvrcoding.lazypizza.product.data
 
+import android.util.Log
+import com.google.firebase.firestore.FirebaseFirestore
 import com.jvrcoding.lazypizza.product.domain.Product
 import com.jvrcoding.lazypizza.product.domain.ProductDataSource
 import com.jvrcoding.lazypizza.product.domain.Topping
@@ -9,6 +11,25 @@ import java.math.BigDecimal
 
 class FireStoreProductDataSource: ProductDataSource {
     override fun getProducts(): Flow<List<Product>> = flow {
+
+        val db = FirebaseFirestore.getInstance()
+        db.collection("products")
+            .get()
+            .addOnSuccessListener { result ->
+                if(!result.isEmpty) {
+                    val productList = result.documents.mapNotNull { document ->
+                        document.toObject(ProductDto::class.java)?.copy(id = document.id)
+                    }
+                    Log.d("Firestore", "Document data: $productList")
+                } else {
+                    Log.d("Firestore", "No document")
+                }
+
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firestore", "Error fetching document: ${e.message}")
+            }
+
         val productList = listOf(
             // Pizzas
             Product(
