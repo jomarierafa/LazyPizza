@@ -1,5 +1,4 @@
-package com.jvrcoding.lazypizza.product.data
-
+package com.jvrcoding.lazypizza.product.data.model
 
 data class ProductDto(
     val id: String = "",
