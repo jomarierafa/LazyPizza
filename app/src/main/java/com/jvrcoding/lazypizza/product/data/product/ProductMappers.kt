@@ -1,7 +1,6 @@
-package com.jvrcoding.lazypizza.product.data
+package com.jvrcoding.lazypizza.product.data.product
 
-import com.jvrcoding.lazypizza.product.data.model.ProductDto
-import com.jvrcoding.lazypizza.product.domain.Product
+import com.jvrcoding.lazypizza.product.domain.product.Product
 
 fun ProductDto.toProduct(): Product {
     return Product(
@@ -11,6 +10,5 @@ fun ProductDto.toProduct(): Product {
         description = description,
         imageUrl = imageUrl,
         type = type
-
     )
 }

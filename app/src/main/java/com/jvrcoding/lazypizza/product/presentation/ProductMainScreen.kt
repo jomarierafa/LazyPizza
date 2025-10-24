@@ -19,7 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.jvrcoding.lazypizza.core.presentation.util.DeviceConfiguration
 import com.jvrcoding.lazypizza.core.presentation.util.ObserveAsEvents
-import com.jvrcoding.lazypizza.product.domain.Product
+import com.jvrcoding.lazypizza.product.domain.product.Product
 import com.jvrcoding.lazypizza.product.presentation.cart.CartScreenRoot
 import com.jvrcoding.lazypizza.product.presentation.components.LPBottomNavBar
 import com.jvrcoding.lazypizza.product.presentation.components.LPNavigationRail

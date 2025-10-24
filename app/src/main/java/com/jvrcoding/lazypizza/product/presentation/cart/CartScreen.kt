@@ -21,6 +21,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,23 +32,35 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jvrcoding.lazypizza.R
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.button.PrimaryButton
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.toolbar.SecondaryToolbar
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textPrimary
 import com.jvrcoding.lazypizza.core.presentation.util.DeviceConfiguration
-import com.jvrcoding.lazypizza.product.presentation.cart.presentation.components.RecommendedAddOnsSection
-import com.jvrcoding.lazypizza.product.presentation.cart.presentation.components.cartListContent
+import com.jvrcoding.lazypizza.product.presentation.cart.components.RecommendedAddOnsSection
+import com.jvrcoding.lazypizza.product.presentation.cart.components.cartListContent
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun CartScreenRoot() {
-    CartScreen()
+fun CartScreenRoot(
+    viewModel: CartViewModel = koinViewModel()
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    CartScreen(
+        state = state,
+        onAction = { action ->
+            viewModel.onAction(action)
+        }
+    )
 }
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun CartScreen(
+    state: CartState,
+    onAction: (CartAction) -> Unit,
     deviceConfiguration: DeviceConfiguration? = null
 ) {
     Scaffold(
@@ -78,7 +91,10 @@ fun CartScreen(
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                         contentPadding = PaddingValues(bottom = 64.dp)
                     ) {
-                        cartListContent()
+                        cartListContent(
+                            products = state.products,
+                            onAction = onAction
+                        )
                         item {
                             Spacer(modifier = Modifier.height(8.dp))
                         }
@@ -109,7 +125,10 @@ fun CartScreen(
                         contentPadding = PaddingValues(bottom = 8.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        cartListContent()
+                        cartListContent(
+                            products = state.products,
+                            onAction = onAction
+                        )
                     }
                     Column(
                         modifier = Modifier
@@ -146,6 +165,10 @@ fun CartScreen(
 @Composable
 private fun CartScreenPreview() {
     LazyPizzaTheme {
-        CartScreen(deviceConfiguration = DeviceConfiguration.TABLET_LANDSCAPE)
+        CartScreen(
+            state = CartState(),
+            onAction = {},
+            deviceConfiguration = DeviceConfiguration.TABLET_LANDSCAPE
+        )
     }
 }

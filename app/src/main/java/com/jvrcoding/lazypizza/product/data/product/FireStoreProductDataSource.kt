@@ -1,10 +1,10 @@
-package com.jvrcoding.lazypizza.product.data
+package com.jvrcoding.lazypizza.product.data.product
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.jvrcoding.lazypizza.product.data.model.ProductDto
-import com.jvrcoding.lazypizza.product.domain.Product
-import com.jvrcoding.lazypizza.product.domain.ProductDataSource
-import com.jvrcoding.lazypizza.product.domain.Topping
+import com.jvrcoding.lazypizza.product.data.product.ProductDto
+import com.jvrcoding.lazypizza.product.domain.product.Product
+import com.jvrcoding.lazypizza.product.domain.product.ProductDataSource
+import com.jvrcoding.lazypizza.product.domain.product.Topping
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
@@ -49,18 +49,78 @@ class FireStoreProductDataSource(
 
     override fun getProductToppings(): Flow<List<Topping>> = flow {
         val toppingList = listOf(
-            Topping("topping_1", "Bacon", BigDecimal("1.00"), "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416006/bacon_szeb8t.png"),
-            Topping("topping_2", "Extra Cheese", BigDecimal("1.00"),  "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416007/cheese_frkn8b.png"),
-            Topping("topping_3", "Corn", BigDecimal("0.50"), "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416009/corn_is7qax.png"),
-            Topping("topping_4", "Tomato", BigDecimal("0.50"), "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416011/tomato_imipjb.png"),
-            Topping("topping_5", "Olives", BigDecimal("0.50"), "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416008/olive_bp8gug.png"),
-            Topping("topping_6", "Pepperoni", BigDecimal("1.00"), "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416010/pepperoni_gge70w.png"),
-            Topping("topping_7", "Mushrooms", BigDecimal("0.50"), "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416009/mashroom_fy3tqy.png"),
-            Topping("topping_8", "Basil", BigDecimal("0.50"), "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416008/basil_rlkpz1.png"),
-            Topping("topping_9", "Pineapple", BigDecimal("1.00"), "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416010/pineapple_llzyrr.png"),
-            Topping("topping_10", "Onion", BigDecimal("0.50"), "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416010/onion_ywuj0g.png"),
-            Topping("topping_11", "Chili Peppers", BigDecimal("0.50"), "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416007/chilli_quojbb.png"),
-            Topping("topping_12", "Spinach", BigDecimal("0.50"), "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416011/spinach_hsus2b.png"),
+            Topping(
+                "topping_1",
+                "Bacon",
+                BigDecimal("1.00"),
+                "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416006/bacon_szeb8t.png"
+            ),
+            Topping(
+                "topping_2",
+                "Extra Cheese",
+                BigDecimal("1.00"),
+                "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416007/cheese_frkn8b.png"
+            ),
+            Topping(
+                "topping_3",
+                "Corn",
+                BigDecimal("0.50"),
+                "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416009/corn_is7qax.png"
+            ),
+            Topping(
+                "topping_4",
+                "Tomato",
+                BigDecimal("0.50"),
+                "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416011/tomato_imipjb.png"
+            ),
+            Topping(
+                "topping_5",
+                "Olives",
+                BigDecimal("0.50"),
+                "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416008/olive_bp8gug.png"
+            ),
+            Topping(
+                "topping_6",
+                "Pepperoni",
+                BigDecimal("1.00"),
+                "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416010/pepperoni_gge70w.png"
+            ),
+            Topping(
+                "topping_7",
+                "Mushrooms",
+                BigDecimal("0.50"),
+                "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416009/mashroom_fy3tqy.png"
+            ),
+            Topping(
+                "topping_8",
+                "Basil",
+                BigDecimal("0.50"),
+                "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416008/basil_rlkpz1.png"
+            ),
+            Topping(
+                "topping_9",
+                "Pineapple",
+                BigDecimal("1.00"),
+                "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416010/pineapple_llzyrr.png"
+            ),
+            Topping(
+                "topping_10",
+                "Onion",
+                BigDecimal("0.50"),
+                "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416010/onion_ywuj0g.png"
+            ),
+            Topping(
+                "topping_11",
+                "Chili Peppers",
+                BigDecimal("0.50"),
+                "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416007/chilli_quojbb.png"
+            ),
+            Topping(
+                "topping_12",
+                "Spinach",
+                BigDecimal("0.50"),
+                "https://res.cloudinary.com/drtxnnmwo/image/upload/v1759416011/spinach_hsus2b.png"
+            ),
         )
 
         emit(toppingList)

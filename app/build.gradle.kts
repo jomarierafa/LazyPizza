@@ -33,6 +33,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = "11"
@@ -83,6 +84,9 @@ dependencies {
     //room
     implementation(libs.bundles.room)
     ksp(libs.room.compiler)
+
+    // Allow use of java.time.Instant below API 26
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     //adaptive layout
     implementation(libs.bundles.adaptive)

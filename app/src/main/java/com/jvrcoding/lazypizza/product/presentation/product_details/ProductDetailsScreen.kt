@@ -14,7 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
@@ -107,7 +106,9 @@ fun ProductDetailsScreen(
                     PrimaryButton(
                         text = stringResource(R.string.add_to_cart_for, state.totalPrice),
                         enabled = true,
-                        onClick = {},
+                        onClick = {
+                            onAction(ProductDetailsAction.OnAddToCartClick)
+                        },
                         modifier = Modifier
                             .padding(16.dp)
                             .fillMaxWidth()
@@ -159,7 +160,9 @@ fun ProductDetailsScreen(
                         PrimaryButton(
                             text = stringResource(R.string.add_to_cart_for, state.totalPrice),
                             enabled = true,
-                            onClick = {},
+                            onClick = {
+                                onAction(ProductDetailsAction.OnAddToCartClick)
+                            },
                             modifier = Modifier
                                 .padding(horizontal = 16.dp)
                                 .fillMaxWidth()

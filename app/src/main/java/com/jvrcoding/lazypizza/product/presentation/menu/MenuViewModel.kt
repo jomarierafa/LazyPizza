@@ -3,7 +3,7 @@ package com.jvrcoding.lazypizza.product.presentation.menu
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jvrcoding.lazypizza.core.presentation.util.UiText
-import com.jvrcoding.lazypizza.product.domain.ProductDataSource
+import com.jvrcoding.lazypizza.product.domain.product.ProductDataSource
 import com.jvrcoding.lazypizza.product.presentation.menu.models.ProductUi
 import com.jvrcoding.lazypizza.product.presentation.menu.models.SelectedProduct
 import com.jvrcoding.lazypizza.product.presentation.menu.util.toProductUi

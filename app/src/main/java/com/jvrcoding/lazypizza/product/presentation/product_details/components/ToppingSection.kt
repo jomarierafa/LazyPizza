@@ -21,15 +21,15 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaThe
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.label2SemiBold
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondary
 import com.jvrcoding.lazypizza.core.presentation.util.fadingEdge
+import com.jvrcoding.lazypizza.product.domain.cart.ProductTopping
 import com.jvrcoding.lazypizza.product.presentation.product_details.ProductDetailsAction
-import com.jvrcoding.lazypizza.product.presentation.product_details.models.SelectedTopping
 import com.jvrcoding.lazypizza.product.presentation.product_details.models.ToppingUi
 
 @Composable
 fun ToppingSection(
     toppingList: List<ToppingUi>,
     onAction: (ProductDetailsAction) -> Unit,
-    selectedTopping: List<SelectedTopping>,
+    selectedTopping: List<ProductTopping>,
     modifier: Modifier = Modifier
 ) {
     Column(

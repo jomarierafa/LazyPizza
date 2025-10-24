@@ -35,7 +35,7 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.components.toolbar
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.label2SemiBold
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondary
-import com.jvrcoding.lazypizza.product.domain.Product
+import com.jvrcoding.lazypizza.product.domain.product.Product
 import com.jvrcoding.lazypizza.product.presentation.components.ProductCard
 import com.jvrcoding.lazypizza.product.presentation.menu.components.PizzaCard
 import com.jvrcoding.lazypizza.product.presentation.menu.components.ProductCategoryRow

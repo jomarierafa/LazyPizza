@@ -1,6 +1,6 @@
 package com.jvrcoding.lazypizza.product.presentation
 
-import com.jvrcoding.lazypizza.product.domain.Product
+import com.jvrcoding.lazypizza.product.domain.product.Product
 import com.jvrcoding.lazypizza.product.presentation.model.Tab
 
 sealed interface ProductAction {

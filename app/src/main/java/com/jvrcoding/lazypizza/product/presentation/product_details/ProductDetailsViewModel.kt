@@ -1,12 +1,15 @@
 package com.jvrcoding.lazypizza.product.presentation.product_details
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jvrcoding.lazypizza.core.presentation.util.currencyToBigDecimal
-import com.jvrcoding.lazypizza.product.domain.ProductDataSource
-import com.jvrcoding.lazypizza.product.presentation.product_details.models.SelectedTopping
-import com.jvrcoding.lazypizza.product.presentation.product_details.util.toToppingUi
+import com.jvrcoding.lazypizza.product.domain.cart.CartDataSource
+import com.jvrcoding.lazypizza.product.domain.cart.CartProduct
+import com.jvrcoding.lazypizza.product.domain.cart.ProductTopping
+import com.jvrcoding.lazypizza.product.domain.product.ProductDataSource
+import com.jvrcoding.lazypizza.product.presentation.product_details.mappers.toToppingUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.launchIn
@@ -14,16 +17,20 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import java.time.Instant
 
 class ProductDetailsViewModel(
     private val productDataSource: ProductDataSource,
+    private val cartDataSource: CartDataSource,
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
     private var hasLoadedInitialData = false
 
     private val _state = MutableStateFlow(ProductDetailsState(
+        productId = savedStateHandle["productId"] ?: "",
         imageUrl = savedStateHandle["productImage"] ?: "",
         productName = savedStateHandle["productName"] ?: "",
         description = savedStateHandle["productDescription"] ?: "",
@@ -47,6 +54,7 @@ class ProductDetailsViewModel(
             is ProductDetailsAction.OnAddQuantity -> onAddQuantity(action.toppingId)
             is ProductDetailsAction.OnReduceQuantity -> onReduceQuantity(action.toppingId)
             is ProductDetailsAction.OnToppingSelect -> onToppingSelect(action.toppingId)
+            ProductDetailsAction.OnAddToCartClick -> onAddToCartClick()
             else -> Unit
         }
     }
@@ -61,19 +69,37 @@ class ProductDetailsViewModel(
             }.launchIn(viewModelScope)
     }
 
+    private fun onAddToCartClick() {
+        viewModelScope.launch {
+            val product = CartProduct(
+                productId = state.value.productId,
+                name = state.value.productName,
+                totalPrice = state.value.totalPrice,
+                description = state.value.description,
+                imageUrl = state.value.imageUrl,
+                quantity = 1,
+                createdAt = Instant.now(),
+                productToppings = state.value.selectedToppings
+            )
+            cartDataSource.insertCartProducts(product)
+        }
+    }
+
     private fun onToppingSelect(toppingId: String) {
         val current = state.value.selectedToppings.toMutableList()
 
         if(current.any { it.id == toppingId }) {
             return
         }
+        val topping = state.value.toppings.first {
+            it.id == toppingId
+        }
         current.add(
-            SelectedTopping(
+            ProductTopping(
                 id = toppingId,
+                name = topping.name,
                 quantity = 1,
-                price = state.value.toppings.first {
-                    it.id == toppingId
-                }.price.currencyToBigDecimal()
+                price = topping.price.currencyToBigDecimal(),
             )
         )
 

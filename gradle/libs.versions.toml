@@ -21,6 +21,7 @@ room = "2.8.2"
 ksp = "2.2.10-2.0.2"
 googleGmsGoogleServices = "4.4.4"
 firebaseBom = "34.4.0"
+desugar_jdk_libs = "2.1.5"
 
 
 [libraries]
@@ -66,6 +67,8 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
+
+desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 
 [bundles]
 room = ["room-ktx", "room-runtime"]
