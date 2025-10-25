@@ -1,7 +1,6 @@
 package com.jvrcoding.lazypizza.product.data.product
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.jvrcoding.lazypizza.product.data.product.ProductDto
 import com.jvrcoding.lazypizza.product.domain.product.Product
 import com.jvrcoding.lazypizza.product.domain.product.ProductDataSource
 import com.jvrcoding.lazypizza.product.domain.product.Topping
@@ -124,6 +123,23 @@ class FireStoreProductDataSource(
         )
 
         emit(toppingList)
+    }
+
+    override fun getRecommendedProducts(): Flow<List<Product>> = flow {
+        try {
+            val snapshot = firestore
+                .collection("products")
+                .whereIn("type", listOf("Sauces", "Drinks"))
+                .get()
+                .await()
+            val products = snapshot.documents.mapNotNull {
+                it.toObject(ProductDto::class.java)?.copy(id = it.id)
+            }
+
+            emit(products.map { it.toProduct() })
+        } catch (e: Exception) {
+            throw e
+        }
     }
 
 

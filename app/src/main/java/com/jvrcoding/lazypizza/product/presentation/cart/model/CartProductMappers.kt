@@ -1,6 +1,7 @@
 package com.jvrcoding.lazypizza.product.presentation.cart.model
 
 import com.jvrcoding.lazypizza.product.domain.cart.CartProduct
+import com.jvrcoding.lazypizza.product.domain.product.Product
 
 fun CartProduct.toCartProductUi(): CartProductUi {
     return CartProductUi(
@@ -10,5 +11,14 @@ fun CartProduct.toCartProductUi(): CartProductUi {
         description = productToppings.joinToString(", ") { "${it.quantity}x ${it.name}" },
         quantity = quantity,
         totalPrice = "$totalPrice"
+    )
+}
+
+fun Product.toRecommendProductUi(): RecommendedProductUi {
+    return RecommendedProductUi(
+        id = id,
+        imageUrl = imageUrl,
+        name = name,
+        price = "$$price"
     )
 }

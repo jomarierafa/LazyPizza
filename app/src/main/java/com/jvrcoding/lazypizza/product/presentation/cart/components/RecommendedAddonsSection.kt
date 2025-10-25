@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,9 +19,14 @@ import com.jvrcoding.lazypizza.R
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.label2SemiBold
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondary
+import com.jvrcoding.lazypizza.product.presentation.cart.model.RecommendedProductUi
 
 @Composable
-fun RecommendedAddOnsSection(modifier: Modifier = Modifier) {
+fun RecommendedAddOnsSection(
+    products: List<RecommendedProductUi>,
+    onAddClick: (RecommendedProductUi) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -42,12 +48,17 @@ fun RecommendedAddOnsSection(modifier: Modifier = Modifier) {
                 end = 16.dp
             )
         ) {
-            items(10) {
+            items(
+                items = products,
+                key = { it -> it.id }
+            ) { product ->
                 AddOnsItems(
-                    productName = "BBQ Sauce",
-                    imageUrl = "",
-                    price = "0.59",
-                    onAddClick = {}
+                    productName = product.name,
+                    imageUrl = product.imageUrl,
+                    price = product.price,
+                    onAddClick = {
+                        onAddClick(product)
+                    }
                 )
             }
         }
@@ -59,6 +70,15 @@ fun RecommendedAddOnsSection(modifier: Modifier = Modifier) {
 private fun RecommendedAddOnsSectionPreview() {
     LazyPizzaTheme {
         RecommendedAddOnsSection(
+            onAddClick = {},
+            products = (1..10).map {
+                RecommendedProductUi(
+                    id = it.toString(),
+                    imageUrl = "",
+                    name = "BBQ Sauce",
+                    price = "0.59"
+                )
+            }
         )
     }
 }

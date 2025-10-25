@@ -10,6 +10,10 @@ class RoomCartDataSource(
     private val cartDao: ProductDao
 ): CartDataSource {
 
+    override fun observeCartItemCount(): Flow<Int> {
+        return cartDao.observeProductCount()
+    }
+
     override fun observeCartProducts(): Flow<List<CartProduct>> {
         return cartDao
             .observeCartProducts()

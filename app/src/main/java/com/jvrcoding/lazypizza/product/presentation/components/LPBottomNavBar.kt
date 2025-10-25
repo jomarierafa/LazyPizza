@@ -28,6 +28,7 @@ import com.jvrcoding.lazypizza.product.presentation.model.Tab
 fun LPBottomNavBar(
     onItemClick: (Tab) -> Unit,
     selectedTab: Tab,
+    cartItemCount: Int,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -52,6 +53,7 @@ fun LPBottomNavBar(
                 label = item.label,
                 selected = selectedTab == item,
                 onClick = { onItemClick(item) },
+                badgeCount = if(item == Tab.CART) cartItemCount else 0,
                 modifier = Modifier
                     .padding(vertical = 10.dp)
                     .width(96.dp)
@@ -71,6 +73,7 @@ private fun LPBottomNavBarPreview() {
             LPBottomNavBar(
                 onItemClick = {},
                 selectedTab = Tab.MENU,
+                cartItemCount = 5,
                 modifier = Modifier.fillMaxWidth().align(alignment = Alignment.BottomCenter)
             )
         }

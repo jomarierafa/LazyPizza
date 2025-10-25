@@ -15,6 +15,9 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ProductDao {
 
+    @Query("SELECT COUNT(*) FROM productentity")
+    fun observeProductCount(): Flow<Int>
+
     @Transaction
     @Query("SELECT * FROM productentity ORDER BY createdAt DESC")
     fun observeCartProducts(): Flow<List<ProductWithToppings>>

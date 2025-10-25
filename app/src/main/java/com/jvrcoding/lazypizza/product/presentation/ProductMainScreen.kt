@@ -89,10 +89,10 @@ fun ProductMainScreen(
                 bottomBar = {
                     LPBottomNavBar(
                         onItemClick = { tab ->
-                            Log.d("awit", "$tab")
                             onAction(ProductAction.OnBottomNavigationItemClick(tab))
                         },
-                        selectedTab = state.selectedTab
+                        selectedTab = state.selectedTab,
+                        cartItemCount = state.cartItemCount
                     )
                 }
             ) { innerPadding ->

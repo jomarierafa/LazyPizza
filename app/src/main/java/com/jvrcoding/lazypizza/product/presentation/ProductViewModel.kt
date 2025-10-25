@@ -2,17 +2,22 @@ package com.jvrcoding.lazypizza.product.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jvrcoding.lazypizza.product.domain.cart.CartDataSource
 import com.jvrcoding.lazypizza.product.presentation.model.Tab
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class ProductViewModel(): ViewModel() {
+class ProductViewModel(
+    private val cartDataSource: CartDataSource
+): ViewModel() {
 
     private val eventChannel = Channel<ProductEvent>()
     val events = eventChannel.receiveAsFlow()
@@ -23,6 +28,7 @@ class ProductViewModel(): ViewModel() {
     val state = _state
         .onStart {
             if (!hasLoadedInitialData) {
+                observeCartItemCount()
                 hasLoadedInitialData = true
             }
         }
@@ -38,6 +44,16 @@ class ProductViewModel(): ViewModel() {
             else -> Unit
         }
 
+    }
+
+    private fun observeCartItemCount() {
+        cartDataSource
+            .observeCartItemCount()
+            .onEach { count ->
+                _state.update { it.copy(
+                    cartItemCount = count
+                ) }
+            }.launchIn(viewModelScope)
     }
 
     private fun onBottomNavigationItemClick(selectedTab: Tab) {

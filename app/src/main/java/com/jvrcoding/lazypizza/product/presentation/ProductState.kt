@@ -4,4 +4,5 @@ import com.jvrcoding.lazypizza.product.presentation.model.Tab
 
 data class ProductState(
     val selectedTab: Tab = Tab.MENU,
+    val cartItemCount: Int = 0
 )

@@ -5,4 +5,5 @@ import kotlinx.coroutines.flow.Flow
 interface ProductDataSource {
     fun getProducts(): Flow<List<Product>>
     fun getProductToppings(): Flow<List<Topping>>
+    fun getRecommendedProducts(): Flow<List<Product>>
 }

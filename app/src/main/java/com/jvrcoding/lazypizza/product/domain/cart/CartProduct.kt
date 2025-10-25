@@ -11,7 +11,7 @@ data class CartProduct(
     val description: String,
     val imageUrl: String,
     val quantity: Int,
-    val productToppings: List<ProductTopping>,
+    val productToppings: List<ProductTopping> = emptyList(),
     val createdAt: Instant
 )
 

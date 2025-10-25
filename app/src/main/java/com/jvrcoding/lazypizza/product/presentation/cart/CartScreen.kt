@@ -99,7 +99,12 @@ fun CartScreen(
                             Spacer(modifier = Modifier.height(8.dp))
                         }
                         item {
-                            RecommendedAddOnsSection()
+                            RecommendedAddOnsSection(
+                                products = state.recommendedProducts,
+                                onAddClick = {
+                                    onAction(CartAction.OnAddProduct(it))
+                                }
+                            )
                         }
                     }
                     PrimaryButton(
@@ -145,7 +150,12 @@ fun CartScreen(
                             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
                             .padding(vertical = 16.dp),
                     ) {
-                        RecommendedAddOnsSection()
+                        RecommendedAddOnsSection(
+                            products = state.recommendedProducts,
+                            onAddClick = {
+                                onAction(CartAction.OnAddProduct(it))
+                            }
+                        )
                         PrimaryButton(
                             modifier = Modifier
                                 .padding(horizontal = 16.dp )

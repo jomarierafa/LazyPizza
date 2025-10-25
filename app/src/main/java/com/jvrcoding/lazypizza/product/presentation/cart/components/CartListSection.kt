@@ -38,6 +38,7 @@ fun LazyListScope.cartListContent(
             selected = true,
             modifier = Modifier
                 .padding(horizontal = 16.dp)
+                .animateItem()
         )
     }
 }
