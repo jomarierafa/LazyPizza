@@ -1,5 +1,6 @@
 package com.jvrcoding.lazypizza.app.navigation
 
+import com.jvrcoding.lazypizza.product.presentation.model.Tab
 import kotlinx.serialization.Serializable
 
 sealed interface NavigationRoute {
@@ -8,7 +9,9 @@ sealed interface NavigationRoute {
     data object Product
 
     @Serializable
-    data object Main
+    data class Main(
+        val tab: Tab,
+    ): NavigationRoute
 
     @Serializable
     data class ProductDetails(

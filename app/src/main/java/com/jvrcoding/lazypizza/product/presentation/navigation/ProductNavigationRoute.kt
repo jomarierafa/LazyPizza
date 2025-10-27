@@ -4,9 +4,9 @@ import kotlinx.serialization.Serializable
 
 sealed interface ProductNavigationRoute {
     @Serializable
-    data object Menu
+    data object Menu: ProductNavigationRoute
     @Serializable
-    data object Cart
+    data object Cart: ProductNavigationRoute
     @Serializable
-    data object History
+    data object History: ProductNavigationRoute
 }

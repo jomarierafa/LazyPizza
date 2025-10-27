@@ -32,6 +32,7 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun ProductMainScreenRoot(
+    tab: Tab = Tab.MENU,
     onNavigateToProductDetails: (Product) -> Unit,
     viewModel: ProductViewModel = koinViewModel()
 ) {
@@ -53,6 +54,11 @@ fun ProductMainScreenRoot(
         }
     }
     ProductMainScreen(
+        startDestination = when(tab) {
+            Tab.MENU -> ProductNavigationRoute.Menu
+            Tab.CART -> ProductNavigationRoute.Cart
+            Tab.HISTORY -> ProductNavigationRoute.History
+        },
         navController = bottomNavController,
         state = state,
         onAction = { action ->
@@ -71,6 +77,7 @@ fun ProductMainScreenRoot(
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun ProductMainScreen(
+    startDestination: ProductNavigationRoute,
     navController: NavHostController,
     state: ProductState,
     onAction: (ProductAction) -> Unit,
@@ -99,7 +106,7 @@ fun ProductMainScreen(
             ) { innerPadding ->
                 NavHost(
                     navController = navController,
-                    startDestination = ProductNavigationRoute.Menu,
+                    startDestination = startDestination,
                     modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())
                 ) {
                     composable<ProductNavigationRoute.Menu> {

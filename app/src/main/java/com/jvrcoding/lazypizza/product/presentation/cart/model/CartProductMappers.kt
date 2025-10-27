@@ -9,7 +9,7 @@ fun CartProduct.toCartProductUi(): CartProductUi {
         productId = productId,
         imageUrl = imageUrl,
         name = name,
-        description = productToppings.joinToString(", ") { "${it.quantity}x ${it.name}" },
+        description = productToppings.joinToString("\n") { "${it.quantity}x ${it.name}" },
         quantity = quantity,
         totalPrice = "$totalPrice"
     )

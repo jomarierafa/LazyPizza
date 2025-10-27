@@ -35,6 +35,7 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.components.toolbar
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textPrimary
 import com.jvrcoding.lazypizza.core.presentation.util.DeviceConfiguration
+import com.jvrcoding.lazypizza.core.presentation.util.ObserveAsEvents
 import com.jvrcoding.lazypizza.product.presentation.product_details.components.TopSection
 import com.jvrcoding.lazypizza.product.presentation.product_details.components.ToppingSection
 import com.jvrcoding.lazypizza.product.presentation.product_details.models.ToppingUi
@@ -44,9 +45,17 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ProductDetailsScreenRoot(
     onBackClick: () -> Unit,
+    onNavigateToCartScreen: () -> Unit,
     viewModel: ProductDetailsViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    ObserveAsEvents(viewModel.events) { event ->
+        when(event) {
+            ProductDetailsEvent.NavigateToCartScreen -> {
+                onNavigateToCartScreen()
+            }
+        }
+    }
     ProductDetailsScreen(
         state = state,
         onAction = { action ->

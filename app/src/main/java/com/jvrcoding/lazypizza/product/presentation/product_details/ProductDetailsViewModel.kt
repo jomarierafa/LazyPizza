@@ -1,6 +1,5 @@
 package com.jvrcoding.lazypizza.product.presentation.product_details
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,11 +9,13 @@ import com.jvrcoding.lazypizza.product.domain.cart.CartProduct
 import com.jvrcoding.lazypizza.product.domain.cart.ProductTopping
 import com.jvrcoding.lazypizza.product.domain.product.ProductDataSource
 import com.jvrcoding.lazypizza.product.presentation.product_details.mappers.toToppingUi
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -49,6 +50,9 @@ class ProductDetailsViewModel(
             initialValue = ProductDetailsState()
         )
 
+    private val eventChannel = Channel<ProductDetailsEvent>()
+    val events = eventChannel.receiveAsFlow()
+
     fun onAction(action: ProductDetailsAction) {
         when (action) {
             is ProductDetailsAction.OnAddQuantity -> onAddQuantity(action.toppingId)
@@ -82,6 +86,7 @@ class ProductDetailsViewModel(
                 productToppings = state.value.selectedToppings
             )
             cartDataSource.insertCartProducts(product)
+            eventChannel.send(ProductDetailsEvent.NavigateToCartScreen)
         }
     }
 
