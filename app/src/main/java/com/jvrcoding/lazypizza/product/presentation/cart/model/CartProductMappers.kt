@@ -6,6 +6,7 @@ import com.jvrcoding.lazypizza.product.domain.product.Product
 fun CartProduct.toCartProductUi(): CartProductUi {
     return CartProductUi(
         id = uid ?: 0,
+        productId = productId,
         imageUrl = imageUrl,
         name = name,
         description = productToppings.joinToString(", ") { "${it.quantity}x ${it.name}" },
@@ -19,6 +20,6 @@ fun Product.toRecommendProductUi(): RecommendedProductUi {
         id = id,
         imageUrl = imageUrl,
         name = name,
-        price = "$$price"
+        price = "$price"
     )
 }

@@ -28,6 +28,10 @@ class RoomCartDataSource(
         cartDao.insertProductWithToppings(cartProducts.toProductWithToppings())
     }
 
+    override suspend fun updateQuantity(productUid: Int, quantity: Int) {
+        cartDao.updateQuantity(productUid, quantity)
+    }
+
     override suspend fun deleteCartItem(productUid: Int) {
         cartDao.deleteProduct(productUid)
     }

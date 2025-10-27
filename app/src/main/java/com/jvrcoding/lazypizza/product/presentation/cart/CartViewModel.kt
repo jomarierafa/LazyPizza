@@ -11,6 +11,7 @@ import com.jvrcoding.lazypizza.product.presentation.cart.model.toCartProductUi
 import com.jvrcoding.lazypizza.product.presentation.cart.model.toRecommendProductUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -45,6 +46,8 @@ class CartViewModel(
         when(action) {
             is CartAction.OnRemoveItem -> removeProductItem(action.productUid)
             is CartAction.OnAddProduct -> addProduct(action.productUi)
+            is CartAction.OnDecreaseQuantity -> decreaseQuantity(action.productUid)
+            is CartAction.OnIncreaseQuantity -> increaseQuantity(action.productUid)
         }
     }
 
@@ -58,14 +61,36 @@ class CartViewModel(
     }
 
     private fun observeRecommendedProducts() {
-        productDataSource.getRecommendedProducts()
-            .onEach { products ->
-                _state.update { it.copy(
-                    recommendedProducts = products.map {
-                        product -> product.toRecommendProductUi()
-                    }.shuffled()
-                ) }
-            }.launchIn(viewModelScope)
+        combine(
+            cartDataSource.observeCartProducts(),
+            productDataSource.getRecommendedProducts()
+        ) { cartProducts, recommendedProducts ->
+            _state.update {
+                it.copy(
+                    recommendedProducts = recommendedProducts
+                        .filter { product -> cartProducts.none { cart -> cart.productId == product.id } }
+                        .map { product -> product.toRecommendProductUi() }
+                )
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun increaseQuantity(productUid: Int) {
+        viewModelScope.launch {
+            cartDataSource.updateQuantity(
+                productUid = productUid,
+                quantity = state.value.products.first { it.id == productUid }.quantity + 1
+            )
+        }
+    }
+
+    private fun decreaseQuantity(productUid: Int) {
+        viewModelScope.launch {
+            cartDataSource.updateQuantity(
+                productUid = productUid,
+                quantity = state.value.products.first { it.id == productUid }.quantity - 1
+            )
+        }
     }
 
     fun removeProductItem(productUid: Int) {

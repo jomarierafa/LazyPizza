@@ -134,7 +134,7 @@ class FireStoreProductDataSource(
                 .await()
             val products = snapshot.documents.mapNotNull {
                 it.toObject(ProductDto::class.java)?.copy(id = it.id)
-            }
+            }.shuffled()
 
             emit(products.map { it.toProduct() })
         } catch (e: Exception) {

@@ -1,7 +1,6 @@
 package com.jvrcoding.lazypizza.core.database
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
@@ -55,4 +54,7 @@ interface ProductDao {
 
     @Query("DELETE FROM ProductEntity WHERE uid = :uid")
     suspend fun deleteProduct(uid: Int)
+
+    @Query("UPDATE productentity SET quantity = :quantity WHERE uid = :uid")
+    suspend fun updateQuantity(uid: Int, quantity: Int)
 }

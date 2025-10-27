@@ -61,6 +61,7 @@ fun ProductCard(
     description: String? = null,
     onAddToCardClick: () -> Unit = {},
     imageSize: Dp = 120.dp,
+    minQuantity: Int? = null
 ) {
     val isInPreview = LocalInspectionMode.current
 
@@ -162,7 +163,8 @@ fun ProductCard(
                             quantity = quantity,
                             onMinusClick = onMinusClick,
                             onAddClick = onAddClick,
-                            modifier = Modifier.width(96.dp)
+                            modifier = Modifier.width(96.dp),
+                            minQuantity = minQuantity
                         )
                         Column(
                             horizontalAlignment = Alignment.End

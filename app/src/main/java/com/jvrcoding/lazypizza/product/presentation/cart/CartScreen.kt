@@ -112,7 +112,7 @@ fun CartScreen(
                             .padding(horizontal = 16.dp)
                             .fillMaxWidth()
                             .align(Alignment.BottomCenter),
-                        text = "Proceed to checkout ${1}",
+                        text = stringResource(R.string.proceed_to_checkout, state.totalPrice),
                         onClick = {}
                     )
                 }
@@ -158,9 +158,9 @@ fun CartScreen(
                         )
                         PrimaryButton(
                             modifier = Modifier
-                                .padding(horizontal = 16.dp )
+                                .padding(horizontal = 16.dp)
                                 .fillMaxWidth(),
-                            text = "Proceed to checkout ${1}",
+                            text = stringResource(R.string.proceed_to_checkout, state.totalPrice),
                             onClick = {}
                         )
                     }

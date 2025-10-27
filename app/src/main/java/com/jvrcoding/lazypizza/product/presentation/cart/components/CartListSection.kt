@@ -22,6 +22,7 @@ fun LazyListScope.cartListContent(
         key = { it -> it.id }
     ) {product ->
         ProductCard(
+            minQuantity = 1,
             imageUrl = product.imageUrl,
             productName = product.name,
             productPrice = product.totalPrice,
@@ -29,8 +30,10 @@ fun LazyListScope.cartListContent(
             quantity = product.quantity.toString(),
             imageSize = 106.dp,
             onAddClick = {
+                onAction(CartAction.OnIncreaseQuantity(product.id))
             },
             onMinusClick = {
+                onAction(CartAction.OnDecreaseQuantity(product.id))
             },
             onRemoveClick = {
                 onAction(CartAction.OnRemoveItem(product.id))

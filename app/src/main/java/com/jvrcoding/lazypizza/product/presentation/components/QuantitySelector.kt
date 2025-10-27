@@ -23,7 +23,8 @@ fun QuantitySelector(
     onMinusClick: () -> Unit,
     onAddClick: () -> Unit,
     modifier: Modifier = Modifier,
-    maxQuantity: Int = 1000
+    maxQuantity: Int = 1000,
+    minQuantity: Int? = null,
 ) {
 
     Row(
@@ -33,7 +34,8 @@ fun QuantitySelector(
             icon = MinusIcon,
             iconTint = MaterialTheme.colorScheme.textSecondary,
             onClick = onMinusClick,
-            modifier = Modifier.size(22.dp)
+            modifier = Modifier.size(22.dp),
+            enabled = minQuantity != null && quantity.toInt() > minQuantity,
         )
 
         Text(
