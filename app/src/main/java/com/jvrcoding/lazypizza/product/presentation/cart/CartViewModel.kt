@@ -48,6 +48,7 @@ class CartViewModel(
             is CartAction.OnAddProduct -> addProduct(action.productUi)
             is CartAction.OnDecreaseQuantity -> decreaseQuantity(action.productUid)
             is CartAction.OnIncreaseQuantity -> increaseQuantity(action.productUid)
+            else -> Unit
         }
     }
 

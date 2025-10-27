@@ -1,6 +1,5 @@
 package com.jvrcoding.lazypizza.product.presentation
 
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Row
@@ -24,6 +23,7 @@ import com.jvrcoding.lazypizza.product.presentation.cart.CartScreenRoot
 import com.jvrcoding.lazypizza.product.presentation.components.LPBottomNavBar
 import com.jvrcoding.lazypizza.product.presentation.components.LPNavigationRail
 import com.jvrcoding.lazypizza.product.presentation.menu.MenuScreenRoot
+import com.jvrcoding.lazypizza.product.presentation.model.Tab
 import com.jvrcoding.lazypizza.product.presentation.navigation.ProductNavigationRoute
 import com.jvrcoding.lazypizza.product.presentation.order_history.OrderHistoryScreenRoot
 import org.koin.androidx.compose.koinViewModel
@@ -39,16 +39,17 @@ fun ProductMainScreenRoot(
 
     val bottomNavController = rememberNavController()
     ObserveAsEvents(flow = viewModel.events) { event ->
-        when(event) {
-            ProductEvent.NavigateToMenu -> {
-                bottomNavController.navigate(ProductNavigationRoute.Menu)
+        val route = when (event) {
+            ProductEvent.NavigateToMenu -> ProductNavigationRoute.Menu
+            ProductEvent.NavigateToCart -> ProductNavigationRoute.Cart
+            ProductEvent.NavigateToHistory -> ProductNavigationRoute.History
+        }
+        bottomNavController.navigate(route) {
+            popUpTo(bottomNavController.currentDestination!!.id) {
+                saveState = true
+                inclusive = true
             }
-            ProductEvent.NavigateToCart -> {
-                bottomNavController.navigate(ProductNavigationRoute.Cart)
-            }
-            ProductEvent.NavigateToHistory -> {
-                bottomNavController.navigate(ProductNavigationRoute.History)
-            }
+            restoreState = true
         }
     }
     ProductMainScreen(
@@ -109,7 +110,11 @@ fun ProductMainScreen(
                         )
                     }
                     composable<ProductNavigationRoute.Cart> {
-                        CartScreenRoot()
+                        CartScreenRoot(
+                            onBackToMenuClick = {
+                                onAction(ProductAction.OnBottomNavigationItemClick(Tab.MENU))
+                            }
+                        )
                     }
                     composable<ProductNavigationRoute.History> {
                         OrderHistoryScreenRoot()
@@ -139,7 +144,11 @@ fun ProductMainScreen(
                         )
                     }
                     composable<ProductNavigationRoute.Cart> {
-                        CartScreenRoot()
+                        CartScreenRoot(
+                            onBackToMenuClick = {
+                                onAction(ProductAction.OnBottomNavigationItemClick(Tab.MENU))
+                            }
+                        )
                     }
                     composable<ProductNavigationRoute.History> {
                         OrderHistoryScreenRoot()

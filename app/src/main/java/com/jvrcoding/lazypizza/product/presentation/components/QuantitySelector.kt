@@ -35,7 +35,7 @@ fun QuantitySelector(
             iconTint = MaterialTheme.colorScheme.textSecondary,
             onClick = onMinusClick,
             modifier = Modifier.size(22.dp),
-            enabled = minQuantity != null && quantity.toInt() > minQuantity,
+            enabled = minQuantity == null || quantity.toInt() > minQuantity,
         )
 
         Text(

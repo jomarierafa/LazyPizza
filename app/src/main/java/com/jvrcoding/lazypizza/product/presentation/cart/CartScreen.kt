@@ -41,16 +41,22 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textPrimary
 import com.jvrcoding.lazypizza.core.presentation.util.DeviceConfiguration
 import com.jvrcoding.lazypizza.product.presentation.cart.components.RecommendedAddOnsSection
 import com.jvrcoding.lazypizza.product.presentation.cart.components.cartListContent
+import com.jvrcoding.lazypizza.product.presentation.components.EmptyStateScreen
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun CartScreenRoot(
+    onBackToMenuClick: () -> Unit,
     viewModel: CartViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     CartScreen(
         state = state,
         onAction = { action ->
+            when(action) {
+                CartAction.OnBackToMenuClick -> onBackToMenuClick()
+                else -> Unit
+            }
             viewModel.onAction(action)
         }
     )
@@ -81,40 +87,52 @@ fun CartScreen(
             DeviceConfiguration.MOBILE_PORTRAIT,
             DeviceConfiguration.MOBILE_LANDSCAPE,
             DeviceConfiguration.TABLET_PORTRAIT -> {
-                Box(
-                    modifier = Modifier
-                        .padding(top = innerPadding.calculateTopPadding())
-                        .fillMaxSize()
-                ) {
-                    LazyColumn(
-                        modifier = Modifier,
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(bottom = 64.dp)
-                    ) {
-                        cartListContent(
-                            products = state.products,
-                            onAction = onAction
-                        )
-                        item {
-                            Spacer(modifier = Modifier.height(8.dp))
+                if(state.products.isEmpty()) {
+                    EmptyStateScreen(
+                        modifier = Modifier.padding(innerPadding),
+                        title = stringResource(R.string.your_cart_is_empty),
+                        subtitle = stringResource(R.string.head_back_to_the_menu_and_grab_a_pizza_you_love),
+                        buttonText = stringResource(R.string.back_to_menu),
+                        onButtonClick = {
+                            onAction(CartAction.OnBackToMenuClick)
                         }
-                        item {
-                            RecommendedAddOnsSection(
-                                products = state.recommendedProducts,
-                                onAddClick = {
-                                    onAction(CartAction.OnAddProduct(it))
-                                }
-                            )
-                        }
-                    }
-                    PrimaryButton(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .fillMaxWidth()
-                            .align(Alignment.BottomCenter),
-                        text = stringResource(R.string.proceed_to_checkout, state.totalPrice),
-                        onClick = {}
                     )
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .padding(top = innerPadding.calculateTopPadding())
+                            .fillMaxSize()
+                    ) {
+                        LazyColumn(
+                            modifier = Modifier,
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(bottom = 64.dp)
+                        ) {
+                            cartListContent(
+                                products = state.products,
+                                onAction = onAction
+                            )
+                            item {
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
+                            item {
+                                RecommendedAddOnsSection(
+                                    products = state.recommendedProducts,
+                                    onAddClick = {
+                                        onAction(CartAction.OnAddProduct(it))
+                                    }
+                                )
+                            }
+                        }
+                        PrimaryButton(
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp)
+                                .fillMaxWidth()
+                                .align(Alignment.BottomCenter),
+                            text = stringResource(R.string.proceed_to_checkout, state.totalPrice),
+                            onClick = {}
+                        )
+                    }
                 }
 
             }

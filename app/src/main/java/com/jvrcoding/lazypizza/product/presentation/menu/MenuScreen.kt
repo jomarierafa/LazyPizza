@@ -168,7 +168,7 @@ fun MenuScreen(
                                 productPrice = product.price,
                                 quantity = "${selectedItem?.quantity}",
                                 onAddToCardClick = {
-                                    onAction(MenuAction.OnAddToCardClick(product.id))
+                                    onAction(MenuAction.OnAddToCardClick(product))
                                 },
                                 onAddClick = {
                                     onAction(MenuAction.OnAddClick(product.id))
