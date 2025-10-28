@@ -148,49 +148,61 @@ fun CartScreen(
             }
             DeviceConfiguration.TABLET_LANDSCAPE,
             DeviceConfiguration.DESKTOP -> {
-                Row(
-                    modifier = Modifier
-                        .padding(top = innerPadding.calculateTopPadding())
-                        .fillMaxSize(),
-                ) {
-                    LazyColumn(
-                        modifier = Modifier.width(380.dp),
-                        contentPadding = PaddingValues(bottom = 8.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        cartListContent(
-                            products = state.products,
-                            onAction = onAction
-                        )
-                    }
-                    Column(
+                if(state.products.isEmpty()) {
+                    EmptyStateScreen(
+                        modifier = Modifier.padding(innerPadding),
+                        title = stringResource(R.string.your_cart_is_empty),
+                        subtitle = stringResource(R.string.head_back_to_the_menu_and_grab_a_pizza_you_love),
+                        buttonText = stringResource(R.string.back_to_menu),
+                        onButtonClick = {
+                            onAction(CartAction.OnBackToMenuClick)
+                        }
+                    )
+                } else {
+                    Row(
                         modifier = Modifier
-                            .clip(RoundedCornerShape(topStart = 16.dp, bottomStart = 16.dp))
-                            .dropShadow(
-                                shape = RectangleShape,
-                                shadow = Shadow(
-                                    radius = 16.dp,
-                                    spread = 0.dp,
-                                    color = MaterialTheme.colorScheme.textPrimary.copy(alpha = 0.04f),
-                                    offset = DpOffset(x = 0.dp, (-4).dp)
-                                )
-                            )
-                            .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                            .padding(vertical = 16.dp),
+                            .padding(top = innerPadding.calculateTopPadding())
+                            .fillMaxSize(),
                     ) {
-                        RecommendedAddOnsSection(
-                            products = state.recommendedProducts,
-                            onAddClick = {
-                                onAction(CartAction.OnAddProduct(it))
-                            }
-                        )
-                        PrimaryButton(
+                        LazyColumn(
+                            modifier = Modifier.width(380.dp),
+                            contentPadding = PaddingValues(bottom = 8.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            cartListContent(
+                                products = state.products,
+                                onAction = onAction
+                            )
+                        }
+                        Column(
                             modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .fillMaxWidth(),
-                            text = stringResource(R.string.proceed_to_checkout, state.totalPrice),
-                            onClick = {}
-                        )
+                                .clip(RoundedCornerShape(topStart = 16.dp, bottomStart = 16.dp))
+                                .dropShadow(
+                                    shape = RectangleShape,
+                                    shadow = Shadow(
+                                        radius = 16.dp,
+                                        spread = 0.dp,
+                                        color = MaterialTheme.colorScheme.textPrimary.copy(alpha = 0.04f),
+                                        offset = DpOffset(x = 0.dp, (-4).dp)
+                                    )
+                                )
+                                .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                                .padding(vertical = 16.dp),
+                        ) {
+                            RecommendedAddOnsSection(
+                                products = state.recommendedProducts,
+                                onAddClick = {
+                                    onAction(CartAction.OnAddProduct(it))
+                                }
+                            )
+                            PrimaryButton(
+                                modifier = Modifier
+                                    .padding(horizontal = 16.dp)
+                                    .fillMaxWidth(),
+                                text = stringResource(R.string.proceed_to_checkout, state.totalPrice),
+                                onClick = {}
+                            )
+                        }
                     }
                 }
             }

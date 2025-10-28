@@ -18,6 +18,7 @@ import com.jvrcoding.lazypizza.product.presentation.model.Tab
 fun LPNavigationRail(
     onItemClick: (Tab) -> Unit,
     selectedTab: Tab,
+    cartItemCount: Int,
     modifier: Modifier = Modifier
 ) {
     NavigationRail(
@@ -37,6 +38,7 @@ fun LPNavigationRail(
                 label = item.label,
                 selected = selectedTab == item,
                 onClick = { onItemClick(item) },
+                badgeCount = if(item == Tab.CART) cartItemCount else 0,
                 modifier = Modifier
                     .padding(vertical = 8.dp)
                     .width(54.dp)
@@ -52,7 +54,8 @@ private fun LPNavigationRailPreview() {
     LazyPizzaTheme {
         LPNavigationRail(
             onItemClick = {},
-            selectedTab = Tab.HISTORY
+            selectedTab = Tab.HISTORY,
+            cartItemCount = 3
         )
     }
 }

@@ -137,11 +137,12 @@ fun ProductMainScreen(
                     onItemClick = { tab ->
                         onAction(ProductAction.OnBottomNavigationItemClick(tab))
                     },
-                    selectedTab = state.selectedTab
+                    selectedTab = state.selectedTab,
+                    cartItemCount = state.cartItemCount
                 )
                 NavHost(
                     navController = navController,
-                    startDestination = ProductNavigationRoute.Menu,
+                    startDestination = startDestination,
                 ) {
                     composable<ProductNavigationRoute.Menu> {
                         MenuScreenRoot(
