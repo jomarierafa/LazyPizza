@@ -1,5 +1,6 @@
 package com.jvrcoding.lazypizza.product.presentation
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jvrcoding.lazypizza.product.domain.cart.CartDataSource
@@ -16,7 +17,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ProductViewModel(
-    private val cartDataSource: CartDataSource
+    private val cartDataSource: CartDataSource,
+    savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
     private val eventChannel = Channel<ProductEvent>()
@@ -24,7 +26,9 @@ class ProductViewModel(
 
     private var hasLoadedInitialData = false
 
-    private val _state = MutableStateFlow(ProductState())
+    private val _state = MutableStateFlow(ProductState(
+        selectedTab = savedStateHandle["tab"] ?: Tab.MENU
+    ))
     val state = _state
         .onStart {
             if (!hasLoadedInitialData) {
