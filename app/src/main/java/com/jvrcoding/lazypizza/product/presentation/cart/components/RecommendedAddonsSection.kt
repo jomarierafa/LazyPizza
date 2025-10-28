@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +23,6 @@ import com.jvrcoding.lazypizza.product.presentation.cart.model.RecommendedProduc
 
 @Composable
 fun RecommendedAddOnsSection(
-    listState: LazyListState = rememberLazyListState(),
     products: List<RecommendedProductUi>,
     onAddClick: (RecommendedProductUi) -> Unit,
     modifier: Modifier = Modifier
@@ -44,7 +41,6 @@ fun RecommendedAddOnsSection(
             color = MaterialTheme.colorScheme.textSecondary,
         )
         LazyRow(
-            state = listState,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(
                 bottom = 12.dp,
