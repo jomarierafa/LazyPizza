@@ -13,6 +13,8 @@ val SurfaceHigher = Color(0xFFFFFFFF)
 val SurfaceHighest = Color(0xFFF0F3F6)
 val Outline = Color(0xFFE6E7ED)
 val Primary = Color(0xFFF36B50)
+val Warning = Color(0xFFF9A825)
+val Success = Color(0xFF2E7D32)
 
 val ColorScheme.primaryGradient: Brush
     get() = Brush.linearGradient(

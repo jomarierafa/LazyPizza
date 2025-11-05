@@ -17,4 +17,7 @@
     <string name="your_cart_is_empty">Your Cart Is Empty</string>
     <string name="head_back_to_the_menu_and_grab_a_pizza_you_love">Head back to the menu and grab a pizza you love.</string>
     <string name="back_to_menu">Back to Menu</string>
+    <string name="total_amount">Total amount:</string>
+    <string name="ongoing">In Progress</string>
+    <string name="completed">Completed</string>
 </resources>

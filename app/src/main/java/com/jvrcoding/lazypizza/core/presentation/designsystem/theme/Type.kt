@@ -70,6 +70,13 @@ val Label2SemiBold =  TextStyle(
     lineHeight = 16.sp
 )
 
+val Label3Medium =  TextStyle(
+    fontFamily = INSTRUMENT_SANS,
+    fontWeight = FontWeight.Medium,
+    fontSize = 10.sp,
+    lineHeight = 14.sp
+)
+
 val Body1Regular =  TextStyle(
     fontFamily = INSTRUMENT_SANS,
     fontWeight = FontWeight.Normal,
@@ -129,6 +136,9 @@ val Typography.title4: TextStyle
 
 val Typography.label2SemiBold: TextStyle
     get() = Label2SemiBold
+
+val Typography.label3Medium: TextStyle
+    get() = Label3Medium
 
 val Typography.body1Regular: TextStyle
     get() = Body1Regular

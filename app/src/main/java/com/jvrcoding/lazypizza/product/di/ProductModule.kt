@@ -8,6 +8,7 @@ import com.jvrcoding.lazypizza.product.presentation.ProductViewModel
 import com.jvrcoding.lazypizza.product.presentation.cart.CartViewModel
 import com.jvrcoding.lazypizza.product.presentation.product_details.ProductDetailsViewModel
 import com.jvrcoding.lazypizza.product.presentation.menu.MenuViewModel
+import com.jvrcoding.lazypizza.product.presentation.order_history.OrderHistoryViewModel
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
@@ -21,5 +22,6 @@ val productModule = module {
     viewModelOf(::MenuViewModel)
     viewModelOf(::ProductDetailsViewModel)
     viewModelOf(::CartViewModel)
+    viewModelOf(::OrderHistoryViewModel)
 
 }
