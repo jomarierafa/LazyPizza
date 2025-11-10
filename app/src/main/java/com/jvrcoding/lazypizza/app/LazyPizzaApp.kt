@@ -2,6 +2,7 @@ package com.jvrcoding.lazypizza.app
 
 import android.app.Application
 import com.jvrcoding.lazypizza.app.di.appModule
+import com.jvrcoding.lazypizza.auth.di.authModule
 import com.jvrcoding.lazypizza.core.database.di.databaseModule
 import com.jvrcoding.lazypizza.product.di.productModule
 import kotlinx.coroutines.CoroutineScope
@@ -19,6 +20,7 @@ class LazyPizzaApp: Application() {
             androidContext(this@LazyPizzaApp)
             modules(
                 appModule,
+                authModule,
                 productModule,
                 databaseModule
             )

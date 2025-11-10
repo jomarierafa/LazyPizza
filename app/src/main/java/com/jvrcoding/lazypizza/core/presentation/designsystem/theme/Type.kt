@@ -84,6 +84,13 @@ val Body1Regular =  TextStyle(
     lineHeight = 22.sp
 )
 
+val Body2Regular =  TextStyle(
+    fontFamily = INSTRUMENT_SANS,
+    fontWeight = FontWeight.Normal,
+    fontSize = 15.sp,
+    lineHeight = 22.sp
+)
+
 val Body1Medium =  TextStyle(
     fontFamily = INSTRUMENT_SANS,
     fontWeight = FontWeight.Medium,
@@ -103,6 +110,13 @@ val Body3Medium =  TextStyle(
     fontWeight = FontWeight.Medium,
     fontSize = 14.sp,
     lineHeight = 18.sp
+)
+
+val Body4Medium = TextStyle(
+    fontFamily = INSTRUMENT_SANS,
+    fontWeight = FontWeight.Medium,
+    fontSize = 12.sp,
+    lineHeight = 16.sp
 )
 
 val Body3Bold =  TextStyle(
@@ -143,6 +157,9 @@ val Typography.label3Medium: TextStyle
 val Typography.body1Regular: TextStyle
     get() = Body1Regular
 
+val Typography.body2Regular: TextStyle
+    get() = Body2Regular
+
 val Typography.body1Medium: TextStyle
     get() = Body1Medium
 
@@ -151,6 +168,9 @@ val Typography.body3Regular: TextStyle
 
 val Typography.body3Medium: TextStyle
     get() = Body3Medium
+
+val Typography.body4Medium: TextStyle
+    get() = Body4Medium
 
 val Typography.body3Bold: TextStyle
     get() = Body3Bold
