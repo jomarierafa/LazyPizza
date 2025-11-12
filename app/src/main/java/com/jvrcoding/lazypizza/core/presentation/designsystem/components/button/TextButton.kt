@@ -1,5 +1,6 @@
 package com.jvrcoding.lazypizza.core.presentation.designsystem.components.button
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
@@ -10,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.Primary
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textPrimary
@@ -29,6 +31,7 @@ fun TextButton(
             shape = CircleShape,
             onClick = onClick,
             enabled = enabled,
+            modifier = modifier.height(40.dp),
         ) {
             Text(
                 text = text,

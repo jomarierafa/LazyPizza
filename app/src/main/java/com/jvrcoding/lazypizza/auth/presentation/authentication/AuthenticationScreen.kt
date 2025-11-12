@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +25,9 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -39,6 +43,7 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textPrimary
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondary
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.title1Medium
 import org.koin.androidx.compose.koinViewModel
+import java.util.concurrent.TimeUnit
 
 @Composable
 fun AuthenticationScreenRoot(
@@ -109,53 +114,64 @@ fun AuthenticationScreen(
             )
             Spacer(Modifier.height(16.dp))
             PrimaryTextField(
-                value = "",
-                onValueChange = {},
-                placeholder = "+1 000 000 0000",
-                modifier = Modifier.padding()
+                value = state.phoneNumber,
+                onValueChange = {
+                    onAction(AuthenticationAction.OnPhoneNumberChange(it))
+                },
+                placeholder = stringResource(R.string.phone_number_placeholder),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Phone,
+                    imeAction = ImeAction.Done
+                )
             )
-            Spacer(Modifier.height(8.dp))
 
-            Row(
-                modifier = Modifier,
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
-            ) {
-                state.code.forEachIndexed { index, number ->
-                    OtpInputField(
-                        number = number,
-                        focusRequester = focusRequesters[index],
-                        onFocusChanged = { isFocused ->
-                            if(isFocused) {
-                                onAction(AuthenticationAction.OnChangeFieldFocused(index))
-                            }
-                        },
-                        isError = false,
-                        onNumberChanged = { newNumber ->
-                            onAction(AuthenticationAction.OnEnterNumber(newNumber, index))
-                        },
-                        onKeyboardBack = {
-                            onAction(AuthenticationAction.OnKeyboardBack)
-                        },
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(48.dp)
+            if(state.isVerificationPhase) {
+                Spacer(Modifier.height(8.dp))
+                Row(
+                    modifier = Modifier,
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
+                ) {
+                    state.code.forEachIndexed { index, number ->
+                        OtpInputField(
+                            number = number,
+                            focusRequester = focusRequesters[index],
+                            onFocusChanged = { isFocused ->
+                                if(isFocused) {
+                                    onAction(AuthenticationAction.OnChangeFieldFocused(index))
+                                }
+                            },
+                            isError = state.showIncorrectCodeMessage,
+                            onNumberChanged = { newNumber ->
+                                onAction(AuthenticationAction.OnEnterNumber(newNumber, index))
+                            },
+                            onKeyboardBack = {
+                                onAction(AuthenticationAction.OnKeyboardBack)
+                            },
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(48.dp)
+                        )
+                    }
+                }
+                if(state.showIncorrectCodeMessage) {
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        text = stringResource(R.string.incorrect_code_please_try_again),
+                        style = MaterialTheme.typography.body4Medium,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
             }
-            Spacer(Modifier.height(8.dp))
-            Text(
-                text = stringResource(R.string.incorrect_code_please_try_again),
-                style = MaterialTheme.typography.body4Medium,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.fillMaxWidth()
-            )
             Spacer(Modifier.height(16.dp))
 
+
             PrimaryButton(
-                text = stringResource(R.string.confirm),
-                enabled = true,
+                text = state.buttonText.asString(),
+                enabled = state.isPhoneNumberValid,
                 onClick = {
+                   onAction(AuthenticationAction.OnPrimaryButtonClick)
                 },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -163,11 +179,28 @@ fun AuthenticationScreen(
                 text = stringResource(R.string.continue_without_signing_in),
                 onClick = {}
             )
-            TextButton(
-                text = stringResource(R.string.resend_code),
-                onClick = {}
-            )
-
+            if(state.isVerificationPhase) {
+                if(state.showResendTimer) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = stringResource(
+                            R.string.you_can_request_a_new_code_in_00,
+                            state.remainingTime
+                        ),
+                        style = MaterialTheme.typography.body3Regular.copy(
+                            fontFeatureSettings = "tnum",
+                            textAlign = TextAlign.Center
+                        ),
+                        color = MaterialTheme.colorScheme.textSecondary,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                } else {
+                    TextButton(
+                        text = stringResource(R.string.resend_code),
+                        onClick = {}
+                    )
+                }
+            }
         }
     }
 
@@ -178,7 +211,9 @@ fun AuthenticationScreen(
 private fun AuthenticationScreenPreview() {
     LazyPizzaTheme {
         AuthenticationScreen(
-            state = AuthenticationState(),
+            state = AuthenticationState(
+                isVerificationPhase = true
+            ),
             onAction = {}
         )
     }

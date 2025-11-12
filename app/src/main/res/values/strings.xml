@@ -23,7 +23,10 @@
     <string name="welcome_to_lazypizza">Welcome to LazyPizza</string>
     <string name="enter_your_phone_number">Enter your phone number</string>
     <string name="confirm">Confirm</string>
+    <string name="_continue">Continue</string>
     <string name="continue_without_signing_in">Continue without signing in</string>
     <string name="resend_code">Resend Code</string>
     <string name="incorrect_code_please_try_again">Incorrect code. Please try again</string>
+    <string name="phone_number_placeholder">+1 000 000 0000</string>
+    <string name="you_can_request_a_new_code_in_00">You can request a new code in 00:%1$d</string>
 </resources>
