@@ -1,10 +1,13 @@
 package com.jvrcoding.lazypizza.app.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navigation
 import androidx.navigation.toRoute
+import com.jvrcoding.lazypizza.auth.presentation.authentication.AuthenticationScreenRoot
 import com.jvrcoding.lazypizza.product.presentation.ProductMainScreenRoot
 import com.jvrcoding.lazypizza.product.presentation.model.Tab
 import com.jvrcoding.lazypizza.product.presentation.product_details.ProductDetailsScreenRoot
@@ -16,6 +19,33 @@ fun NavigationRoot(
 ) {
     NavHost(
         navController = navController,
+        startDestination = NavigationGraph.ProductGraph
+    ) {
+        authGraph(
+            navController = navController
+        )
+        productGraph(
+            navController = navController
+        )
+    }
+}
+
+private fun NavGraphBuilder.authGraph(
+    navController: NavHostController
+) {
+    navigation<NavigationGraph.AuthGraph>(
+        startDestination = NavigationRoute.Authentication
+    ) {
+        composable<NavigationRoute.Authentication> {
+            AuthenticationScreenRoot()
+        }
+    }
+}
+
+private fun NavGraphBuilder.productGraph(
+    navController: NavHostController
+) {
+    navigation<NavigationGraph.ProductGraph>(
         startDestination = NavigationRoute.Main(Tab.MENU)
     ) {
         composable<NavigationRoute.Main> { backStackEntry ->
@@ -24,6 +54,9 @@ fun NavigationRoot(
                 tab = route.tab,
                 onNavigateToProductDetails = { product ->
                     navController.navigate(product.toProductDetailsRoute())
+                },
+                onNavigateToAuthentication = {
+                    navController.navigate(NavigationGraph.AuthGraph)
                 }
             )
         }

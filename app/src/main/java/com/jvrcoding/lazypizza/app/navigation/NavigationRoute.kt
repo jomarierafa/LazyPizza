@@ -21,4 +21,7 @@ sealed interface NavigationRoute {
         val productName: String,
         val productDescription: String,
     ) : NavigationRoute
+
+    @Serializable
+    data object Authentication
 }

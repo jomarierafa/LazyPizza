@@ -24,17 +24,24 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun OrderHistoryScreenRoot(
+    onNavigateToAuthentication: () -> Unit,
     viewModel: OrderHistoryViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     OrderHistoryScreen(
-        state = state
+        state = state,
+        onAction = {
+            when(it) {
+                OrderHistoryAction.OnSignInClick -> onNavigateToAuthentication()
+            }
+        }
     )
 }
 
 @Composable
 fun OrderHistoryScreen(
-    state: OrderHistoryState
+    state: OrderHistoryState,
+    onAction: (OrderHistoryAction) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -50,7 +57,9 @@ fun OrderHistoryScreen(
                 title = stringResource(R.string.not_signed_in),
                 subtitle = stringResource(R.string.please_sign_in_to_view_your_order_history),
                 buttonText = stringResource(R.string.sign_in),
-                onButtonClick = {}
+                onButtonClick = {
+                    onAction(OrderHistoryAction.OnSignInClick)
+                }
             )
         } else {
             LazyVerticalStaggeredGrid(
@@ -83,7 +92,8 @@ private fun OrderHistoryScreenPreview() {
         OrderHistoryScreen(
             state = OrderHistoryState(
                 isUserSignedIn = true
-            )
+            ),
+            onAction = {}
         )
     }
 }

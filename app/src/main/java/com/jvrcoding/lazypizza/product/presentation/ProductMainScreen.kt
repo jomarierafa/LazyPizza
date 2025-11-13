@@ -34,6 +34,7 @@ import org.koin.androidx.compose.koinViewModel
 fun ProductMainScreenRoot(
     tab: Tab = Tab.MENU,
     onNavigateToProductDetails: (Product) -> Unit,
+    onNavigateToAuthentication: () -> Unit,
     viewModel: ProductViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -63,9 +64,8 @@ fun ProductMainScreenRoot(
         state = state,
         onAction = { action ->
             when(action) {
-                is ProductAction.OnProductClick -> {
-                    onNavigateToProductDetails(action.product)
-                }
+                is ProductAction.OnProductClick -> onNavigateToProductDetails(action.product)
+                is ProductAction.OnNavigateToAuthentication -> onNavigateToAuthentication()
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -124,7 +124,11 @@ fun ProductMainScreen(
                         )
                     }
                     composable<ProductNavigationRoute.History> {
-                        OrderHistoryScreenRoot()
+                        OrderHistoryScreenRoot(
+                            onNavigateToAuthentication = {
+                                onAction(ProductAction.OnNavigateToAuthentication)
+                            }
+                        )
                     }
                 }
 
@@ -159,7 +163,11 @@ fun ProductMainScreen(
                         )
                     }
                     composable<ProductNavigationRoute.History> {
-                        OrderHistoryScreenRoot()
+                        OrderHistoryScreenRoot(
+                            onNavigateToAuthentication = {
+                                onAction(ProductAction.OnNavigateToAuthentication)
+                            }
+                        )
                     }
                 }
 
