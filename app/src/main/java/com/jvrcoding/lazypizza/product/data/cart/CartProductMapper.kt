@@ -1,8 +1,8 @@
 package com.jvrcoding.lazypizza.product.data.cart
 
-import com.jvrcoding.lazypizza.core.database.product.ProductEntity
-import com.jvrcoding.lazypizza.core.database.product_topping_relation.ProductWithToppings
-import com.jvrcoding.lazypizza.core.database.topping.ToppingEntity
+import com.jvrcoding.lazypizza.core.data.database.product.ProductEntity
+import com.jvrcoding.lazypizza.core.data.database.product_topping_relation.ProductWithToppings
+import com.jvrcoding.lazypizza.core.data.database.topping.ToppingEntity
 import com.jvrcoding.lazypizza.product.domain.cart.CartProduct
 import com.jvrcoding.lazypizza.product.domain.cart.ProductTopping
 import java.time.Instant

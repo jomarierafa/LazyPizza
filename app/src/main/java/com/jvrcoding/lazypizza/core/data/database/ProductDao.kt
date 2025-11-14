@@ -1,12 +1,12 @@
-package com.jvrcoding.lazypizza.core.database
+package com.jvrcoding.lazypizza.core.data.database
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import com.jvrcoding.lazypizza.core.database.product.ProductEntity
-import com.jvrcoding.lazypizza.core.database.product_topping_relation.ProductWithToppings
-import com.jvrcoding.lazypizza.core.database.topping.ToppingEntity
+import com.jvrcoding.lazypizza.core.data.database.product_topping_relation.ProductWithToppings
+import com.jvrcoding.lazypizza.core.data.database.product.ProductEntity
+import com.jvrcoding.lazypizza.core.data.database.topping.ToppingEntity
 import com.jvrcoding.lazypizza.product.domain.cart.ProductTopping
 import kotlinx.coroutines.flow.Flow
 

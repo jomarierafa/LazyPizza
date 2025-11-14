@@ -1,9 +1,9 @@
-package com.jvrcoding.lazypizza.core.database.product_topping_relation
+package com.jvrcoding.lazypizza.core.data.database.product_topping_relation
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.jvrcoding.lazypizza.core.database.product.ProductEntity
-import com.jvrcoding.lazypizza.core.database.topping.ToppingEntity
+import com.jvrcoding.lazypizza.core.data.database.product.ProductEntity
+import com.jvrcoding.lazypizza.core.data.database.topping.ToppingEntity
 
 
 data class ProductWithToppings(

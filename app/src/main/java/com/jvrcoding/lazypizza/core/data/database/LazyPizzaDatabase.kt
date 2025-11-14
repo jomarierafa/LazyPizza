@@ -1,9 +1,9 @@
-package com.jvrcoding.lazypizza.core.database
+package com.jvrcoding.lazypizza.core.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.jvrcoding.lazypizza.core.database.product.ProductEntity
-import com.jvrcoding.lazypizza.core.database.topping.ToppingEntity
+import com.jvrcoding.lazypizza.core.data.database.product.ProductEntity
+import com.jvrcoding.lazypizza.core.data.database.topping.ToppingEntity
 
 @Database(
     entities = [ProductEntity::class, ToppingEntity::class],

@@ -1,4 +1,4 @@
-package com.jvrcoding.lazypizza.core.database.product
+package com.jvrcoding.lazypizza.core.data.database.product
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

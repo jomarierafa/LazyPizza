@@ -1,6 +1,6 @@
 package com.jvrcoding.lazypizza.product.data.cart
 
-import com.jvrcoding.lazypizza.core.database.ProductDao
+import com.jvrcoding.lazypizza.core.data.database.ProductDao
 import com.jvrcoding.lazypizza.product.domain.cart.CartDataSource
 import com.jvrcoding.lazypizza.product.domain.cart.CartProduct
 import kotlinx.coroutines.flow.Flow

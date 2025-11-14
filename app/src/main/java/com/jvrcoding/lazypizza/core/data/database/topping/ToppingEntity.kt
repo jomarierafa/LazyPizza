@@ -1,10 +1,10 @@
-package com.jvrcoding.lazypizza.core.database.topping
+package com.jvrcoding.lazypizza.core.data.database.topping
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.jvrcoding.lazypizza.core.database.product.ProductEntity
+import com.jvrcoding.lazypizza.core.data.database.product.ProductEntity
 
 @Entity(
     foreignKeys = [
