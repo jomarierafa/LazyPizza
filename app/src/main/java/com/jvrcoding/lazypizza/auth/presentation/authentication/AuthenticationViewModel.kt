@@ -3,7 +3,6 @@ package com.jvrcoding.lazypizza.auth.presentation.authentication
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.Firebase
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -12,15 +11,18 @@ import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.jvrcoding.lazypizza.auth.domain.UserDataValidator
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.util.concurrent.TimeUnit
 
 
@@ -35,10 +37,14 @@ class AuthenticationViewModel(
     private val phoneNumber = MutableStateFlow("")
     private var verificationId = ""
 
+    private val eventChannel = Channel<AuthenticationEvent>()
+    val events = eventChannel.receiveAsFlow()
+
     private val _state = MutableStateFlow(AuthenticationState())
     val state = _state
         .onStart {
             if (!hasLoadedInitialData) {
+                Log.d("currentUsr", firebaseAuth.currentUser?.uid.toString())
                 observeTextFields()
                 hasLoadedInitialData = true
             }
@@ -186,20 +192,25 @@ class AuthenticationViewModel(
     }
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
-        firebaseAuth.signInWithCredential(credential)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "signInWithCredential:success")
-                    val user = task.result?.user
+        viewModelScope.launch {
+            try {
+                val result = firebaseAuth.signInWithCredential(credential).await()
+
+                val user = result.user
+                Log.d(TAG, "signInWithCredential:success")
+
+                eventChannel.send(AuthenticationEvent.SuccessfulAuthentication)
+
+            } catch (e: Exception) {
+                Log.w(TAG, "signIn failure", e)
+
+                if (e is FirebaseAuthInvalidCredentialsException) {
+                    _state.update { it.copy(showIncorrectCodeMessage = true) }
                 } else {
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    if (task.exception is FirebaseAuthInvalidCredentialsException) {
-                        _state.update { it.copy(
-                            showIncorrectCodeMessage = true
-                        ) }
-                    }
+//                    _events.emit(AuthEvent.Error(e.localizedMessage ?: "Something went wrong"))
                 }
             }
+        }
     }
 
     private fun getPreviousFocusedIndex(currentIndex: Int?): Int? {

@@ -37,7 +37,13 @@ private fun NavGraphBuilder.authGraph(
         startDestination = NavigationRoute.Authentication
     ) {
         composable<NavigationRoute.Authentication> {
-            AuthenticationScreenRoot()
+            AuthenticationScreenRoot(
+                onNavigateToMenuScreen = {
+                    navController.navigate(NavigationRoute.Main(Tab.MENU)) {
+                        popUpTo(0)
+                    }
+                }
+            )
         }
     }
 }

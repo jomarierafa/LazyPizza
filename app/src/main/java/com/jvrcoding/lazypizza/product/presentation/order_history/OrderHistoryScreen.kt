@@ -64,7 +64,7 @@ fun OrderHistoryScreen(
         } else {
             LazyVerticalStaggeredGrid(
                 modifier = Modifier
-                    .padding(innerPadding)
+                    .padding(top = innerPadding.calculateTopPadding())
                     .fillMaxSize(),
                 columns = StaggeredGridCells.Adaptive(415.dp),
                 verticalItemSpacing = 8.dp,

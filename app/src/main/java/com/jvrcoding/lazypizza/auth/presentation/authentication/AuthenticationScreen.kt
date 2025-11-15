@@ -42,14 +42,22 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.body4Medium
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textPrimary
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondary
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.title1Medium
+import com.jvrcoding.lazypizza.core.presentation.util.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
-import java.util.concurrent.TimeUnit
 
 @Composable
 fun AuthenticationScreenRoot(
+    onNavigateToMenuScreen: () -> Unit,
     viewModel: AuthenticationViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    ObserveAsEvents(viewModel.events) { event ->
+        when(event) {
+            AuthenticationEvent.SuccessfulAuthentication -> onNavigateToMenuScreen()
+        }
+
+    }
     AuthenticationScreen(
         state  = state,
         onAction = { action ->
