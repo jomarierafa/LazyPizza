@@ -32,3 +32,11 @@ val SearchIcon: ImageVector
 val ArrowLeftIcon: ImageVector
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.ic_arrow_left)
+
+val ProfileIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.ic_profile)
+
+val LogoutIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.ic_logout)

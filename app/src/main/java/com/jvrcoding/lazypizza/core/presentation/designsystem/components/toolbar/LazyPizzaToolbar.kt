@@ -3,6 +3,8 @@ package com.jvrcoding.lazypizza.core.presentation.designsystem.components.toolba
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -15,8 +17,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jvrcoding.lazypizza.R
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
+import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LogoutIcon
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.PhoneIcon
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.PizzaIcon
+import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.ProfileIcon
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.body1Regular
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.body3Bold
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textPrimary
@@ -26,6 +30,8 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondar
 @Composable
 fun LazyPizzaToolbar(
     title: String,
+    isSignedIn: Boolean,
+    onActionIconClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
@@ -60,6 +66,26 @@ fun LazyPizzaToolbar(
                 style = MaterialTheme.typography.body1Regular,
                 color = MaterialTheme.colorScheme.textPrimary
             )
+            IconButton(
+                onClick = onActionIconClick,
+                colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = if(isSignedIn)
+                        MaterialTheme.colorScheme.primary.copy(alpha = 0.08f)
+                    else
+                        MaterialTheme.colorScheme.textSecondary.copy(alpha = 0.08f)
+                ),
+                modifier = modifier.size(32.dp)
+            ) {
+                Icon(
+                    imageVector = if(isSignedIn) LogoutIcon else ProfileIcon,
+                    contentDescription = null,
+                    tint = if(isSignedIn)
+                        MaterialTheme.colorScheme.primary
+                    else
+                        MaterialTheme.colorScheme.textSecondary,
+                    modifier = Modifier.size(14.dp)
+                )
+            }
         },
     )
 }
@@ -69,7 +95,9 @@ fun LazyPizzaToolbar(
 private fun MainToolbarPreview() {
     LazyPizzaTheme {
         LazyPizzaToolbar(
-            title = "LazyPizza"
+            title = "LazyPizza",
+            isSignedIn = false,
+            onActionIconClick = {}
         )
     }
 }

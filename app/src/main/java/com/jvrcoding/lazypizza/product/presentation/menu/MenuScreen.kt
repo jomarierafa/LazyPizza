@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jvrcoding.lazypizza.R
+import com.jvrcoding.lazypizza.core.presentation.designsystem.components.dialog.LazyPizzaDialog
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.textfield.SearchTextField
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.toolbar.LazyPizzaToolbar
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
@@ -45,6 +46,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MenuScreenRoot(
+    onNavigateToAuthentication: () -> Unit,
     onNavigateToProductDetails: (Product) -> Unit,
     viewModel: MenuViewModel = koinViewModel()
 ) {
@@ -54,6 +56,7 @@ fun MenuScreenRoot(
         onAction = { action ->
             when(action) {
                 is MenuAction.OnMenuClick -> onNavigateToProductDetails(action.product.toProduct())
+                MenuAction.OnSignInClick -> onNavigateToAuthentication()
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -71,6 +74,13 @@ fun MenuScreen(
             LazyPizzaToolbar(
                 modifier = Modifier.padding(horizontal = 8.dp),
                 title = stringResource(R.string.app_name),
+                isSignedIn = state.isUserSignedIn,
+                onActionIconClick = {
+                    if(state.isUserSignedIn)
+                        onAction(MenuAction.OnLogoutClick)
+                    else
+                        onAction(MenuAction.OnSignInClick)
+                }
             )
         }
     ) { innerPadding ->
@@ -186,6 +196,23 @@ fun MenuScreen(
                 }
 
             }
+        }
+
+        if(state.showConfirmationDialog) {
+            LazyPizzaDialog(
+                message = stringResource(R.string.logout_confirmation_message),
+                onDismiss = {
+                    onAction(MenuAction.OnDismissDialog)
+                },
+                negativeButtonText = stringResource(R.string.cancel),
+                positiveButtonText = stringResource(R.string.log_out),
+                onNegativeButtonClick = {
+                    onAction(MenuAction.OnDismissDialog)
+                },
+                onPositiveButtonClick = {
+                    onAction(MenuAction.OnConfirmLogoutClick)
+                }
+            )
         }
     }
 }

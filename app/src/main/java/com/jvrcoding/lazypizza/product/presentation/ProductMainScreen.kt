@@ -111,6 +111,9 @@ fun ProductMainScreen(
                 ) {
                     composable<ProductNavigationRoute.Menu> {
                         MenuScreenRoot(
+                            onNavigateToAuthentication = {
+                                onAction(ProductAction.OnNavigateToAuthentication)
+                            },
                             onNavigateToProductDetails = { product ->
                                 onAction(ProductAction.OnProductClick(product))
                             }
@@ -150,6 +153,9 @@ fun ProductMainScreen(
                 ) {
                     composable<ProductNavigationRoute.Menu> {
                         MenuScreenRoot(
+                            onNavigateToAuthentication = {
+                                onAction(ProductAction.OnNavigateToAuthentication)
+                            },
                             onNavigateToProductDetails = { product ->
                                 onAction(ProductAction.OnProductClick(product))
                             }

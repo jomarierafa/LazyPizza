@@ -9,6 +9,8 @@ data class MenuState(
     val searchQuery: String = "",
     val selectedProducts: List<SelectedProduct> = emptyList(),
     val products: Map<UiText, List<ProductUi>> = emptyMap(),
+    val isUserSignedIn: Boolean = false,
+    val showConfirmationDialog: Boolean = false
 ) {
     val productSections = products
         .toList()

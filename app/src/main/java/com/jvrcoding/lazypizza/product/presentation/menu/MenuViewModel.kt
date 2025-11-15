@@ -2,6 +2,7 @@ package com.jvrcoding.lazypizza.product.presentation.menu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import com.jvrcoding.lazypizza.core.presentation.util.UiText
 import com.jvrcoding.lazypizza.core.presentation.util.currencyToBigDecimal
 import com.jvrcoding.lazypizza.product.domain.cart.CartDataSource
@@ -28,14 +29,17 @@ import kotlin.collections.first
 
 class MenuViewModel(
     private val productDataSource: ProductDataSource,
-    private val cartDataSource: CartDataSource
+    private val cartDataSource: CartDataSource,
+    private val firebaseAuth: FirebaseAuth
 ): ViewModel() {
 
     private var hasLoadedInitialData = false
 
     private val searchQuery = MutableStateFlow("")
 
-    private val _state = MutableStateFlow(MenuState())
+    private val _state = MutableStateFlow(MenuState(
+        isUserSignedIn = firebaseAuth.currentUser != null
+    ))
     val state = _state
         .onStart {
             if (!hasLoadedInitialData) {
@@ -57,8 +61,31 @@ class MenuViewModel(
             is MenuAction.OnAddClick -> onAddClick(action.productId)
             is MenuAction.OnMinusClick -> onMinusClick(action.productId)
             is MenuAction.OnRemoveClick -> onRemoveClick(action.productId)
+            MenuAction.OnLogoutClick -> onLogoutClick()
+            MenuAction.OnConfirmLogoutClick -> onConfirmLogoutClick()
+            MenuAction.OnDismissDialog -> onDismissDialog()
             else -> Unit
         }
+    }
+
+    private fun onLogoutClick() {
+        _state.update { it.copy(
+            showConfirmationDialog = true
+        ) }
+    }
+
+    private fun onConfirmLogoutClick() {
+        firebaseAuth.signOut()
+        _state.update { it.copy(
+            isUserSignedIn = false,
+            showConfirmationDialog = false
+        ) }
+    }
+
+    private fun onDismissDialog() {
+        _state.update { it.copy(
+            showConfirmationDialog = false
+        ) }
     }
 
     private fun onAddToCardClick(product: ProductUi) {

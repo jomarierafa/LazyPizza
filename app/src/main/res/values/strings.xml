@@ -29,4 +29,7 @@
     <string name="incorrect_code_please_try_again">Incorrect code. Please try again</string>
     <string name="phone_number_placeholder">+1 000 000 0000</string>
     <string name="you_can_request_a_new_code_in_00">You can request a new code in 00:%1$d</string>
+    <string name="logout_confirmation_message">Are you sure you want to log out?</string>
+    <string name="cancel">Cancel</string>
+    <string name="log_out">Log Out</string>
 </resources>
