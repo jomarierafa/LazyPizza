@@ -75,11 +75,14 @@ class MenuViewModel(
     }
 
     private fun onConfirmLogoutClick() {
-        firebaseAuth.signOut()
-        _state.update { it.copy(
-            isUserSignedIn = false,
-            showConfirmationDialog = false
-        ) }
+        viewModelScope.launch {
+            cartDataSource.deleteAllCartItem()
+            firebaseAuth.signOut()
+            _state.update { it.copy(
+                isUserSignedIn = false,
+                showConfirmationDialog = false
+            ) }
+        }
     }
 
     private fun onDismissDialog() {

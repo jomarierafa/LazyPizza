@@ -36,4 +36,8 @@ class RoomCartDataSource(
         cartDao.deleteProduct(productUid)
     }
 
+    override suspend fun deleteAllCartItem() {
+        cartDao.deleteAllProducts()
+    }
+
 }

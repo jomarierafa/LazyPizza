@@ -37,23 +37,26 @@ interface ProductDao {
         insertToppings(toppings)
     }
 
-    @Transaction
-    suspend fun insertProductWithToppings(product: ProductEntity, toppings: List<ProductTopping>) {
-        val productId = insertProduct(product)
-        val toppings = toppings.map { topping ->
-            ToppingEntity(
-                name = topping.name,
-                quantity = topping.quantity,
-                price = topping.price.toDouble(),
-                toppingId = topping.id,
-                productUid = productId.toInt()
-            )
-        }
-        insertToppings(toppings)
-    }
+//    @Transaction
+//    suspend fun insertProductWithToppings(product: ProductEntity, toppings: List<ProductTopping>) {
+//        val productId = insertProduct(product)
+//        val toppings = toppings.map { topping ->
+//            ToppingEntity(
+//                name = topping.name,
+//                quantity = topping.quantity,
+//                price = topping.price.toDouble(),
+//                toppingId = topping.id,
+//                productUid = productId.toInt()
+//            )
+//        }
+//        insertToppings(toppings)
+//    }
 
     @Query("DELETE FROM ProductEntity WHERE uid = :uid")
     suspend fun deleteProduct(uid: Int)
+
+    @Query("DELETE FROM productentity")
+    suspend fun deleteAllProducts()
 
     @Query("UPDATE productentity SET quantity = :quantity WHERE uid = :uid")
     suspend fun updateQuantity(uid: Int, quantity: Int)

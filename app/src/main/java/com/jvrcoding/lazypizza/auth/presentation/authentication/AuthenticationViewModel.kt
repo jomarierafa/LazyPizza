@@ -154,7 +154,7 @@ class AuthenticationViewModel(
         resendTimerJob?.cancel()
 
         resendTimerJob = viewModelScope.launch {
-            val totalSeconds = 10
+            val totalSeconds = 60
 
             for (time in totalSeconds downTo 1) {
                 delay(1000)
