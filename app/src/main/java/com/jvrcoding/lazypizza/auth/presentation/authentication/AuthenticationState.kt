@@ -13,6 +13,13 @@ data class AuthenticationState(
     val remainingTime: Int = 60,
     val showResendTimer: Boolean = true
 ) {
+
+    val subtitleText: UiText
+        get() = if(isVerificationPhase)
+            UiText.StringResource(R.string.enter_code)
+        else
+            UiText.StringResource(R.string.enter_your_phone_number)
+
     val buttonText: UiText
         get() = if(isVerificationPhase)
             UiText.StringResource(R.string.confirm)

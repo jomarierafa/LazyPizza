@@ -1,5 +1,6 @@
 package com.jvrcoding.lazypizza.auth.presentation.authentication
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -116,7 +117,7 @@ fun AuthenticationScreen(
             )
             Spacer(Modifier.height(4.dp))
             Text(
-                text = stringResource(R.string.enter_your_phone_number),
+                text = state.subtitleText.asString(),
                 style = MaterialTheme.typography.body3Regular,
                 color = MaterialTheme.colorScheme.textSecondary,
             )
@@ -133,8 +134,10 @@ fun AuthenticationScreen(
                 )
             )
 
-            if(state.isVerificationPhase) {
-                Spacer(Modifier.height(8.dp))
+            AnimatedVisibility(
+                visible = state.isVerificationPhase,
+                modifier = Modifier.padding(top = 8.dp)
+            ) {
                 Row(
                     modifier = Modifier,
                     verticalAlignment = Alignment.CenterVertically,
@@ -162,19 +165,21 @@ fun AuthenticationScreen(
                         )
                     }
                 }
-                if(state.showIncorrectCodeMessage) {
-                    Spacer(Modifier.height(8.dp))
-                    Text(
-                        text = stringResource(R.string.incorrect_code_please_try_again),
-                        style = MaterialTheme.typography.body4Medium,
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
             }
+
+            AnimatedVisibility(
+                visible = state.showIncorrectCodeMessage,
+                modifier = Modifier.padding(top = 8.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.incorrect_code_please_try_again),
+                    style = MaterialTheme.typography.body4Medium,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
             Spacer(Modifier.height(16.dp))
-
-
             PrimaryButton(
                 text = state.buttonText.asString(),
                 enabled = state.isPhoneNumberValid,

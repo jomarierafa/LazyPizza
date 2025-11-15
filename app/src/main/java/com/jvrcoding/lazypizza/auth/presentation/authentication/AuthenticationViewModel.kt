@@ -61,11 +61,11 @@ class AuthenticationViewModel(
         when(action) {
             is AuthenticationAction.OnChangeFieldFocused -> {
                 _state.update { it.copy(
-                    focusedIndex = action.index
+                    focusedIndex = action.index,
+                    showIncorrectCodeMessage = false
                 ) }
             }
             is AuthenticationAction.OnEnterNumber -> {
-                Log.d("awit", "${action.number} ${action.index}")
                 enterNumber(action.number, action.index)
             }
             AuthenticationAction.OnKeyboardBack -> {

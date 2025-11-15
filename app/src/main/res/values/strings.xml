@@ -22,6 +22,7 @@
     <string name="completed">Completed</string>
     <string name="welcome_to_lazypizza">Welcome to LazyPizza</string>
     <string name="enter_your_phone_number">Enter your phone number</string>
+    <string name="enter_code">Enter code</string>
     <string name="confirm">Confirm</string>
     <string name="_continue">Continue</string>
     <string name="continue_without_signing_in">Continue without signing in</string>

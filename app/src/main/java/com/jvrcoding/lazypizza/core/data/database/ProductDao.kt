@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ProductDao {
 
-    @Query("SELECT COUNT(*) FROM productentity")
+    @Query("SELECT SUM(quantity) FROM productentity")
     fun observeProductCount(): Flow<Int>
 
     @Transaction
