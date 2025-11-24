@@ -72,7 +72,8 @@ fun ProductDetailsScreenRoot(
 @Composable
 fun ProductDetailsScreen(
     state: ProductDetailsState,
-    onAction: (ProductDetailsAction) -> Unit
+    onAction: (ProductDetailsAction) -> Unit,
+    deviceConfiguration: DeviceConfiguration? = null
 ) {
     Scaffold(
         topBar = {
@@ -83,11 +84,12 @@ fun ProductDetailsScreen(
             )
         }
     ) { innerPadding ->
-
-        val activity = LocalActivity.current as ComponentActivity
-        val windowSizeClass = calculateWindowSizeClass(activity = activity)
-        val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
-        when(deviceConfiguration) {
+        val currentDeviceConfiguration = deviceConfiguration ?: run {
+            val activity = LocalActivity.current as ComponentActivity
+            val windowSizeClass = calculateWindowSizeClass(activity = activity)
+            DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
+        }
+        when(currentDeviceConfiguration) {
             DeviceConfiguration.MOBILE_PORTRAIT,
             DeviceConfiguration.MOBILE_LANDSCAPE,
             DeviceConfiguration.TABLET_PORTRAIT -> {

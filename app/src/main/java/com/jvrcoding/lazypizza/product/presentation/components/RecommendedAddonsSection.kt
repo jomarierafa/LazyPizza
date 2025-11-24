@@ -1,4 +1,4 @@
-package com.jvrcoding.lazypizza.product.presentation.cart.components
+package com.jvrcoding.lazypizza.product.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,6 +23,7 @@ import com.jvrcoding.lazypizza.product.presentation.cart.model.RecommendedProduc
 
 @Composable
 fun RecommendedAddOnsSection(
+    label: String,
     products: List<RecommendedProductUi>,
     onAddClick: (RecommendedProductUi) -> Unit,
     modifier: Modifier = Modifier
@@ -36,7 +37,7 @@ fun RecommendedAddOnsSection(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            text = stringResource(R.string.recommended_to_add_to_your_order),
+            text = label,
             style = MaterialTheme.typography.label2SemiBold,
             color = MaterialTheme.colorScheme.textSecondary,
         )
@@ -71,6 +72,7 @@ fun RecommendedAddOnsSection(
 private fun RecommendedAddOnsSectionPreview() {
     LazyPizzaTheme {
         RecommendedAddOnsSection(
+            label = stringResource(R.string.recommended_to_add_to_your_order),
             onAddClick = {},
             products = (1..10).map {
                 RecommendedProductUi(

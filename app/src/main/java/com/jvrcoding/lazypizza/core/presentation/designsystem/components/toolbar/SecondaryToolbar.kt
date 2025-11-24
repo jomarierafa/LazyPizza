@@ -1,5 +1,6 @@
 package com.jvrcoding.lazypizza.core.presentation.designsystem.components.toolbar
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -46,6 +47,9 @@ fun SecondaryToolbar(
         navigationIcon = {
             if(showBackButton) {
                 FilledIconButton(
+                    modifier = Modifier
+                        .padding(start = 8.dp)
+                        .size(32.dp),
                     onClick = onBackClick,
                     shape = CircleShape,
                     colors = IconButtonDefaults.filledIconButtonColors(
@@ -71,7 +75,7 @@ private fun SecondaryToolbarPreview() {
         SecondaryToolbar(
             onBackClick = {},
             title = "Cart",
-            showBackButton = false
+            showBackButton = true
         )
     }
 }

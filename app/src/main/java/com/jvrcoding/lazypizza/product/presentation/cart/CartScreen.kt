@@ -39,7 +39,7 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.components.toolbar
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textPrimary
 import com.jvrcoding.lazypizza.core.presentation.util.DeviceConfiguration
-import com.jvrcoding.lazypizza.product.presentation.cart.components.RecommendedAddOnsSection
+import com.jvrcoding.lazypizza.product.presentation.components.RecommendedAddOnsSection
 import com.jvrcoding.lazypizza.product.presentation.cart.components.cartListContent
 import com.jvrcoding.lazypizza.product.presentation.components.EmptyStateScreen
 import org.koin.androidx.compose.koinViewModel
@@ -123,6 +123,7 @@ fun CartScreen(
                                 key = "recommendedAddOns"
                             ) {
                                 RecommendedAddOnsSection(
+                                    label = stringResource(R.string.recommended_to_add_to_your_order),
                                     products = state.recommendedProducts,
                                     onAddClick = {
                                         onAction(CartAction.OnAddProduct(it))
@@ -187,6 +188,7 @@ fun CartScreen(
                                 .padding(vertical = 16.dp),
                         ) {
                             RecommendedAddOnsSection(
+                                label = stringResource(R.string.recommended_to_add_to_your_order),
                                 products = state.recommendedProducts,
                                 onAddClick = {
                                     onAction(CartAction.OnAddProduct(it))

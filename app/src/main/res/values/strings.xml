@@ -37,4 +37,9 @@
     <string name="thank_you_for_your_order_please_come_at_the_indicated_time">Thank you for your order! Please come at the indicated time.</string>
     <string name="order_number">ORDER NUMBER:</string>
     <string name="pickup_time">PICKUP TIME:</string>
+    <string name="order_checkout">Order Checkout</string>
+    <string name="earliest_available_time">Earliest available time</string>
+    <string name="schedule_time">Schedule time</string>
+    <string name="recommended_add_ons">RECOMMENDED ADD-ONS</string>
+    <string name="order_details">ORDER DETAILS</string>
 </resources>

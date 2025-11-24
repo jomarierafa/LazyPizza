@@ -8,6 +8,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
 import com.jvrcoding.lazypizza.app.navigation.NavigationRoot
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
+import com.jvrcoding.lazypizza.product.presentation.checkout.CheckoutScreenRoot
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +17,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LazyPizzaTheme() {
-                NavigationRoot(navController = rememberNavController())
+                CheckoutScreenRoot()
+//                NavigationRoot(navController = rememberNavController())
             }
         }
     }

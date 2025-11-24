@@ -40,3 +40,11 @@ val ProfileIcon: ImageVector
 val LogoutIcon: ImageVector
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.ic_logout)
+
+val ChevronUpIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.ic_chevron_up)
+
+val ChevronDownIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.ic_chevron_down)

@@ -6,6 +6,7 @@ import com.jvrcoding.lazypizza.product.domain.cart.CartDataSource
 import com.jvrcoding.lazypizza.product.domain.product.ProductDataSource
 import com.jvrcoding.lazypizza.product.presentation.ProductViewModel
 import com.jvrcoding.lazypizza.product.presentation.cart.CartViewModel
+import com.jvrcoding.lazypizza.product.presentation.checkout.CheckoutViewModel
 import com.jvrcoding.lazypizza.product.presentation.product_details.ProductDetailsViewModel
 import com.jvrcoding.lazypizza.product.presentation.menu.MenuViewModel
 import com.jvrcoding.lazypizza.product.presentation.order_history.OrderHistoryViewModel
@@ -23,5 +24,6 @@ val productModule = module {
     viewModelOf(::ProductDetailsViewModel)
     viewModelOf(::CartViewModel)
     viewModelOf(::OrderHistoryViewModel)
+    viewModelOf(::CheckoutViewModel)
 
 }
