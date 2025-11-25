@@ -47,6 +47,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun CartScreenRoot(
     onBackToMenuClick: () -> Unit,
+    onProceedToPlaceOrderClick: () -> Unit,
     viewModel: CartViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -55,6 +56,7 @@ fun CartScreenRoot(
         onAction = { action ->
             when(action) {
                 CartAction.OnBackToMenuClick -> onBackToMenuClick()
+                CartAction.OnProceedToPlaceOrderClick -> onProceedToPlaceOrderClick()
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -138,7 +140,9 @@ fun CartScreen(
                                 .fillMaxWidth()
                                 .align(Alignment.BottomCenter),
                             text = stringResource(R.string.proceed_to_checkout, state.totalPrice),
-                            onClick = {}
+                            onClick = {
+                                onAction(CartAction.OnProceedToPlaceOrderClick)
+                            }
                         )
                     }
                 }
@@ -199,7 +203,9 @@ fun CartScreen(
                                     .padding(horizontal = 16.dp)
                                     .fillMaxWidth(),
                                 text = stringResource(R.string.proceed_to_checkout, state.totalPrice),
-                                onClick = {}
+                                onClick = {
+                                    onAction(CartAction.OnProceedToPlaceOrderClick)
+                                }
                             )
                         }
                     }

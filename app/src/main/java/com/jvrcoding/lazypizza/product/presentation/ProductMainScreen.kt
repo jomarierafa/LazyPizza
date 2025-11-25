@@ -35,6 +35,7 @@ fun ProductMainScreenRoot(
     tab: Tab = Tab.MENU,
     onNavigateToProductDetails: (Product) -> Unit,
     onNavigateToAuthentication: () -> Unit,
+    onNavigateToCheckoutScreen: () -> Unit,
     viewModel: ProductViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -66,6 +67,7 @@ fun ProductMainScreenRoot(
             when(action) {
                 is ProductAction.OnProductClick -> onNavigateToProductDetails(action.product)
                 is ProductAction.OnNavigateToAuthentication -> onNavigateToAuthentication()
+                is ProductAction.OnNavigateToCheckoutScreen -> onNavigateToCheckoutScreen()
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -123,6 +125,9 @@ fun ProductMainScreen(
                         CartScreenRoot(
                             onBackToMenuClick = {
                                 onAction(ProductAction.OnBottomNavigationItemClick(Tab.MENU))
+                            },
+                            onProceedToPlaceOrderClick = {
+                                onAction(ProductAction.OnNavigateToCheckoutScreen)
                             }
                         )
                     }
@@ -165,6 +170,9 @@ fun ProductMainScreen(
                         CartScreenRoot(
                             onBackToMenuClick = {
                                 onAction(ProductAction.OnBottomNavigationItemClick(Tab.MENU))
+                            },
+                            onProceedToPlaceOrderClick = {
+                                onAction(ProductAction.OnNavigateToCheckoutScreen)
                             }
                         )
                     }

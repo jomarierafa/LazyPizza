@@ -6,6 +6,9 @@ import kotlinx.serialization.Serializable
 sealed interface NavigationRoute {
 
     @Serializable
+    data object Authentication
+
+    @Serializable
     data object Product
 
     @Serializable
@@ -23,5 +26,5 @@ sealed interface NavigationRoute {
     ) : NavigationRoute
 
     @Serializable
-    data object Authentication
+    data object Checkout
 }

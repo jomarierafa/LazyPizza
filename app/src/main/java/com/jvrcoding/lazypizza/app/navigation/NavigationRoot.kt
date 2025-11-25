@@ -9,6 +9,7 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.jvrcoding.lazypizza.auth.presentation.authentication.AuthenticationScreenRoot
 import com.jvrcoding.lazypizza.product.presentation.ProductMainScreenRoot
+import com.jvrcoding.lazypizza.product.presentation.checkout.CheckoutScreenRoot
 import com.jvrcoding.lazypizza.product.presentation.model.Tab
 import com.jvrcoding.lazypizza.product.presentation.product_details.ProductDetailsScreenRoot
 import com.jvrcoding.lazypizza.product.presentation.util.toProductDetailsRoute
@@ -63,6 +64,9 @@ private fun NavGraphBuilder.productGraph(
                 },
                 onNavigateToAuthentication = {
                     navController.navigate(NavigationGraph.AuthGraph)
+                },
+                onNavigateToCheckoutScreen = {
+                    navController.navigate(NavigationRoute.Checkout)
                 }
             )
         }
@@ -74,6 +78,12 @@ private fun NavGraphBuilder.productGraph(
                         popUpTo(0)
                     }
                 },
+                onBackClick = navController::navigateUp
+            )
+        }
+
+        composable<NavigationRoute.Checkout> {
+            CheckoutScreenRoot(
                 onBackClick = navController::navigateUp
             )
         }
