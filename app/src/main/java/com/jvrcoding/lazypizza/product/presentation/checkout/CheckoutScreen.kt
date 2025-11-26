@@ -25,6 +25,8 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaThe
 import com.jvrcoding.lazypizza.product.presentation.checkout.components.AdaptiveBottomSection
 import com.jvrcoding.lazypizza.product.presentation.checkout.components.AdaptiveScheduleSection
 import com.jvrcoding.lazypizza.product.presentation.checkout.components.CommentSection
+import com.jvrcoding.lazypizza.core.presentation.designsystem.components.dialog.LazyPizzaDatePicker
+import com.jvrcoding.lazypizza.core.presentation.designsystem.components.dialog.LazyPizzaTimePicker
 import com.jvrcoding.lazypizza.product.presentation.checkout.components.OrderDetailsSection
 import com.jvrcoding.lazypizza.product.presentation.components.RecommendedAddOnsSection
 import org.koin.androidx.compose.koinViewModel
@@ -40,7 +42,9 @@ fun CheckoutScreenRoot(
         onAction = { action ->
             when(action) {
                 CheckoutAction.OnBackClick -> onBackClick()
+                else -> Unit
             }
+            viewModel.onAction(action)
         }
     )
 }
@@ -72,6 +76,10 @@ fun CheckOutScreen(
             ) {
                 item {
                     AdaptiveScheduleSection(
+                        selectedOption = state.selectedOption,
+                        onPickupTimeSelected = {
+                            onAction(CheckoutAction.OnPickupTimeSelected(it))
+                        },
                         mobileLayout = true,
                         modifier = Modifier
                             .padding(horizontal = 16.dp)
@@ -119,6 +127,26 @@ fun CheckOutScreen(
            )
 
         }
+
+        if(state.showDatePicker) {
+            LazyPizzaDatePicker(
+                onDateSelected = {
+                    onAction(CheckoutAction.OnDateSelected(it))
+                },
+                onDismiss = {
+                    onAction(CheckoutAction.OnDismissDatePicker)
+                }
+            )
+        }
+
+        if(state.showTimePicker) {
+            LazyPizzaTimePicker(
+                onDismiss = {
+                    onAction(CheckoutAction.OnDismissTimePicker)
+                }
+            )
+        }
+
     }
 }
 

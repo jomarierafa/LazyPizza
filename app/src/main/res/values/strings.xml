@@ -45,4 +45,6 @@
     <string name="comments">COMMENTS</string>
     <string name="order_total">ORDER TOTAL:</string>
     <string name="place_order">Place Order</string>
+    <string name="select_time">SELECT TIME</string>
+    <string name="ok">Ok</string>
 </resources>

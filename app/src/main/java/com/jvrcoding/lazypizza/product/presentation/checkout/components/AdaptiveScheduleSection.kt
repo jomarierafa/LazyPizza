@@ -18,9 +18,12 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.label2Medium
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.label2SemiBold
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textPrimary
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondary
+import com.jvrcoding.lazypizza.product.presentation.checkout.models.PickupTime
 
 @Composable
 fun AdaptiveScheduleSection(
+    selectedOption: PickupTime,
+    onPickupTimeSelected: (PickupTime) -> Unit,
     mobileLayout: Boolean,
     modifier: Modifier = Modifier
 ) {
@@ -35,6 +38,8 @@ fun AdaptiveScheduleSection(
         )
         RadioButtonGroup(
             mobileLayout = mobileLayout,
+            selectedOption = selectedOption,
+            onOptionSelected = onPickupTimeSelected,
             modifier = Modifier
                 .selectableGroup()
         )
@@ -64,6 +69,8 @@ fun AdaptiveScheduleSection(
 @Composable
 fun RadioButtonGroup(
     mobileLayout: Boolean,
+    onOptionSelected: (PickupTime) -> Unit,
+    selectedOption: PickupTime,
     modifier: Modifier = Modifier
 ) {
     if(mobileLayout) {
@@ -71,22 +78,16 @@ fun RadioButtonGroup(
             modifier = modifier,
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            PrimaryRadioButton(
-                text = stringResource(R.string.earliest_available_time),
-                selected = true,
-                modifier = modifier.fillMaxWidth(),
-                onSelect = {
-
-                }
-            )
-            PrimaryRadioButton(
-                text = stringResource(R.string.schedule_time),
-                selected = false,
-                modifier = modifier.fillMaxWidth(),
-                onSelect = {
-
-                }
-            )
+            PickupTime.entries.forEach { pickupTime ->
+                PrimaryRadioButton(
+                    text = pickupTime.value.asString(),
+                    selected = (pickupTime == selectedOption),
+                    modifier = modifier.fillMaxWidth(),
+                    onSelect = {
+                        onOptionSelected(pickupTime)
+                    }
+                )
+            }
         }
     } else {
         Row(

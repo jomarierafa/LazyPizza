@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,6 +33,12 @@ fun PrimaryRadioButton(
 ) {
     Row(
         modifier
+            .clip(CircleShape)
+            .selectable(
+                selected = selected,
+                onClick = onSelect,
+                role = Role.RadioButton
+            )
             .height(48.dp)
             .border(
                 border = BorderStroke(
@@ -40,12 +47,7 @@ fun PrimaryRadioButton(
                 ),
                 shape = CircleShape
             )
-            .padding(horizontal = 12.dp)
-            .selectable(
-                selected = selected,
-                onClick = onSelect,
-                role = Role.RadioButton
-            ),
+            .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
