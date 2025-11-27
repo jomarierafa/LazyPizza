@@ -31,13 +31,16 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaThe
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.label2Medium
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.label2SemiBold
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondary
+import com.jvrcoding.lazypizza.core.presentation.util.UiText
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LazyPizzaTimePicker(
-    modifier: Modifier = Modifier,
     onDismiss: () -> Unit,
+    onOkButtonClick: (Int, Int) -> Unit,
+    modifier: Modifier = Modifier,
+    errorMessage: UiText? = null,
 ) {
     val currentTime = Calendar.getInstance()
     val timePickerState = rememberTimePickerState(
@@ -72,12 +75,14 @@ fun LazyPizzaTimePicker(
                     timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh
                 )
             )
-            Text(
-                text = "Pickup available between 10:15 and 21:45",
-                style = MaterialTheme.typography.label2Medium,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
+            errorMessage?.let {
+                Text(
+                    text = it.asString(),
+                    style = MaterialTheme.typography.label2Medium,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
             Spacer(modifier = Modifier.height(8.dp))
             HorizontalDivider(
                 thickness = 1.dp,
@@ -97,7 +102,9 @@ fun LazyPizzaTimePicker(
                 )
                 PrimaryButton(
                     text = stringResource(R.string.ok),
-                    onClick = {}
+                    onClick = {
+                        onOkButtonClick(timePickerState.hour, timePickerState.minute)
+                    }
                 )
             }
         }
@@ -109,6 +116,7 @@ fun LazyPizzaTimePicker(
 private fun LazyPizzaTimePickerPreview() {
     LazyPizzaTheme {
         LazyPizzaTimePicker(
+            onOkButtonClick = { _, _ ->},
             onDismiss = {}
         )
     }

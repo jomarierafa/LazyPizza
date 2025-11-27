@@ -25,6 +25,7 @@ fun AdaptiveScheduleSection(
     selectedOption: PickupTime,
     onPickupTimeSelected: (PickupTime) -> Unit,
     mobileLayout: Boolean,
+    pickupTime: String,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -49,12 +50,12 @@ fun AdaptiveScheduleSection(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "EARLIEST PICKUP TIME:",
+                text = stringResource(R.string.earliest_pickup_time),
                 style = MaterialTheme.typography.label2Medium,
                 color = MaterialTheme.colorScheme.textSecondary
             )
             Text(
-                text = "12:15",
+                text = pickupTime,
                 style = MaterialTheme.typography.label2SemiBold,
                 color = MaterialTheme.colorScheme.textPrimary
             )

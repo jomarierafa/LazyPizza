@@ -74,29 +74,39 @@ fun CheckOutScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 contentPadding = PaddingValues(bottom = 64.dp)
             ) {
-                item {
+                item(
+                    key = "scheduleSection"
+                ) {
                     AdaptiveScheduleSection(
                         selectedOption = state.selectedOption,
                         onPickupTimeSelected = {
                             onAction(CheckoutAction.OnPickupTimeSelected(it))
                         },
                         mobileLayout = true,
+                        pickupTime = state.pickupTime,
                         modifier = Modifier
                             .padding(horizontal = 16.dp)
                             .fillMaxWidth(),
                     )
                 }
-                item {
+                item(
+                    key = "orderDetailsSection"
+                ) {
                     OrderDetailsSection(
                         products = state.products,
-                        modifier = Modifier.padding(horizontal = 16.dp)
+                        onAction = onAction,
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
                     )
                 }
-                item {
+                item(
+                    key = "recommendedAddOnsSection"
+                ) {
                     RecommendedAddOnsSection(
                         label = stringResource(R.string.recommended_add_ons),
                         products = state.recommendedProducts,
                         onAddClick = {
+                            onAction(CheckoutAction.OnAddProduct(it))
                         }
                     )
                     HorizontalDivider(
@@ -106,7 +116,9 @@ fun CheckOutScreen(
                     )
                 }
 
-                item {
+                item(
+                    key = "commentSection"
+                ) {
                     CommentSection(
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
@@ -115,7 +127,7 @@ fun CheckOutScreen(
             }
             
            AdaptiveBottomSection(
-               totalOrder = "$55.67",
+               totalOrder = "$${state.totalPrice}",
                mobileLayout = true,
                onPlaceOrderClick = {},
                modifier = Modifier
@@ -141,8 +153,12 @@ fun CheckOutScreen(
 
         if(state.showTimePicker) {
             LazyPizzaTimePicker(
+                errorMessage = state.timePickerErrorMessage,
                 onDismiss = {
                     onAction(CheckoutAction.OnDismissTimePicker)
+                },
+                onOkButtonClick = { hour, minute ->
+                    onAction(CheckoutAction.TimeSelected(hour, minute))
                 }
             )
         }

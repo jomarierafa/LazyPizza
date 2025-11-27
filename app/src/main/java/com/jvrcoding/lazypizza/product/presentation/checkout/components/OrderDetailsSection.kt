@@ -32,10 +32,12 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.ChevronUpIco
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.label2SemiBold
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondary
 import com.jvrcoding.lazypizza.product.presentation.cart.model.CartProductUi
+import com.jvrcoding.lazypizza.product.presentation.checkout.CheckoutAction
 import com.jvrcoding.lazypizza.product.presentation.components.ProductCard
 
 @Composable
 fun OrderDetailsSection(
+    onAction: (CheckoutAction) -> Unit,
     products: List<CartProductUi>,
     modifier: Modifier = Modifier
 ) {
@@ -99,13 +101,13 @@ fun OrderDetailsSection(
                         quantity = product.quantity.toString(),
                         imageSize = 106.dp,
                         onAddClick = {
-//                                onAction(CartAction.OnIncreaseQuantity(product.id))
+                                onAction(CheckoutAction.OnIncreaseQuantity(product.id))
                         },
                         onMinusClick = {
-//                                onAction(CartAction.OnDecreaseQuantity(product.id))
+                                onAction(CheckoutAction.OnDecreaseQuantity(product.id))
                         },
                         onRemoveClick = {
-//                                onAction(CartAction.OnRemoveItem(product.id))
+                                onAction(CheckoutAction.OnRemoveItem(product.id))
                         },
                         selected = true,
                         modifier = Modifier.animateItem()

@@ -47,4 +47,5 @@
     <string name="place_order">Place Order</string>
     <string name="select_time">SELECT TIME</string>
     <string name="ok">Ok</string>
+    <string name="earliest_pickup_time">EARLIEST PICKUP TIME:</string>
 </resources>
