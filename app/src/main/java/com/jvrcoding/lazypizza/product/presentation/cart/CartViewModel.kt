@@ -94,13 +94,13 @@ class CartViewModel(
         }
     }
 
-    fun removeProductItem(productUid: Int) {
+    private fun removeProductItem(productUid: Int) {
         viewModelScope.launch {
             cartDataSource.deleteCartItem(productUid)
         }
     }
 
-    fun addProduct(productUi: RecommendedProductUi) {
+    private fun addProduct(productUi: RecommendedProductUi) {
         viewModelScope.launch {
             val product = CartProduct(
                 productId = productUi.id,

@@ -84,7 +84,12 @@ private fun NavGraphBuilder.productGraph(
 
         composable<NavigationRoute.Checkout> {
             CheckoutScreenRoot(
-                onBackClick = navController::navigateUp
+                onBackClick = navController::navigateUp,
+                onBackToMenuClick = {
+                    navController.navigate(NavigationRoute.Main(Tab.MENU)) {
+                        popUpTo(0)
+                    }
+                }
             )
         }
     }

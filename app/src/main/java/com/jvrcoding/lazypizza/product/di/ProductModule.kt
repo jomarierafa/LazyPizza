@@ -1,8 +1,10 @@
 package com.jvrcoding.lazypizza.product.di
 
 import com.jvrcoding.lazypizza.product.data.cart.RoomCartDataSource
+import com.jvrcoding.lazypizza.product.data.order.FireStoreOrderDataSource
 import com.jvrcoding.lazypizza.product.data.product.FireStoreProductDataSource
 import com.jvrcoding.lazypizza.product.domain.cart.CartDataSource
+import com.jvrcoding.lazypizza.product.domain.order.OrderDataSource
 import com.jvrcoding.lazypizza.product.domain.product.ProductDataSource
 import com.jvrcoding.lazypizza.product.presentation.ProductViewModel
 import com.jvrcoding.lazypizza.product.presentation.cart.CartViewModel
@@ -17,6 +19,7 @@ import org.koin.dsl.module
 
 val productModule = module {
     singleOf(::FireStoreProductDataSource) bind ProductDataSource::class
+    singleOf(::FireStoreOrderDataSource) bind OrderDataSource::class
     singleOf(::RoomCartDataSource) bind CartDataSource::class
 
     viewModelOf(::ProductViewModel)

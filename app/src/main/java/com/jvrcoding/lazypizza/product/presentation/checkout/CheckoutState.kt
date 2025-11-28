@@ -16,9 +16,12 @@ data class CheckoutState(
     val selectedOption: PickupTime = PickupTime.EARLIEST,
     val products: List<CartProductUi> = emptyList(),
     val recommendedProducts: List<RecommendedProductUi> = emptyList(),
+    val comment: String = "",
     val showDatePicker: Boolean = false,
     val showTimePicker: Boolean = false,
     val timePickerErrorMessage: UiText? = null,
+    val showTransactionSummary: Boolean = false,
+    val orderNo: String = "",
 
     val dateMillis: Long? = null,
     val hour: Int? = null,

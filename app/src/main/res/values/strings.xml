@@ -48,4 +48,5 @@
     <string name="select_time">SELECT TIME</string>
     <string name="ok">Ok</string>
     <string name="earliest_pickup_time">EARLIEST PICKUP TIME:</string>
+    <string name="add_comment">Add Comment</string>
 </resources>

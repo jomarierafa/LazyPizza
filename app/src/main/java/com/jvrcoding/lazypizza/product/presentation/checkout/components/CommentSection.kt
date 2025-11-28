@@ -18,6 +18,8 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondar
 
 @Composable
 fun CommentSection(
+    value: String,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -30,9 +32,9 @@ fun CommentSection(
             color = MaterialTheme.colorScheme.textSecondary
         )
         MultiLineTextField(
-            value = "",
-            placeholder = "Add Comment",
-            onValueChange = {},
+            value = value,
+            placeholder = stringResource(R.string.add_comment),
+            onValueChange = onValueChange,
             isError = false,
             modifier = Modifier
                 .height(92.dp)
@@ -44,6 +46,9 @@ fun CommentSection(
 @Composable
 private fun CommentPreview() {
     LazyPizzaTheme {
-        CommentSection()
+        CommentSection(
+            value = "",
+            onValueChange = {}
+        )
     }
 }

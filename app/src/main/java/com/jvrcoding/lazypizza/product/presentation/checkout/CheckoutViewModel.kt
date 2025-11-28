@@ -2,21 +2,27 @@ package com.jvrcoding.lazypizza.product.presentation.checkout
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
+import com.jvrcoding.lazypizza.auth.presentation.authentication.AuthenticationEvent
 import com.jvrcoding.lazypizza.core.presentation.util.UiText
 import com.jvrcoding.lazypizza.core.presentation.util.currencyToBigDecimal
 import com.jvrcoding.lazypizza.product.domain.cart.CartDataSource
 import com.jvrcoding.lazypizza.product.domain.cart.CartProduct
+import com.jvrcoding.lazypizza.product.domain.order.OrderDataSource
+import com.jvrcoding.lazypizza.product.domain.order.OrderDetails
 import com.jvrcoding.lazypizza.product.domain.product.ProductDataSource
 import com.jvrcoding.lazypizza.product.presentation.cart.model.RecommendedProductUi
 import com.jvrcoding.lazypizza.product.presentation.cart.model.toCartProductUi
 import com.jvrcoding.lazypizza.product.presentation.cart.model.toRecommendProductUi
 import com.jvrcoding.lazypizza.product.presentation.checkout.models.PickupTime
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -24,13 +30,20 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.temporal.ChronoUnit
 
 class CheckoutViewModel(
     private val cartDataSource: CartDataSource,
-    private val productDataSource: ProductDataSource
+    private val productDataSource: ProductDataSource,
+    private val orderDataSource: OrderDataSource,
+    private val firebaseAuth: FirebaseAuth
 ): ViewModel() {
 
     private var tempDateHolder: Long = 0L
+    private var orderProduct = emptyList<CartProduct>()
+
+    private val eventChannel = Channel<AuthenticationEvent>()
+    val events = eventChannel.receiveAsFlow()
     private var hasLoadedInitialData = false
     private val _state = MutableStateFlow(CheckoutState())
     val state = _state
@@ -56,10 +69,16 @@ class CheckoutViewModel(
             is CheckoutAction.OnAddProduct -> addProduct(action.productUi)
             is CheckoutAction.OnDecreaseQuantity -> decreaseQuantity(action.productUid)
             is CheckoutAction.OnIncreaseQuantity -> increaseQuantity(action.productUid)
+            is CheckoutAction.OnCommentChange -> onCommentChange(action.comment)
             CheckoutAction.OnDismissDatePicker -> onDismissDatePicker()
             CheckoutAction.OnDismissTimePicker -> onDismissTimePicker()
+            CheckoutAction.OnPlaceOrderClick -> placeOrder()
             else -> Unit
         }
+    }
+
+    private fun onCommentChange(comment: String) {
+        _state.update { it.copy(comment = comment) }
     }
 
 
@@ -123,6 +142,7 @@ class CheckoutViewModel(
     private fun observeOrderDetails() {
         cartDataSource.observeCartProducts()
             .onEach { products ->
+                orderProduct = products
                 _state.update { it.copy(
                     products = products.map { product -> product.toCartProductUi() }
                 ) }
@@ -162,13 +182,13 @@ class CheckoutViewModel(
         }
     }
 
-    fun removeProductItem(productUid: Int) {
+    private fun removeProductItem(productUid: Int) {
         viewModelScope.launch {
             cartDataSource.deleteCartItem(productUid)
         }
     }
 
-    fun addProduct(productUi: RecommendedProductUi) {
+    private fun addProduct(productUi: RecommendedProductUi) {
         viewModelScope.launch {
             val product = CartProduct(
                 productId = productUi.id,
@@ -180,6 +200,31 @@ class CheckoutViewModel(
                 createdAt = Instant.now()
             )
             cartDataSource.insertCartProducts(product)
+        }
+    }
+
+    private fun placeOrder() {
+        viewModelScope.launch {
+            val orderNo = "#${(10000..99999).random()}"
+            val orderDetails = OrderDetails(
+                userId = firebaseAuth.currentUser?.uid.toString(),
+                orderNumber = orderNo,
+                pickupTime = getPickupTime(),
+                createdAt = Instant.now(),
+                totalAmount = state.value.totalPrice,
+                status = "In Progress",
+                comment = state.value.comment,
+                products = orderProduct
+            )
+            val id = orderDataSource.insertOrder(orderDetails)
+
+            if(id != null) {
+                cartDataSource.deleteAllCartItem()
+                _state.update { it.copy(
+                    showTransactionSummary = true,
+                    orderNo = orderNo
+                ) }
+            }
         }
     }
 
@@ -203,6 +248,24 @@ class CheckoutViewModel(
         if (selectedDate != LocalDate.now()) return false
 
         return selectedDateTime.isBefore(nowPlus15)
+    }
+
+    private fun getPickupTime(): Instant {
+        val selectedDateTime = state.value.let {
+            if(it.selectedOption == PickupTime.EARLIEST) {
+                return Instant.now().plus(15, ChronoUnit.MINUTES)
+            } else {
+                val selectedDate = Instant.ofEpochMilli(it.dateMillis!!)
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate()
+
+                selectedDate.atTime(it.hour!!, it.minute!!)
+            }
+        }
+
+        return selectedDateTime
+            .atZone(ZoneId.systemDefault())
+            .toInstant()
     }
 
 }

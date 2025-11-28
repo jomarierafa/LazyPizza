@@ -2,11 +2,12 @@ package com.jvrcoding.lazypizza.product.presentation.checkout
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -28,12 +29,14 @@ import com.jvrcoding.lazypizza.product.presentation.checkout.components.CommentS
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.dialog.LazyPizzaDatePicker
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.dialog.LazyPizzaTimePicker
 import com.jvrcoding.lazypizza.product.presentation.checkout.components.OrderDetailsSection
+import com.jvrcoding.lazypizza.product.presentation.checkout.components.TransactionSummary
 import com.jvrcoding.lazypizza.product.presentation.components.RecommendedAddOnsSection
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun CheckoutScreenRoot(
     onBackClick: () -> Unit,
+    onBackToMenuClick: () -> Unit,
     viewModel: CheckoutViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -42,6 +45,7 @@ fun CheckoutScreenRoot(
         onAction = { action ->
             when(action) {
                 CheckoutAction.OnBackClick -> onBackClick()
+                CheckoutAction.OnBackToMenuClick -> onBackToMenuClick()
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -65,80 +69,105 @@ fun CheckOutScreen(
             )
         }
     ) { innerPadding ->
-        Box(
+        BoxWithConstraints(
             modifier = Modifier
                 .padding(top = innerPadding.calculateTopPadding())
                 .fillMaxSize(),
         ) {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                contentPadding = PaddingValues(bottom = 64.dp)
-            ) {
-                item(
-                    key = "scheduleSection"
+            val parentWidth = this.maxWidth
+            val parentHeight = this.maxHeight
+            if(state.showTransactionSummary) {
+                TransactionSummary(
+                    orderNo = state.orderNo,
+                    pickupTime = state.pickupTime,
+                    onBackToMenuClick = {
+                        onAction(CheckoutAction.OnBackToMenuClick)
+                    },
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .widthIn(max = 400.dp)
+                        .padding(horizontal = 16.dp)
+                        .padding(top = parentHeight * 0.18f)
+                )
+
+            } else {
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    contentPadding = PaddingValues(bottom = 64.dp)
                 ) {
-                    AdaptiveScheduleSection(
-                        selectedOption = state.selectedOption,
-                        onPickupTimeSelected = {
-                            onAction(CheckoutAction.OnPickupTimeSelected(it))
-                        },
-                        mobileLayout = true,
-                        pickupTime = state.pickupTime,
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .fillMaxWidth(),
-                    )
-                }
-                item(
-                    key = "orderDetailsSection"
-                ) {
-                    OrderDetailsSection(
-                        products = state.products,
-                        onAction = onAction,
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                    )
-                }
-                item(
-                    key = "recommendedAddOnsSection"
-                ) {
-                    RecommendedAddOnsSection(
-                        label = stringResource(R.string.recommended_add_ons),
-                        products = state.recommendedProducts,
-                        onAddClick = {
-                            onAction(CheckoutAction.OnAddProduct(it))
-                        }
-                    )
-                    HorizontalDivider(
-                        thickness = 1.dp,
-                        color = MaterialTheme.colorScheme.outline,
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    )
+                    item(
+                        key = "scheduleSection"
+                    ) {
+                        AdaptiveScheduleSection(
+                            selectedOption = state.selectedOption,
+                            onPickupTimeSelected = {
+                                onAction(CheckoutAction.OnPickupTimeSelected(it))
+                            },
+                            mobileLayout = true,
+                            pickupTime = state.pickupTime,
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp)
+                                .fillMaxWidth(),
+                        )
+                    }
+                    item(
+                        key = "orderDetailsSection"
+                    ) {
+                        OrderDetailsSection(
+                            products = state.products,
+                            onAction = onAction,
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp)
+                        )
+                    }
+                    item(
+                        key = "recommendedAddOnsSection"
+                    ) {
+                        RecommendedAddOnsSection(
+                            label = stringResource(R.string.recommended_add_ons),
+                            products = state.recommendedProducts,
+                            onAddClick = {
+                                onAction(CheckoutAction.OnAddProduct(it))
+                            }
+                        )
+                        HorizontalDivider(
+                            thickness = 1.dp,
+                            color = MaterialTheme.colorScheme.outline,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+                    }
+
+                    item(
+                        key = "commentSection"
+                    ) {
+                        CommentSection(
+                            value = state.comment,
+                            onValueChange = {
+                                onAction(CheckoutAction.OnCommentChange(it))
+                            },
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+                    }
+
                 }
 
-                item(
-                    key = "commentSection"
-                ) {
-                    CommentSection(
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    )
-                }
+                AdaptiveBottomSection(
+                    totalOrder = "$${state.totalPrice}",
+                    mobileLayout = true,
+                    onPlaceOrderClick = {
+                        onAction(CheckoutAction.OnPlaceOrderClick)
+                    },
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(horizontal = 16.dp)
+                        .padding(vertical = 16.dp)
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter)
+                )
 
             }
-            
-           AdaptiveBottomSection(
-               totalOrder = "$${state.totalPrice}",
-               mobileLayout = true,
-               onPlaceOrderClick = {},
-               modifier = Modifier
-                   .background(MaterialTheme.colorScheme.background)
-                   .padding(horizontal = 16.dp)
-                   .padding(vertical = 16.dp)
-                   .fillMaxWidth()
-                   .align(Alignment.BottomCenter)
-           )
-
         }
+
 
         if(state.showDatePicker) {
             LazyPizzaDatePicker(

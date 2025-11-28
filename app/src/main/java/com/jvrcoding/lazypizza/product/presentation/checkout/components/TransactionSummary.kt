@@ -12,8 +12,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TimePicker
-import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,10 +28,9 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.label2SemiBo
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textPrimary
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondary
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.title1Medium
-import java.util.Calendar
 
 @Composable
-fun OrderConfirmationState(
+fun TransactionSummary(
     orderNo: String,
     pickupTime: String,
     onBackToMenuClick: () -> Unit,
@@ -113,9 +110,9 @@ fun OrderDetail(
 
 @Preview(showBackground = true)
 @Composable
-private fun OrderConfirmationStatePreview() {
+private fun TransactionSummaryPreview() {
     LazyPizzaTheme {
-        OrderConfirmationState(
+        TransactionSummary(
             orderNo = "#12345",
             pickupTime = "SEPTEMBER 25, 12:15",
             onBackToMenuClick = {},
