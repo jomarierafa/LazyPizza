@@ -7,7 +7,9 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.SolidColor
@@ -33,6 +36,7 @@ fun PrimaryButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
     enabled: Boolean = true
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -73,13 +77,22 @@ fun PrimaryButton(
             .padding(horizontal = 24.dp, vertical = 10.dp),
         contentAlignment = Alignment.Center
     ) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .size(15.dp)
+                .alpha(if(isLoading) 1f else 0f),
+            strokeWidth = 1.5.dp,
+            color = MaterialTheme.colorScheme.onPrimary
+        )
         Text(
             text = text,
             style = MaterialTheme.typography.title3,
             color = if (enabled)
                 MaterialTheme.colorScheme.textOnPrimary
             else
-                MaterialTheme.colorScheme.textPrimary.copy(alpha = 0.4f)
+                MaterialTheme.colorScheme.textPrimary.copy(alpha = 0.4f),
+            modifier = Modifier
+                .alpha(if(isLoading) 0f else 1f),
         )
     }
 }

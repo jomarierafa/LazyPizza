@@ -21,12 +21,13 @@ import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.textSecondar
 
 @Composable
 fun AdaptiveBottomSection(
-    mobileLayout: Boolean,
+    isExpandedLayout: Boolean,
     totalOrder: String,
+    isPlacingOrder: Boolean,
     onPlaceOrderClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if(mobileLayout) {
+    if(!isExpandedLayout) {
         Column(
             modifier = modifier,
             verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -39,6 +40,7 @@ fun AdaptiveBottomSection(
             PrimaryButton(
                 text = stringResource(R.string.place_order),
                 onClick = onPlaceOrderClick,
+                isLoading = isPlacingOrder,
                 modifier = Modifier
                     .fillMaxWidth()
             )

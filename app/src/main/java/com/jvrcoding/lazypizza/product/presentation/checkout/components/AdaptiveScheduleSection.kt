@@ -94,22 +94,16 @@ fun RadioButtonGroup(
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            PrimaryRadioButton(
-                text = stringResource(R.string.earliest_available_time),
-                selected = true,
-                modifier = modifier.weight(1f),
-                onSelect = {
-
-                },
-            )
-            PrimaryRadioButton(
-                text = stringResource(R.string.schedule_time),
-                selected = false,
-                modifier = modifier.weight(1f),
-                onSelect = {
-
-                }
-            )
+            PickupTime.entries.forEach { pickupTime ->
+                PrimaryRadioButton(
+                    text = pickupTime.value.asString(),
+                    selected = (pickupTime == selectedOption),
+                    modifier = modifier.weight(1f),
+                    onSelect = {
+                        onOptionSelected(pickupTime)
+                    }
+                )
+            }
         }
     }
 }

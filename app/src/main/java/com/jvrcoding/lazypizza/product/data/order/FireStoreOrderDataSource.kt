@@ -1,5 +1,6 @@
 package com.jvrcoding.lazypizza.product.data.order
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jvrcoding.lazypizza.product.domain.order.OrderDataSource
 import com.jvrcoding.lazypizza.product.domain.order.OrderDetails
@@ -8,12 +9,16 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 
 class FireStoreOrderDataSource(
+    private val firebaseAuth: FirebaseAuth,
     private val firestore: FirebaseFirestore
 ): OrderDataSource {
 
     override fun getOrders(): Flow<List<OrderDetails>> = flow {
         try {
-            val snapshot = firestore.collection("orders").get().await()
+            val snapshot = firestore
+                .collection("orders")
+                .whereEqualTo("userId", firebaseAuth.currentUser?.uid)
+                .get().await()
             val orders = snapshot.documents.mapNotNull {
                 it.toObject(OrderDetailsDto::class.java)?.toOrderDetails(it.id)
             }

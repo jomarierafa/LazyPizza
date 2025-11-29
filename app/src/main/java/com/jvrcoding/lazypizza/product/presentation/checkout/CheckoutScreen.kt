@@ -167,10 +167,11 @@ fun CheckOutScreen(
 
                 AdaptiveBottomSection(
                     totalOrder = "$${state.totalPrice}",
-                    mobileLayout = true,
+                    isExpandedLayout = isExpandedLayout,
                     onPlaceOrderClick = {
                         onAction(CheckoutAction.OnPlaceOrderClick)
                     },
+                    isPlacingOrder = state.isPlacingOrder,
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.background)
                         .padding(horizontal = 16.dp)

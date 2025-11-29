@@ -22,6 +22,7 @@ data class CheckoutState(
     val timePickerErrorMessage: UiText? = null,
     val showTransactionSummary: Boolean = false,
     val orderNo: String = "",
+    val isPlacingOrder: Boolean = false,
 
     val dateMillis: Long? = null,
     val hour: Int? = null,

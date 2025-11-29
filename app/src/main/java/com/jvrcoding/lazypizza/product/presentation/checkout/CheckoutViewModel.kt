@@ -204,6 +204,7 @@ class CheckoutViewModel(
     }
 
     private fun placeOrder() {
+        _state.update { it.copy(isPlacingOrder = true) }
         viewModelScope.launch {
             val orderNo = "#${(10000..99999).random()}"
             val orderDetails = OrderDetails(
@@ -224,6 +225,8 @@ class CheckoutViewModel(
                     showTransactionSummary = true,
                     orderNo = orderNo
                 ) }
+            } else {
+                _state.update { it.copy(isPlacingOrder = false) }
             }
         }
     }
