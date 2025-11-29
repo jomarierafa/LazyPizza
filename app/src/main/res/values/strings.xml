@@ -49,4 +49,7 @@
     <string name="ok">Ok</string>
     <string name="earliest_pickup_time">EARLIEST PICKUP TIME:</string>
     <string name="add_comment">Add Comment</string>
+    <string name="no_orders_yet">No Orders Yet</string>
+    <string name="go_to_menu">Go to Menu</string>
+    <string name="your_orders_will_appear_here_after_your_first_purchase">Your orders will appear here after your first purchase.</string>
 </resources>

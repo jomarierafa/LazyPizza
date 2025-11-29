@@ -12,6 +12,16 @@ enum class DeviceConfiguration {
     DESKTOP;
 
     companion object {
+
+        fun isExpandedLayout(windowSizeClass: WindowSizeClass): Boolean {
+            val windowSizeClass = fromWindowSizeClass(windowSizeClass)
+            return when (windowSizeClass) {
+                TABLET_LANDSCAPE -> true
+                DESKTOP -> true
+                else -> false
+            }
+        }
+
         fun fromWindowSizeClass(windowSizeClass: WindowSizeClass): DeviceConfiguration {
             val widthClass = windowSizeClass.widthSizeClass
             val heightClass = windowSizeClass.heightSizeClass

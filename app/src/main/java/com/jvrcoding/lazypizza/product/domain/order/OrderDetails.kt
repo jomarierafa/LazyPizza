@@ -5,7 +5,7 @@ import java.math.BigDecimal
 import java.time.Instant
 
 data class OrderDetails(
-    val id: String? = "",
+    val id: String = "",
     val userId: String,
     val orderNumber: String,
     val pickupTime: Instant,

@@ -204,7 +204,8 @@ private fun ProductDetailScreenPreview() {
                     )
                 }
             ),
-            onAction = {}
+            onAction = {},
+            deviceConfiguration = DeviceConfiguration.MOBILE_PORTRAIT
         )
     }
 }
@@ -225,7 +226,8 @@ private fun ProductDetailScreenWidthPreview() {
                     )
                 }
             ),
-            onAction = {}
+            onAction = {},
+            deviceConfiguration = DeviceConfiguration.TABLET_LANDSCAPE
         )
     }
 }

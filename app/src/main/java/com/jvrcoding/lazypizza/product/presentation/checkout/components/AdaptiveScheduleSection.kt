@@ -24,7 +24,7 @@ import com.jvrcoding.lazypizza.product.presentation.checkout.models.PickupTime
 fun AdaptiveScheduleSection(
     selectedOption: PickupTime,
     onPickupTimeSelected: (PickupTime) -> Unit,
-    mobileLayout: Boolean,
+    isExpandedLayout: Boolean,
     pickupTime: String,
     modifier: Modifier = Modifier
 ) {
@@ -38,7 +38,7 @@ fun AdaptiveScheduleSection(
             color = MaterialTheme.colorScheme.textSecondary
         )
         RadioButtonGroup(
-            mobileLayout = mobileLayout,
+            isExpandedLayout = isExpandedLayout,
             selectedOption = selectedOption,
             onOptionSelected = onPickupTimeSelected,
             modifier = Modifier
@@ -69,12 +69,12 @@ fun AdaptiveScheduleSection(
 
 @Composable
 fun RadioButtonGroup(
-    mobileLayout: Boolean,
+    isExpandedLayout: Boolean,
     onOptionSelected: (PickupTime) -> Unit,
     selectedOption: PickupTime,
     modifier: Modifier = Modifier
 ) {
-    if(mobileLayout) {
+    if(!isExpandedLayout) {
         Column(
             modifier = modifier,
             verticalArrangement = Arrangement.spacedBy(8.dp)

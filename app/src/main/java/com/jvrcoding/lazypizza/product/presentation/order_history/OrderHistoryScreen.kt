@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,6 +26,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun OrderHistoryScreenRoot(
     onNavigateToAuthentication: () -> Unit,
+    onNavigateToMenu: () -> Unit,
     viewModel: OrderHistoryViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -33,6 +35,7 @@ fun OrderHistoryScreenRoot(
         onAction = {
             when(it) {
                 OrderHistoryAction.OnSignInClick -> onNavigateToAuthentication()
+                OrderHistoryAction.OnGotoMenuClick -> onNavigateToMenu()
             }
         }
     )
@@ -51,34 +54,51 @@ fun OrderHistoryScreen(
             )
         }
     ) { innerPadding ->
-        if(!state.isUserSignedIn) {
-            EmptyStateScreen(
-                modifier = Modifier.padding(innerPadding),
-                title = stringResource(R.string.not_signed_in),
-                subtitle = stringResource(R.string.please_sign_in_to_view_your_order_history),
-                buttonText = stringResource(R.string.sign_in),
-                onButtonClick = {
-                    onAction(OrderHistoryAction.OnSignInClick)
-                }
-            )
-        } else {
-            LazyVerticalStaggeredGrid(
-                modifier = Modifier
-                    .padding(top = innerPadding.calculateTopPadding())
-                    .fillMaxSize(),
-                columns = StaggeredGridCells.Adaptive(415.dp),
-                verticalItemSpacing = 8.dp,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(horizontal = 16.dp)
-            ) {
-                items(10) {
-                    OrderItem(
-                        orderNo = "Order $it",
-                        date = "September 25, 12:15",
-                        items = "1 x Margherita \n2x Pepsi \n2x Cookies Ice Cream",
-                        amount = "$12.14",
-                        status = OrderStatus.IN_PROGRESS,
-                    )
+        when {
+            !state.isUserSignedIn -> {
+                EmptyStateScreen(
+                    modifier = Modifier.padding(innerPadding),
+                    title = stringResource(R.string.not_signed_in),
+                    subtitle = stringResource(R.string.please_sign_in_to_view_your_order_history),
+                    buttonText = stringResource(R.string.sign_in),
+                    onButtonClick = {
+                        onAction(OrderHistoryAction.OnSignInClick)
+                    }
+                )
+            }
+            state.orders.isEmpty() -> {
+                EmptyStateScreen(
+                    modifier = Modifier.padding(innerPadding),
+                    title = stringResource(R.string.no_orders_yet),
+                    subtitle = stringResource(R.string.your_orders_will_appear_here_after_your_first_purchase),
+                    buttonText = stringResource(R.string.go_to_menu),
+                    onButtonClick = {
+                        onAction(OrderHistoryAction.OnGotoMenuClick)
+                    }
+                )
+            }
+            else -> {
+                LazyVerticalStaggeredGrid(
+                    modifier = Modifier
+                        .padding(top = innerPadding.calculateTopPadding())
+                        .fillMaxSize(),
+                    columns = StaggeredGridCells.Adaptive(415.dp),
+                    verticalItemSpacing = 8.dp,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp)
+                ) {
+                    items(
+                        items = state.orders,
+                        key = { it -> it.orderId }
+                    ) {
+                        OrderItem(
+                            orderNo = it.orderNumber,
+                            date = it.orderCreated,
+                            items = it.items,
+                            amount = it.totalAmount,
+                            status = OrderStatus.IN_PROGRESS,
+                        )
+                    }
                 }
             }
         }

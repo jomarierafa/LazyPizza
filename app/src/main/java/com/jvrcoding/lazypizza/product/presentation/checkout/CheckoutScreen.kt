@@ -1,5 +1,7 @@
 package com.jvrcoding.lazypizza.product.presentation.checkout
 
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -12,6 +14,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -28,6 +32,7 @@ import com.jvrcoding.lazypizza.product.presentation.checkout.components.Adaptive
 import com.jvrcoding.lazypizza.product.presentation.checkout.components.CommentSection
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.dialog.LazyPizzaDatePicker
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.dialog.LazyPizzaTimePicker
+import com.jvrcoding.lazypizza.core.presentation.util.DeviceConfiguration
 import com.jvrcoding.lazypizza.product.presentation.checkout.components.OrderDetailsSection
 import com.jvrcoding.lazypizza.product.presentation.checkout.components.TransactionSummary
 import com.jvrcoding.lazypizza.product.presentation.components.RecommendedAddOnsSection
@@ -53,10 +58,12 @@ fun CheckoutScreenRoot(
     )
 }
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun CheckOutScreen(
     state: CheckoutState,
     onAction: (CheckoutAction) -> Unit,
+    isExpanded: Boolean? = null,
 ) {
     Scaffold(
         topBar = {
@@ -69,6 +76,13 @@ fun CheckOutScreen(
             )
         }
     ) { innerPadding ->
+        val isExpandedLayout = isExpanded ?: run {
+            val activity = LocalActivity.current as ComponentActivity
+            val windowSizeClass = calculateWindowSizeClass(activity = activity)
+            DeviceConfiguration.isExpandedLayout(windowSizeClass)
+        }
+
+
         BoxWithConstraints(
             modifier = Modifier
                 .padding(top = innerPadding.calculateTopPadding())
@@ -93,7 +107,7 @@ fun CheckOutScreen(
             } else {
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
-                    contentPadding = PaddingValues(bottom = 64.dp)
+                    contentPadding = PaddingValues(bottom = 124.dp)
                 ) {
                     item(
                         key = "scheduleSection"
@@ -103,7 +117,7 @@ fun CheckOutScreen(
                             onPickupTimeSelected = {
                                 onAction(CheckoutAction.OnPickupTimeSelected(it))
                             },
-                            mobileLayout = true,
+                            isExpandedLayout = isExpandedLayout,
                             pickupTime = state.pickupTime,
                             modifier = Modifier
                                 .padding(horizontal = 16.dp)
@@ -201,7 +215,8 @@ private fun CheckoutScreenPreview() {
     LazyPizzaTheme {
         CheckOutScreen(
             state = CheckoutState(),
-            onAction = {}
+            onAction = {},
+            isExpanded = false
         )
     }
 }

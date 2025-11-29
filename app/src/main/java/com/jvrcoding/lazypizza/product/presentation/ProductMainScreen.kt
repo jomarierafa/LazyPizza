@@ -135,6 +135,9 @@ fun ProductMainScreen(
                         OrderHistoryScreenRoot(
                             onNavigateToAuthentication = {
                                 onAction(ProductAction.OnNavigateToAuthentication)
+                            },
+                            onNavigateToMenu = {
+                                onAction(ProductAction.OnBottomNavigationItemClick(Tab.MENU))
                             }
                         )
                     }
@@ -180,6 +183,9 @@ fun ProductMainScreen(
                         OrderHistoryScreenRoot(
                             onNavigateToAuthentication = {
                                 onAction(ProductAction.OnNavigateToAuthentication)
+                            },
+                            onNavigateToMenu = {
+                                onAction(ProductAction.OnBottomNavigationItemClick(Tab.MENU))
                             }
                         )
                     }
