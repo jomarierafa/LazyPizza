@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jvrcoding.lazypizza.R
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.dialog.LazyPizzaDialog
+import com.jvrcoding.lazypizza.core.presentation.designsystem.components.loading.LoadingScreen
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.textfield.SearchTextField
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.toolbar.LazyPizzaToolbar
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
@@ -134,67 +135,71 @@ fun MenuScreen(
                     }
                 }
             )
-
-            LazyVerticalGrid(
-                state = gridState,
-                columns = GridCells.Adaptive(415.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                state.productSections.forEachIndexed { sectionIndex, (category, products) ->
-                    stickyHeader {
-                        Text(
-                            text = category.asString().uppercase(),
-                            style = MaterialTheme.typography.label2SemiBold,
-                            color = MaterialTheme.colorScheme.textSecondary,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(color = MaterialTheme.colorScheme.background)
-                                .padding(top = 8.dp, bottom = 4.dp)
-                        )
-                    }
-                    itemsIndexed(
-                        products,
-                        key = { _, product -> product.id}
-                    ) { index, product ->
-                        val selectedItem = state.selectedProducts.find { it.productId == product.id }
-                        if(product.type == "Pizza") {
-                            PizzaCard(
-                                imageUrl = product.imageUrl,
-                                productName = product.name,
-                                productPrice = product.price,
-                                productDescription = product.description,
+            
+            if(state.fetchingProducts) {
+                LoadingScreen()
+            } else {
+                LazyVerticalGrid(
+                    state = gridState,
+                    columns = GridCells.Adaptive(415.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    state.productSections.forEachIndexed { sectionIndex, (category, products) ->
+                        stickyHeader {
+                            Text(
+                                text = category.asString().uppercase(),
+                                style = MaterialTheme.typography.label2SemiBold,
+                                color = MaterialTheme.colorScheme.textSecondary,
                                 modifier = Modifier
-                                    .clickable(
-                                        onClick = {
-                                            onAction(MenuAction.OnMenuClick(product))
-                                        }
-                                    )
-                            )
-                        } else {
-                            ProductCard(
-                                imageUrl = product.imageUrl,
-                                productName = product.name,
-                                productPrice = product.price,
-                                quantity = "${selectedItem?.quantity}",
-                                onAddToCardClick = {
-                                    onAction(MenuAction.OnAddToCardClick(product))
-                                },
-                                onAddClick = {
-                                    onAction(MenuAction.OnAddClick(product.id))
-                                },
-                                onMinusClick = {
-                                    onAction(MenuAction.OnMinusClick(product.id))
-                                },
-                                onRemoveClick = {
-                                    onAction(MenuAction.OnRemoveClick(product.id))
-                                },
-                                selected = selectedItem != null
+                                    .fillMaxWidth()
+                                    .background(color = MaterialTheme.colorScheme.background)
+                                    .padding(top = 8.dp, bottom = 4.dp)
                             )
                         }
+                        itemsIndexed(
+                            products,
+                            key = { _, product -> product.id}
+                        ) { index, product ->
+                            val selectedItem = state.selectedProducts.find { it.productId == product.id }
+                            if(product.type == "Pizza") {
+                                PizzaCard(
+                                    imageUrl = product.imageUrl,
+                                    productName = product.name,
+                                    productPrice = product.price,
+                                    productDescription = product.description,
+                                    modifier = Modifier
+                                        .clickable(
+                                            onClick = {
+                                                onAction(MenuAction.OnMenuClick(product))
+                                            }
+                                        )
+                                )
+                            } else {
+                                ProductCard(
+                                    imageUrl = product.imageUrl,
+                                    productName = product.name,
+                                    productPrice = product.price,
+                                    quantity = "${selectedItem?.quantity}",
+                                    onAddToCardClick = {
+                                        onAction(MenuAction.OnAddToCardClick(product))
+                                    },
+                                    onAddClick = {
+                                        onAction(MenuAction.OnAddClick(product.id))
+                                    },
+                                    onMinusClick = {
+                                        onAction(MenuAction.OnMinusClick(product.id))
+                                    },
+                                    onRemoveClick = {
+                                        onAction(MenuAction.OnRemoveClick(product.id))
+                                    },
+                                    selected = selectedItem != null
+                                )
+                            }
+                        }
                     }
-                }
 
+                }
             }
         }
 

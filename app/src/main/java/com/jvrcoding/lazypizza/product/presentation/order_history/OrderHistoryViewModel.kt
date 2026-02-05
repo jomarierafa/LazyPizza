@@ -14,20 +14,27 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
 class OrderHistoryViewModel(
-    firebaseAuth: FirebaseAuth,
+    private val firebaseAuth: FirebaseAuth,
     private val orderDataSource: OrderDataSource
 ): ViewModel() {
 
     private var hasLoadedInitialData = false
 
+    private val authListener = FirebaseAuth.AuthStateListener { auth ->
+        val isSignedIn = auth.currentUser != null
 
-    private val _state = MutableStateFlow(OrderHistoryState(
-        isUserSignedIn = firebaseAuth.currentUser != null
-    ))
+        _state.update {
+            it.copy(isUserSignedIn = isSignedIn)
+        }
+    }
+
+
+    private val _state = MutableStateFlow(OrderHistoryState())
     val state = _state
         .onStart {
             if (!hasLoadedInitialData) {
                 getOrders()
+                firebaseAuth.addAuthStateListener(authListener)
                 hasLoadedInitialData = true
             }
         }
@@ -39,13 +46,20 @@ class OrderHistoryViewModel(
 
 
     private fun getOrders() {
+        _state.update { it.copy(fetchingOrders = true) }
         orderDataSource
             .getOrders()
             .onEach { orders ->
                 _state.update { it.copy(
+                    fetchingOrders = false,
                     orders = orders.map { it.toOrderDetailsUi() }
                 ) }
             }.launchIn(viewModelScope)
+    }
+
+    override fun onCleared() {
+        firebaseAuth.removeAuthStateListener(authListener)
+        super.onCleared()
     }
 
 }

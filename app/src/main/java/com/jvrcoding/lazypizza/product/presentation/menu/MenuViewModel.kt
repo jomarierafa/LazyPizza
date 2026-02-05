@@ -143,6 +143,7 @@ class MenuViewModel(
     }
 
     private fun observeProducts() {
+        _state.update { it.copy(fetchingProducts = true) }
         combine(
             productDataSource.getProducts(),
             searchQuery
@@ -160,7 +161,10 @@ class MenuViewModel(
 
         }.groupByCategory()
             .onEach { groupedProduct ->
-                _state.update { it.copy(products = groupedProduct) }
+                _state.update { it.copy(
+                    fetchingProducts = false,
+                    products = groupedProduct
+                ) }
             }
             .launchIn(viewModelScope)
     }

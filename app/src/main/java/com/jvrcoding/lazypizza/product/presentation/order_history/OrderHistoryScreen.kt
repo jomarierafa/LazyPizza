@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jvrcoding.lazypizza.R
+import com.jvrcoding.lazypizza.core.presentation.designsystem.components.loading.LoadingScreen
 import com.jvrcoding.lazypizza.core.presentation.designsystem.components.toolbar.SecondaryToolbar
 import com.jvrcoding.lazypizza.core.presentation.designsystem.theme.LazyPizzaTheme
 import com.jvrcoding.lazypizza.product.presentation.components.EmptyStateScreen
@@ -65,6 +66,9 @@ fun OrderHistoryScreen(
                         onAction(OrderHistoryAction.OnSignInClick)
                     }
                 )
+            }
+            state.fetchingOrders -> {
+                LoadingScreen()
             }
             state.orders.isEmpty() -> {
                 EmptyStateScreen(

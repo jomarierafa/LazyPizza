@@ -4,5 +4,6 @@ import com.jvrcoding.lazypizza.product.presentation.order_history.models.OrderDe
 
 data class OrderHistoryState(
     val isUserSignedIn: Boolean = false,
+    val fetchingOrders: Boolean = false,
     val orders: List<OrderDetailsUi> = emptyList()
 )
