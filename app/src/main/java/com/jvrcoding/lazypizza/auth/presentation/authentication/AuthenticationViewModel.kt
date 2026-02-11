@@ -136,6 +136,7 @@ class AuthenticationViewModel(
                 override fun onCodeSent(id: String, token: PhoneAuthProvider.ForceResendingToken) {
                     verificationId = id
                     _state.update { it.copy(
+                        focusedIndex = 0,
                         isVerificationPhase = true
                     ) }
                     startResendCountdown()

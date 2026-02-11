@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -44,7 +45,8 @@ fun LPBottomNavBar(
             )
             .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surfaceContainerHigh),
+            .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+            .navigationBarsPadding(),
         horizontalArrangement = Arrangement.Center,
     ) {
         Tab.entries.forEach { item ->

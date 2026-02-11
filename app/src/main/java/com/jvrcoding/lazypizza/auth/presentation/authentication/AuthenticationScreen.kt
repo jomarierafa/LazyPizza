@@ -184,7 +184,7 @@ fun AuthenticationScreen(
                 text = state.buttonText.asString(),
                 enabled = state.isPhoneNumberValid,
                 onClick = {
-                   onAction(AuthenticationAction.OnPrimaryButtonClick)
+                    onAction(AuthenticationAction.OnPrimaryButtonClick)
                 },
                 modifier = Modifier.fillMaxWidth()
             )
