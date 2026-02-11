@@ -36,6 +36,7 @@ class AuthenticationViewModel(
 
     private val phoneNumber = MutableStateFlow("")
     private var verificationId = ""
+    private lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
 
     private val eventChannel = Channel<AuthenticationEvent>()
     val events = eventChannel.receiveAsFlow()
@@ -93,6 +94,8 @@ class AuthenticationViewModel(
                     sendVerificationCode()
                 }
             }
+
+            AuthenticationAction.ResendCodeButtonClick -> resendVerificationCode()
         }
     }
 
@@ -113,39 +116,55 @@ class AuthenticationViewModel(
         ) }
     }
 
+    val otpCallback = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+        override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+            _state.update { it.copy(
+                isVerificationPhase = true,
+                code = credential.smsCode?.map { it.digitToInt() } ?: listOf()
+            ) }
+            signInWithPhoneAuthCredential(credential)
+            Log.d(TAG, "onVerificationCompleted: $credential")
+
+        }
+        override fun onVerificationFailed(e: FirebaseException) {
+            Log.d(TAG, "onVerificationFailed: $e")
+
+        }
+        override fun onCodeSent(id: String, token: PhoneAuthProvider.ForceResendingToken) {
+            verificationId = id
+            resendToken = token
+            _state.update { it.copy(
+                focusedIndex = 0,
+                isVerificationPhase = true,
+                showResendTimer = true,
+                remainingTime = 60
+            ) }
+            startResendCountdown()
+        }
+
+        override fun onCodeAutoRetrievalTimeOut(p0: String) {
+            Log.d(TAG, "onCodeAutoRetrievalTimeOut: $p0")
+        }
+    }
+
     private fun sendVerificationCode() {
 //        val firebaseAuthSettings = firebaseAuth.firebaseAuthSettings
 //        firebaseAuthSettings.setAutoRetrievedSmsCodeForPhoneNumber("+639234566321", "123456")
         val options = PhoneAuthOptions.newBuilder(firebaseAuth)
             .setPhoneNumber("+639234566321")
             .setTimeout(60L, TimeUnit.SECONDS)
-            .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                    _state.update { it.copy(
-                        isVerificationPhase = true,
-                        code = credential.smsCode?.map { it.digitToInt() } ?: listOf()
-                    ) }
-                    signInWithPhoneAuthCredential(credential)
-                    Log.d(TAG, "onVerificationCompleted: $credential")
+            .setCallbacks(otpCallback)
+            .build()
 
-                }
-                override fun onVerificationFailed(e: FirebaseException) {
-                    Log.d(TAG, "onVerificationFailed: $e")
+        PhoneAuthProvider.verifyPhoneNumber(options)
+    }
 
-                }
-                override fun onCodeSent(id: String, token: PhoneAuthProvider.ForceResendingToken) {
-                    verificationId = id
-                    _state.update { it.copy(
-                        focusedIndex = 0,
-                        isVerificationPhase = true
-                    ) }
-                    startResendCountdown()
-                }
-
-                override fun onCodeAutoRetrievalTimeOut(p0: String) {
-                    Log.d(TAG, "onCodeAutoRetrievalTimeOut: $p0")
-                }
-            })
+    private fun resendVerificationCode() {
+        val options = PhoneAuthOptions.newBuilder(firebaseAuth)
+            .setPhoneNumber("+639234566321")
+            .setTimeout(60L, TimeUnit.SECONDS)
+            .setCallbacks(otpCallback)
+            .setForceResendingToken(resendToken)
             .build()
 
         PhoneAuthProvider.verifyPhoneNumber(options)

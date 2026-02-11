@@ -6,4 +6,5 @@ sealed interface AuthenticationAction {
     data class OnChangeFieldFocused(val index: Int): AuthenticationAction
     data object OnKeyboardBack: AuthenticationAction
     data object OnPrimaryButtonClick: AuthenticationAction
+    data object ResendCodeButtonClick: AuthenticationAction
 }

@@ -61,6 +61,9 @@ fun AuthenticationScreenRoot(
     }
     AuthenticationScreen(
         state  = state,
+        onContinueWithoutSigning = {
+            onNavigateToMenuScreen()
+        },
         onAction = { action ->
             viewModel.onAction(action)
         }
@@ -70,6 +73,7 @@ fun AuthenticationScreenRoot(
 @Composable
 fun AuthenticationScreen(
     state: AuthenticationState,
+    onContinueWithoutSigning: () -> Unit,
     onAction: (AuthenticationAction) -> Unit,
 ) {
     val focusRequesters = remember {
@@ -190,7 +194,9 @@ fun AuthenticationScreen(
             )
             TextButton(
                 text = stringResource(R.string.continue_without_signing_in),
-                onClick = {}
+                onClick = {
+                    onContinueWithoutSigning()
+                }
             )
             if(state.isVerificationPhase) {
                 if(state.showResendTimer) {
@@ -210,7 +216,9 @@ fun AuthenticationScreen(
                 } else {
                     TextButton(
                         text = stringResource(R.string.resend_code),
-                        onClick = {}
+                        onClick = {
+                            onAction(AuthenticationAction.ResendCodeButtonClick)
+                        }
                     )
                 }
             }
@@ -227,6 +235,7 @@ private fun AuthenticationScreenPreview() {
             state = AuthenticationState(
                 isVerificationPhase = true
             ),
+            onContinueWithoutSigning = {},
             onAction = {}
         )
     }
